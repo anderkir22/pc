@@ -1162,7 +1162,7 @@ p {
 /* ===== BLOG LISTING PAGE ===== */
 .blog-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   column-gap: 28px;
   row-gap: 38px;
 }
@@ -1401,12 +1401,6 @@ p {
 @media (max-width: 600px) {
   .newsletter-form-inline .form-row {
     grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 1200px) {
-  .blog-grid {
-    grid-template-columns: repeat(4, 1fr);
   }
 }
 
