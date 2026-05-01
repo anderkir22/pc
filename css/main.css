@@ -1,7 +1,7 @@
 /* ===== THEME VARIABLES ===== */
 :root {
   --bg: #f5f5f5;
-  --header: #164A91;
+  --header: #000000;
   --menu-accent: #cf142b;
   --surface: #f5f5f5;
   --text: #f2efe9;
@@ -39,7 +39,7 @@ body {
 .top-bar {
   width: 100%;
   height: 50px;
-  background: var(--header);
+  background: #000000;
   display: flex;
   align-items: center;
   justify-content: center;
