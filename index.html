@@ -49,52 +49,13 @@
         <p style="margin: 6px 0 0; font-size: 14px; color: #444; line-height: 1.6;">Replaces peoplescompany.com/listings. Centralizes all property listings with improved search and filtering options.</p>
       </div>
 
-    </div>
-  </div>
-
-  <div class="floating-widget floating-widget-collapsed" role="complementary" aria-label="Quick contact">
-    <button class="floating-widget-trigger" type="button" aria-expanded="false" aria-label="Open contact form"></button>
-
-    <div class="floating-widget-panel" aria-hidden="true">
-      <div class="floating-widget-inner">
-        <form class="floating-widget-form" novalidate>
-          <button class="floating-widget-button" type="submit">Send Message</button>
-        </form>
-
-        <button class="floating-widget-cancel" type="button">Maybe Later</button>
+      <div style="border: 1px solid #e0e0e0; border-left: 4px solid #c0392b; border-radius: 4px; padding: 18px 22px;">
+        <a href="floating-widget.html" style="font-size: 17px; font-weight: 600; color: #c0392b; text-decoration: none;">Floating Widget</a>
+        <p style="margin: 6px 0 0; font-size: 14px; color: #444; line-height: 1.6;">A persistent contact form that floats at the bottom-right of the page, allowing visitors to reach out without navigating away from their current view.</p>
       </div>
+
     </div>
   </div>
-
-<script>
-  (function() {
-    var widget = document.querySelector('.floating-widget');
-    var trigger = widget.querySelector('.floating-widget-trigger');
-    var panel = widget.querySelector('.floating-widget-panel');
-    var cancel = widget.querySelector('.floating-widget-cancel');
-    var form = widget.querySelector('.floating-widget-form');
-
-    function setExpanded(isExpanded) {
-      widget.classList.toggle('floating-widget-expanded', isExpanded);
-      widget.classList.toggle('floating-widget-collapsed', !isExpanded);
-      trigger.setAttribute('aria-expanded', String(isExpanded));
-      panel.setAttribute('aria-hidden', String(!isExpanded));
-    }
-
-    trigger.addEventListener('click', function() {
-      setExpanded(!widget.classList.contains('floating-widget-expanded'));
-    });
-
-    cancel.addEventListener('click', function() {
-      setExpanded(false);
-    });
-
-    form.addEventListener('submit', function(event) {
-      event.preventDefault();
-      setExpanded(false);
-    });
-  })();
-</script>
 
 <!-- FOOTER:START -->
 <footer class="footer-section"> <div class="footer-red-bg"></div> <div class="footer-content"> </div> </footer>

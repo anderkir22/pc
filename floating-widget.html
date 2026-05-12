@@ -36,6 +36,26 @@
     <div class="floating-widget-panel" aria-hidden="true">
       <div class="floating-widget-inner">
         <form class="floating-widget-form" novalidate>
+          <label class="floating-widget-label">
+            <span>First Name <abbr title="required">*</abbr></span>
+            <input type="text" name="first_name" autocomplete="given-name" required>
+          </label>
+          <label class="floating-widget-label">
+            <span>Last Name <abbr title="required">*</abbr></span>
+            <input type="text" name="last_name" autocomplete="family-name" required>
+          </label>
+          <label class="floating-widget-label">
+            <span>Email <abbr title="required">*</abbr></span>
+            <input type="email" name="email" autocomplete="email" required>
+          </label>
+          <label class="floating-widget-label">
+            <span>Mobile</span>
+            <input type="tel" name="mobile" autocomplete="tel">
+          </label>
+          <label class="floating-widget-label">
+            <span>Comments or Questions</span>
+            <textarea name="comments" rows="4"></textarea>
+          </label>
           <button class="floating-widget-button" type="submit">Send Message</button>
         </form>
 
