@@ -1466,8 +1466,8 @@ p {
 .floating-widget {
   position: fixed;
   top: 22%;
-  right: -224px;
-  width: 320px;
+  right: -234px;
+  width: 330px;
   height: 54px;
   background: transparent;
   border: none;
@@ -1525,6 +1525,22 @@ p {
   opacity: 0.95;
 }
 
+.floating-widget-trigger-text {
+  display: none;
+  position: relative;
+  z-index: 2;
+  font-family: Jost, sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.floating-widget-expanded .floating-widget-trigger-text {
+  display: block;
+}
+
 .floating-widget-panel {
   max-height: 0;
   opacity: 0;
@@ -1534,16 +1550,16 @@ p {
 }
 
 .floating-widget-expanded {
-  width: min(320px, calc(100vw - 24px));
+  width: min(330px, calc(100vw - 24px));
   height: auto;
   right: 0;
 }
 
 .floating-widget-expanded .floating-widget-panel {
-  max-height: 1000px;
-  min-height: 420px;
+  max-height: 550px;
+  min-height: 550px;
   opacity: 1;
-  padding: 20px 24px 24px;
+  padding: 0;
   background: #fff;
   border-radius: 0;
   box-shadow: -4px 4px 16px rgba(0,0,0,0.12);
