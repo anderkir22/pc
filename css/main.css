@@ -1760,12 +1760,29 @@ p {
 }
 
 .career-tile-header {
-  background: var(--header);
+  position: relative;
+  background-color: var(--header);
+  background-size: cover;
+  background-position: center;
   padding: 28px 24px 24px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   min-height: 160px;
+  overflow: hidden;
+}
+
+.career-tile-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1;
+}
+
+.career-tile-header > * {
+  position: relative;
+  z-index: 2;
 }
 
 .career-tile-dept {
