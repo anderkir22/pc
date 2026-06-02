@@ -10,6 +10,7 @@
    ---------------------------------------------------------------------------- */
 :root {
   /* Primary colors */
+  --black:    #0A0F1A;
   --gray-900: #111827;
   --gray-600: #4B5563;
   --gray-500: #6B7280;
@@ -237,13 +238,14 @@ a.inline-link:hover {
 
 /* Button Black */
 .btn-black {
-  background: var(--gray-900);
+  background: var(--black);
   color: var(--white);
-  border-color: var(--gray-900);
+  border-color: var(--black);
 }
 
 .btn-black:hover {
-  background: #000000;
+  background: #00000A;
+  border-color: #00000A;
 }
 
 /* Button White / outline */
@@ -426,9 +428,10 @@ a.inline-link:hover {
 }
 
 .sg-dot {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-pill);
+  width: 64px;
+  height: 36px;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-sm);
   flex: 0 0 auto;
   border: 1px solid var(--gray-200);
 }
