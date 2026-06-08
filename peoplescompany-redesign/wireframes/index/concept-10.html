@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Index Wireframe · Concept 10 — Heritage Timeline | Peoples Company</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="../../shared/main.css?v=20260601" rel="stylesheet" />
+  <link href="./_wireframe.css?v=2" rel="stylesheet" />
+  <link href="./_nav.css?v=2" rel="stylesheet" />
+  <style>
+    /* ── Full-bleed canvas ── */
+    .wf-canvas { max-width:none; margin:0; border:0; box-shadow:none; }
+
+    /* ── Review badge ── */
+    .wf-badge { position:fixed; z-index:80; bottom:14px; right:14px;
+      background:#111827; color:#fff; font-family:var(--font-sans); font-size:12px;
+      padding:8px 12px; border-radius:999px; box-shadow:0 4px 14px rgba(0,0,0,.25); }
+    .wf-badge a { color:#9FE0C5; margin-left:8px; text-decoration:none; }
+
+    /* ================================================================
+       HERO — full-width landscape intro
+    ================================================================ */
+    .ht-hero {
+      position:relative; min-height:560px; display:flex; align-items:flex-end;
+      overflow:hidden;
+    }
+    .ht-hero .wf-img {
+      position:absolute; inset:0; min-height:0; border:0; border-radius:0; z-index:0;
+    }
+    .ht-hero .scrim {
+      position:absolute; inset:0; z-index:1;
+      background:linear-gradient(180deg, rgba(10,15,26,.15) 0%, rgba(10,15,26,.72) 100%);
+    }
+    .ht-hero-copy {
+      position:relative; z-index:2; color:#fff; padding:var(--space-9) 0 var(--space-8);
+      max-width:680px;
+    }
+    .ht-kicker {
+      display:inline-block; font-family:var(--font-sans); font-size:12px;
+      letter-spacing:.12em; text-transform:uppercase; color:#9FE0C5;
+      margin-bottom:var(--space-4);
+    }
+    .ht-hero-copy h1 {
+      font-family:var(--font-serif); font-size:68px; font-weight:500;
+      line-height:1.05; color:#fff; margin:0 0 var(--space-4);
+    }
+    .ht-hero-copy p {
+      font-size:20px; color:rgba(255,255,255,.82); max-width:50ch; margin:0 0 var(--space-6);
+    }
+    .ht-hero-ctas { display:flex; gap:var(--space-3); flex-wrap:wrap; }
+    .btn-hero-outline {
+      background:transparent; color:#fff; border:1.5px solid rgba(255,255,255,.7);
+      padding:12px 26px; border-radius:var(--radius-pill);
+      font-family:var(--font-sans); font-size:15px; font-weight:500;
+      text-decoration:none; display:inline-flex; align-items:center;
+      transition:background .15s,border-color .15s;
+    }
+    .btn-hero-outline:hover,
+    .btn-hero-outline:focus { background:rgba(255,255,255,.12); border-color:#fff; outline:2px solid rgba(255,255,255,.5); outline-offset:2px; }
+    .btn-hero-green {
+      background:#00744D; color:#fff; border:1.5px solid #00744D;
+      padding:12px 26px; border-radius:var(--radius-pill);
+      font-family:var(--font-sans); font-size:15px; font-weight:500;
+      text-decoration:none; display:inline-flex; align-items:center;
+      transition:background .15s;
+    }
+    .btn-hero-green:hover,
+    .btn-hero-green:focus { background:#005c3b; outline:2px solid #9FE0C5; outline-offset:2px; }
+
+    /* ================================================================
+       TIMELINE SECTION
+    ================================================================ */
+    .ht-timeline-section {
+      padding:var(--space-9) 0;
+      background:#fff;
+    }
+    .ht-timeline-intro {
+      max-width:660px; margin-bottom:var(--space-8);
+    }
+    .ht-timeline-intro h2 {
+      font-family:var(--font-serif); font-size:48px; font-weight:500;
+      line-height:1.1; color:var(--gray-900); margin:var(--space-3) 0 var(--space-4);
+    }
+    .ht-timeline-intro p {
+      font-size:18px; color:var(--gray-600); max-width:56ch;
+    }
+
+    /* ── The timeline grid: year numbers on left, connector line, entries on right ── */
+    .ht-tl {
+      position:relative;
+      /* left column = year labels; right = entries */
+      display:grid;
+      grid-template-columns:200px 1fr;
+      gap:0;
+    }
+
+    /* The vertical green spine */
+    .ht-tl-spine {
+      position:absolute;
+      left:200px; top:0; bottom:0;
+      width:3px;
+      background:linear-gradient(180deg, #00744D 0%, #008B5C 60%, #CFE3DF 100%);
+      transform:translateX(-50%);
+    }
+
+    /* Each entry is a pair: year-cell + content-cell */
+    .ht-entry {
+      display:contents; /* let children participate in parent grid */
+    }
+
+    .ht-year-cell {
+      padding:0 var(--space-6) var(--space-8) 0;
+      text-align:right;
+      position:relative;
+    }
+    .ht-year {
+      font-family:var(--font-serif); font-size:52px; font-weight:500;
+      line-height:1; color:var(--gray-200);
+      transition:color .2s;
+      display:block;
+    }
+    .ht-entry.is-milestone .ht-year { color:#008B5C; }
+
+    /* Dot on the spine */
+    .ht-year-cell::after {
+      content:"";
+      position:absolute; right:-6px; top:12px;
+      width:11px; height:11px; border-radius:50%;
+      background:#fff; border:2.5px solid #008B5C;
+      z-index:2;
+    }
+    .ht-entry.is-milestone .ht-year-cell::after {
+      background:#00744D; border-color:#00744D;
+      width:15px; height:15px; right:-8px; top:10px;
+    }
+
+    .ht-content-cell {
+      padding:0 0 var(--space-8) var(--space-7);
+      position:relative;
+    }
+
+    .ht-tag {
+      display:inline-block; font-family:var(--font-sans); font-size:11px;
+      letter-spacing:.1em; text-transform:uppercase; color:#00744D;
+      font-weight:600; margin-bottom:var(--space-2);
+    }
+    .ht-entry-title {
+      font-family:var(--font-serif); font-size:30px; font-weight:500;
+      line-height:1.2; color:var(--gray-900); margin:0 0 var(--space-3);
+    }
+    .ht-entry-body {
+      font-size:16px; color:var(--gray-600); max-width:54ch; margin:0 0 var(--space-4);
+      line-height:1.7;
+    }
+
+    /* Stat pull-out within timeline */
+    .ht-stat-pull {
+      display:inline-flex; align-items:baseline; gap:var(--space-2);
+      background:var(--gray-100); border-left:4px solid #008B5C;
+      padding:var(--space-3) var(--space-5); border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+      margin-top:var(--space-2);
+    }
+    .ht-stat-pull .sp-num {
+      font-family:var(--font-serif); font-size:40px; font-weight:500; color:var(--gray-900);
+      line-height:1;
+    }
+    .ht-stat-pull .sp-label {
+      font-family:var(--font-sans); font-size:13px; color:var(--gray-600); max-width:18ch;
+    }
+
+    /* Inline image in timeline */
+    .ht-entry-img {
+      margin-top:var(--space-4); border-radius:var(--radius-md); overflow:hidden;
+    }
+
+    /* Present-day "today" indicator */
+    .ht-today {
+      display:flex; align-items:center; gap:var(--space-3); margin-bottom:var(--space-8);
+      grid-column:1 / -1;
+    }
+    .ht-today-dot {
+      width:16px; height:16px; border-radius:50%;
+      background:#00744D; flex-shrink:0; margin-left:193px;
+      box-shadow:0 0 0 4px rgba(0,116,77,.15);
+    }
+    .ht-today-label {
+      font-family:var(--font-sans); font-size:13px; font-weight:600;
+      letter-spacing:.08em; text-transform:uppercase; color:#00744D;
+    }
+
+    /* ================================================================
+       STATS ROW (after timeline)
+    ================================================================ */
+    .ht-stats {
+      background:var(--pine); color:#fff;
+      padding:var(--space-8) 0;
+    }
+    .ht-stats-grid {
+      display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-6);
+    }
+    .ht-stats .hs-num {
+      font-family:var(--font-serif); font-size:60px; font-weight:500;
+      line-height:1; color:#fff;
+    }
+    .ht-stats .hs-line {
+      width:40px; height:3px; background:#008B5C; margin:var(--space-3) 0;
+    }
+    .ht-stats .hs-label {
+      font-family:var(--font-sans); font-size:14px; color:#CFE3DF;
+    }
+
+    /* ================================================================
+       SERVICES COMPACT ROW
+    ================================================================ */
+    .ht-services {
+      padding:var(--space-9) 0;
+      border-top:1px solid var(--gray-200);
+    }
+    .ht-services-head {
+      display:flex; align-items:flex-end; justify-content:space-between;
+      margin-bottom:var(--space-7); gap:var(--space-4);
+    }
+    .ht-services-head h2 {
+      font-family:var(--font-serif); font-size:44px; font-weight:500;
+      line-height:1.1; color:var(--gray-900); margin:0; max-width:24ch;
+    }
+    .ht-svc-grid {
+      display:grid; grid-template-columns:repeat(7,1fr); gap:var(--space-3);
+    }
+    .ht-svc-card {
+      padding:var(--space-4) var(--space-3);
+      border:1px solid var(--gray-200); border-radius:var(--radius-md);
+      text-align:center; text-decoration:none; color:var(--gray-900);
+      transition:border-color .15s, box-shadow .15s;
+    }
+    .ht-svc-card:hover,
+    .ht-svc-card:focus {
+      border-color:#008B5C; box-shadow:0 4px 12px rgba(0,116,77,.1);
+      outline:2px solid #008B5C; outline-offset:2px;
+    }
+    .ht-svc-ico {
+      width:40px; height:40px; margin:0 auto var(--space-3);
+      border-radius:var(--radius-sm); background:var(--gray-100);
+      display:flex; align-items:center; justify-content:center;
+      font-family:var(--font-sans); font-size:10px; color:var(--gray-500);
+      letter-spacing:.06em; text-transform:uppercase;
+    }
+    .ht-svc-name {
+      font-family:var(--font-serif); font-size:15px; font-weight:500;
+      line-height:1.3; color:var(--gray-900);
+    }
+
+    /* ================================================================
+       INSIGHTS
+    ================================================================ */
+    .ht-insights {
+      background:var(--gray-100); padding:var(--space-9) 0;
+    }
+    .ht-insights-head {
+      display:flex; align-items:baseline; justify-content:space-between;
+      margin-bottom:var(--space-7); gap:var(--space-4);
+    }
+    .ht-insights-head h2 {
+      font-family:var(--font-serif); font-size:44px; font-weight:500;
+      color:var(--gray-900); margin:0;
+    }
+    .ht-insights-head a {
+      font-family:var(--font-sans); font-size:14px; color:#00744D;
+      text-decoration:none; white-space:nowrap; font-weight:500;
+    }
+    .ht-insights-head a:hover { text-decoration:underline; }
+    .ht-ins-grid {
+      display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-5);
+    }
+    .ht-ins-card {
+      background:#fff; border-radius:var(--radius-md); overflow:hidden;
+    }
+    .ht-ins-thumb { height:160px; }
+    .ht-ins-body { padding:var(--space-4); }
+    .ht-ins-cat {
+      font-family:var(--font-sans); font-size:11px; letter-spacing:.1em;
+      text-transform:uppercase; color:#00744D; font-weight:600;
+      display:block; margin-bottom:var(--space-2);
+    }
+    .ht-ins-title {
+      font-family:var(--font-serif); font-size:20px; font-weight:500;
+      line-height:1.3; color:var(--gray-900); margin:0 0 var(--space-3);
+    }
+    .ht-ins-link {
+      font-family:var(--font-sans); font-size:13px; color:#00744D;
+      text-decoration:none; font-weight:500;
+    }
+    .ht-ins-link:hover { text-decoration:underline; }
+
+    /* ================================================================
+       CTA BAND
+    ================================================================ */
+    .ht-cta {
+      padding:var(--space-9) 0;
+      background:#fff; border-top:1px solid var(--gray-200);
+    }
+    .ht-cta-inner {
+      display:flex; align-items:center; justify-content:space-between;
+      gap:var(--space-6); flex-wrap:wrap;
+    }
+    .ht-cta-copy h2 {
+      font-family:var(--font-serif); font-size:48px; font-weight:500;
+      color:var(--gray-900); margin:0 0 var(--space-3); max-width:22ch;
+    }
+    .ht-cta-copy p {
+      font-size:18px; color:var(--gray-600); max-width:46ch; margin:0;
+    }
+    .ht-cta-btns {
+      display:flex; flex-direction:column; gap:var(--space-3); align-items:flex-start;
+    }
+    .btn-green-fill {
+      background:#00744D; color:#fff; border:none;
+      padding:14px 32px; border-radius:var(--radius-pill);
+      font-family:var(--font-sans); font-size:15px; font-weight:600;
+      text-decoration:none; display:inline-flex; align-items:center;
+      transition:background .15s;
+    }
+    .btn-green-fill:hover,
+    .btn-green-fill:focus { background:#005c3b; outline:2px solid #008B5C; outline-offset:2px; }
+    .btn-outline-dark {
+      background:transparent; color:var(--gray-900);
+      border:1.5px solid var(--gray-500);
+      padding:14px 32px; border-radius:var(--radius-pill);
+      font-family:var(--font-sans); font-size:15px; font-weight:500;
+      text-decoration:none; display:inline-flex; align-items:center;
+      transition:border-color .15s;
+    }
+    .btn-outline-dark:hover,
+    .btn-outline-dark:focus { border-color:var(--gray-900); outline:2px solid var(--gray-900); outline-offset:2px; }
+
+    /* ================================================================
+       FOOTER
+    ================================================================ */
+    .ht-footer {
+      background:#111827; color:#C7CBD1;
+      font-family:var(--font-sans); font-size:14px;
+      padding:var(--space-8) 0 var(--space-6);
+    }
+    .ht-footer-grid {
+      display:grid; grid-template-columns:2fr 1fr 1fr 1fr 1fr;
+      gap:var(--space-7); margin-bottom:var(--space-8);
+    }
+    .ht-footer-brand img { height:44px; margin-bottom:var(--space-4); }
+    .ht-footer-tagline {
+      font-style:italic; font-family:var(--font-serif); font-size:16px;
+      color:#9CA3AF; margin:0 0 var(--space-4); max-width:30ch; line-height:1.5;
+    }
+    .ht-footer-contact a {
+      color:#9FE0C5; text-decoration:none; display:block; margin-bottom:4px;
+    }
+    .ht-footer-contact a:hover { text-decoration:underline; }
+    .ht-footer h4 {
+      color:#fff; font-family:var(--font-sans); font-size:12px;
+      text-transform:uppercase; letter-spacing:.1em; font-weight:600;
+      margin:0 0 var(--space-4);
+    }
+    .ht-footer ul { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+    .ht-footer a { color:#C7CBD1; text-decoration:none; }
+    .ht-footer a:hover { color:#fff; }
+    .ht-footer-bottom {
+      border-top:1px solid rgba(255,255,255,.08); padding-top:var(--space-5);
+      display:flex; justify-content:space-between; align-items:center;
+      flex-wrap:wrap; gap:var(--space-3); font-size:12px; color:#6B7280;
+    }
+    .ht-footer-bottom a { color:#6B7280; }
+    .ht-footer-bottom a:hover { color:#fff; }
+
+    /* ================================================================
+       RESPONSIVE
+    ================================================================ */
+    @media (max-width:1100px){
+      .ht-svc-grid { grid-template-columns:repeat(4,1fr); }
+    }
+    @media (max-width:860px){
+      .ht-hero-copy h1 { font-size:44px; }
+      .ht-tl { grid-template-columns:120px 1fr; }
+      .ht-year { font-size:36px; }
+      .ht-entry-title { font-size:24px; }
+      .ht-stats-grid { grid-template-columns:1fr 1fr; }
+      .ht-svc-grid { grid-template-columns:repeat(2,1fr); }
+      .ht-ins-grid { grid-template-columns:1fr 1fr; }
+      .ht-footer-grid { grid-template-columns:1fr 1fr; }
+      .ht-today-dot { margin-left:113px; }
+    }
+    @media (max-width:560px){
+      .ht-tl { grid-template-columns:80px 1fr; }
+      .ht-year { font-size:26px; }
+      .ht-stats-grid { grid-template-columns:1fr; }
+      .ht-svc-grid { grid-template-columns:1fr 1fr; }
+      .ht-ins-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wf-badge"><b>Concept 10 · Heritage Timeline</b><a href="./index.html">All concepts ↗</a></div>
+
+  <div class="wf-canvas">
+    <div id="site-header"></div>
+
+    <!-- ══════════════════════════════════════════
+         HERO
+    ══════════════════════════════════════════ -->
+    <section class="ht-hero" aria-label="Introduction">
+      <div class="wf-img is-hero" aria-hidden="true">Hero — aerial farmland panorama</div>
+      <div class="scrim" aria-hidden="true"></div>
+      <div class="container">
+        <div class="ht-hero-copy">
+          <span class="ht-kicker">A Legacy Built in American Soil</span>
+          <h1>Rooted in Land.<br>Built for Scale.</h1>
+          <p>Six decades of agricultural expertise, one national platform — serving landowners, operators, and investors across America.</p>
+          <div class="ht-hero-ctas">
+            <a href="#" class="btn-hero-green">Explore Our Services</a>
+            <a href="#" class="btn-hero-outline">Talk to an Advisor</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         TIMELINE NARRATIVE
+    ══════════════════════════════════════════ -->
+    <section class="ht-timeline-section" aria-labelledby="tl-heading">
+      <div class="container">
+        <div class="ht-timeline-intro">
+          <span class="ht-kicker">Our Story</span>
+          <h2 id="tl-heading">From a Single Iowa Bank to the Nation's Largest Farmland Firm</h2>
+          <p>Every acre we manage, every transaction we close, is part of a journey that began in the American heartland and grew into a national institution.</p>
+        </div>
+
+        <!-- Timeline -->
+        <div class="ht-tl" role="list">
+          <div class="ht-tl-spine" aria-hidden="true"></div>
+
+          <!-- Entry 1 — Origins -->
+          <div class="ht-entry" role="listitem">
+            <div class="ht-year-cell">
+              <span class="ht-year">1970s</span>
+            </div>
+            <div class="ht-content-cell">
+              <span class="ht-tag">The Beginning</span>
+              <h3 class="ht-entry-title">Rooted in an Iowa Farm Bank</h3>
+              <p class="ht-entry-body">Peoples Company traces its origins to the agricultural banking and land advisory traditions of rural Iowa — a region where families understood that land wasn't simply an asset, it was a legacy. Early advisors built relationships one farm, one family at a time.</p>
+            </div>
+          </div>
+
+          <!-- Entry 2 — Brokerage established -->
+          <div class="ht-entry" role="listitem">
+            <div class="ht-year-cell">
+              <span class="ht-year">1990s</span>
+            </div>
+            <div class="ht-content-cell">
+              <span class="ht-tag">Foundation</span>
+              <h3 class="ht-entry-title">A Dedicated Farmland Brokerage is Born</h3>
+              <p class="ht-entry-body">Formalizing decades of farm advisory work, Peoples Company emerges as a standalone farmland brokerage — one of the first in the region to combine auction expertise with traditional private-sale brokerage and active land management under one roof.</p>
+              <div class="ht-entry-img">
+                <div class="wf-img is-wide" aria-label="Placeholder — early office / Iowa farmland">Early Iowa farmland brokerage</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Entry 3 — Regional expansion -->
+          <div class="ht-entry is-milestone" role="listitem">
+            <div class="ht-year-cell">
+              <span class="ht-year">2000s</span>
+            </div>
+            <div class="ht-content-cell">
+              <span class="ht-tag">Milestone · Expansion</span>
+              <h3 class="ht-entry-title">Growing Beyond Iowa — Regional Offices Open</h3>
+              <p class="ht-entry-body">Demand from landowners across the Corn Belt drives rapid geographic expansion. New regional offices open across Illinois, Nebraska, Kansas, and Indiana, bringing Peoples Company's proven methodology to farmland owners in new markets.</p>
+              <div class="ht-stat-pull">
+                <span class="sp-num">20+</span>
+                <span class="sp-label">Regional Offices today, coast to coast</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Entry 4 — Services diversify -->
+          <div class="ht-entry" role="listitem">
+            <div class="ht-year-cell">
+              <span class="ht-year">2010s</span>
+            </div>
+            <div class="ht-content-cell">
+              <span class="ht-tag">Diversification</span>
+              <h3 class="ht-entry-title">Integrated Land Solutions Take Shape</h3>
+              <p class="ht-entry-body">Recognizing that landowners and investors need more than a transaction, Peoples Company builds out its full suite: Agricultural Appraisal, Land Management, Capital Markets, Energy Management, Crop Insurance, and Corporate Services — seven disciplines united under one roof.</p>
+            </div>
+          </div>
+
+          <!-- Entry 5 — Capital milestone -->
+          <div class="ht-entry is-milestone" role="listitem">
+            <div class="ht-year-cell">
+              <span class="ht-year">2015</span>
+            </div>
+            <div class="ht-content-cell">
+              <span class="ht-tag">Milestone · Capital</span>
+              <h3 class="ht-entry-title">$1 Billion in Farmland Transactions Closed</h3>
+              <p class="ht-entry-body">A major inflection point — crossing the billion-dollar threshold validates both the scale of American farmland as an asset class and the trust landowners and investors place in Peoples Company as their platform of choice.</p>
+              <div class="ht-stat-pull">
+                <span class="sp-num">$6B+</span>
+                <span class="sp-label">Total farmland transactions to date</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Entry 6 — Land EXPO -->
+          <div class="ht-entry" role="listitem">
+            <div class="ht-year-cell">
+              <span class="ht-year">2017</span>
+            </div>
+            <div class="ht-content-cell">
+              <span class="ht-tag">Community</span>
+              <h3 class="ht-entry-title">The Land Investment EXPO Launches</h3>
+              <p class="ht-entry-body">The firm creates the nation's premier gathering for farmland investors — a forum where institutional capital, family offices, and landowners meet to exchange research, discover opportunities, and shape the conversation around agricultural real estate.</p>
+              <div class="ht-stat-pull">
+                <span class="sp-num">1.6K+</span>
+                <span class="sp-label">Annual EXPO attendees</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Entry 7 — Team scale -->
+          <div class="ht-entry is-milestone" role="listitem">
+            <div class="ht-year-cell">
+              <span class="ht-year">2020s</span>
+            </div>
+            <div class="ht-content-cell">
+              <span class="ht-tag">Milestone · People</span>
+              <h3 class="ht-entry-title">170+ Agricultural Professionals Nationwide</h3>
+              <p class="ht-entry-body">The team expands to include licensed agents, certified appraisers, farm managers, energy consultants, and capital markets advisors across the United States — the largest dedicated farmland professional workforce of any single firm.</p>
+              <div class="ht-stat-pull">
+                <span class="sp-num">170+</span>
+                <span class="sp-label">Ag professionals on the Peoples Company platform</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Entry 8 — FarmWorth / Technology -->
+          <div class="ht-entry" role="listitem">
+            <div class="ht-year-cell">
+              <span class="ht-year">2023</span>
+            </div>
+            <div class="ht-content-cell">
+              <span class="ht-tag">Technology</span>
+              <h3 class="ht-entry-title">FarmWorth™ — Proprietary Farmland Intelligence</h3>
+              <p class="ht-entry-body">The firm launches FarmWorth, a proprietary data platform providing automated appraisal modeling, soil capability analysis, comparable-sales databases, and data layers — giving every client access to institutional-grade intelligence for their land decisions.</p>
+              <div class="ht-entry-img">
+                <div class="wf-img" style="min-height:180px;" aria-label="Placeholder — FarmWorth UI / farmland data platform">FarmWorth™ platform UI — parcels, data layers, soil analysis</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Today marker -->
+          <div class="ht-today" role="listitem" aria-label="Today">
+            <div class="ht-today-dot" aria-hidden="true"></div>
+            <span class="ht-today-label">Today — The National Standard in Farmland</span>
+          </div>
+
+        </div><!-- /.ht-tl -->
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         STATS ROW
+    ══════════════════════════════════════════ -->
+    <section class="ht-stats" aria-labelledby="stats-heading">
+      <div class="container">
+        <div class="ht-stats-grid">
+          <div>
+            <div class="hs-num">$6B+</div>
+            <div class="hs-line" aria-hidden="true"></div>
+            <div class="hs-label">Farmland Transactions</div>
+          </div>
+          <div>
+            <div class="hs-num">170+</div>
+            <div class="hs-line" aria-hidden="true"></div>
+            <div class="hs-label">Ag Professionals</div>
+          </div>
+          <div>
+            <div class="hs-num">20+</div>
+            <div class="hs-line" aria-hidden="true"></div>
+            <div class="hs-label">Regional Offices</div>
+          </div>
+          <div>
+            <div class="hs-num">1.6K+</div>
+            <div class="hs-line" aria-hidden="true"></div>
+            <div class="hs-label">Land Investment EXPO Attendees</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         SERVICES COMPACT
+    ══════════════════════════════════════════ -->
+    <section class="ht-services" aria-labelledby="svc-heading">
+      <div class="container">
+        <div class="ht-services-head">
+          <div>
+            <span class="ht-kicker">What We Do</span>
+            <h2 id="svc-heading">Seven disciplines. One integrated platform.</h2>
+          </div>
+          <a href="#" style="font-family:var(--font-sans);font-size:14px;color:#00744D;text-decoration:none;font-weight:500;white-space:nowrap;">All Services →</a>
+        </div>
+        <div class="ht-svc-grid">
+          <a href="#" class="ht-svc-card">
+            <div class="ht-svc-ico">ico</div>
+            <div class="ht-svc-name">Land Brokerage &amp; Auctions</div>
+          </a>
+          <a href="#" class="ht-svc-card">
+            <div class="ht-svc-ico">ico</div>
+            <div class="ht-svc-name">Land Management</div>
+          </a>
+          <a href="#" class="ht-svc-card">
+            <div class="ht-svc-ico">ico</div>
+            <div class="ht-svc-name">Agricultural Appraisal</div>
+          </a>
+          <a href="#" class="ht-svc-card">
+            <div class="ht-svc-ico">ico</div>
+            <div class="ht-svc-name">Capital Markets</div>
+          </a>
+          <a href="#" class="ht-svc-card">
+            <div class="ht-svc-ico">ico</div>
+            <div class="ht-svc-name">Energy Management</div>
+          </a>
+          <a href="#" class="ht-svc-card">
+            <div class="ht-svc-ico">ico</div>
+            <div class="ht-svc-name">Crop Insurance</div>
+          </a>
+          <a href="#" class="ht-svc-card">
+            <div class="ht-svc-ico">ico</div>
+            <div class="ht-svc-name">Corporate Services</div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         INSIGHTS
+    ══════════════════════════════════════════ -->
+    <section class="ht-insights" aria-labelledby="ins-heading">
+      <div class="container">
+        <div class="ht-insights-head">
+          <div>
+            <span class="ht-kicker">Insights &amp; Research</span>
+            <h2 id="ins-heading">Clarity for every land decision</h2>
+          </div>
+          <a href="#">All Insights →</a>
+        </div>
+        <div class="ht-ins-grid">
+          <article class="ht-ins-card">
+            <div class="wf-img wf-thumb ht-ins-thumb" aria-label="Article image placeholder">Article image</div>
+            <div class="ht-ins-body">
+              <span class="ht-ins-cat">Land Values</span>
+              <h3 class="ht-ins-title">Understanding Midwest Farmland Trends in 2026</h3>
+              <a href="#" class="ht-ins-link">Read more →</a>
+            </div>
+          </article>
+          <article class="ht-ins-card">
+            <div class="wf-img wf-thumb ht-ins-thumb" aria-label="Article image placeholder">Article image</div>
+            <div class="ht-ins-body">
+              <span class="ht-ins-cat">Energy</span>
+              <h3 class="ht-ins-title">Solar &amp; Wind Leases: What Landowners Should Ask</h3>
+              <a href="#" class="ht-ins-link">Read more →</a>
+            </div>
+          </article>
+          <article class="ht-ins-card">
+            <div class="wf-img wf-thumb ht-ins-thumb" aria-label="Report image placeholder">Report image</div>
+            <div class="ht-ins-body">
+              <span class="ht-ins-cat">Research Report</span>
+              <h3 class="ht-ins-title">2025 National Land Values Report</h3>
+              <a href="#" class="ht-ins-link">Download →</a>
+            </div>
+          </article>
+          <article class="ht-ins-card">
+            <div class="wf-img wf-thumb ht-ins-thumb" aria-label="Article image placeholder">Article image</div>
+            <div class="ht-ins-body">
+              <span class="ht-ins-cat">Investment</span>
+              <h3 class="ht-ins-title">Why Family Offices &amp; Farmland Align</h3>
+              <a href="#" class="ht-ins-link">Read more →</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         CTA
+    ══════════════════════════════════════════ -->
+    <section class="ht-cta" aria-labelledby="cta-heading">
+      <div class="container">
+        <div class="ht-cta-inner">
+          <div class="ht-cta-copy">
+            <span class="ht-kicker">Get in Touch</span>
+            <h2 id="cta-heading">Start a conversation with our team</h2>
+            <p>Whether you're looking to sell, invest, manage, or value farmland, our 170+ professionals are ready to help — from any region in the country.</p>
+          </div>
+          <div class="ht-cta-btns">
+            <a href="#" class="btn-green-fill">Contact Us</a>
+            <a href="#" class="btn-outline-dark">855.800.LAND</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         FOOTER
+    ══════════════════════════════════════════ -->
+    <footer class="ht-footer" aria-label="Site footer">
+      <div class="container">
+        <div class="ht-footer-grid">
+          <div class="ht-footer-brand">
+            <img src="../../shared/logos/pc_logo_white.webp" alt="Peoples Company" />
+            <p class="ht-footer-tagline">Integrated Land Solutions. The largest farmland brokerage and management firm in the United States.</p>
+            <div class="ht-footer-contact">
+              <a href="tel:8558002526">855.800.LAND</a>
+              <a href="mailto:Info@PeoplesCompany.com">Info@PeoplesCompany.com</a>
+              <span style="color:#6B7280;font-size:13px;">1108 S. 44th St, Suite 102, Cumming, IA 50061</span>
+            </div>
+          </div>
+          <div>
+            <h4>Real Estate</h4>
+            <ul>
+              <li><a href="#">For Sale</a></li>
+              <li><a href="#">Auctions</a></li>
+              <li><a href="#">Sold Properties</a></li>
+              <li><a href="#">Interactive Map</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>What We Do</h4>
+            <ul>
+              <li><a href="#">Land Brokerage &amp; Auctions</a></li>
+              <li><a href="#">Land Management</a></li>
+              <li><a href="#">Agricultural Appraisal</a></li>
+              <li><a href="#">Capital Markets</a></li>
+              <li><a href="#">Energy Management</a></li>
+              <li><a href="#">Crop Insurance</a></li>
+              <li><a href="#">Corporate Services</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>The Company</h4>
+            <ul>
+              <li><a href="#">Overview</a></li>
+              <li><a href="#">Our Team</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Land Investment EXPO</a></li>
+              <li><a href="#">Regions &amp; Offices</a></li>
+              <li><a href="#">FarmWorth</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Insights &amp; News</h4>
+            <ul>
+              <li><a href="#">National Land Values</a></li>
+              <li><a href="#">Industry Research</a></li>
+              <li><a href="#">Newsletters</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Press Releases</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="ht-footer-bottom">
+          <span>© 2026 Peoples Company &middot; Licensed in 50 states &middot; Equal Housing Opportunity</span>
+          <span><a href="#">Privacy</a> &middot; <a href="#">Terms</a> &middot; <a href="#">Accessibility</a></span>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /.wf-canvas -->
+
+  <script src="./_nav-data.js?v=1"></script>
+  <script src="./_nav.js?v=2"></script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Index Wireframe · Concept 17 — Seasons | Peoples Company</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="../../shared/main.css?v=20260601" rel="stylesheet" />
+  <link href="./_wireframe.css?v=2" rel="stylesheet" />
+  <link href="./_nav.css?v=2" rel="stylesheet" />
+  <style>
+    /* Concept 17 — Seasons: chaptered land-lifecycle narrative */
+    .sn-hero { position:relative; }
+    .sn-hero .wf-img { min-height:380px; border:0; border-radius:0; }
+    .sn-hero-scrim { position:absolute; inset:0; background:linear-gradient(90deg, rgba(10,15,26,.72), rgba(10,15,26,.25)); }
+    .sn-hero-in { position:absolute; inset:0; display:flex; align-items:center; }
+    .sn-hero-copy { color:#fff; max-width:620px; } .sn-hero-copy .label { color:#9FE0C5; }
+    .sn-hero-copy h1 { color:#fff; font-size:56px; margin:var(--space-3) 0 var(--space-4); }
+    .sn-hero-copy p { color:#E5E7EB; font-size:19px; max-width:46ch; }
+
+    /* Chapter band */
+    .sn-ch { padding:var(--space-9) 0; }
+    .sn-ch .container { display:grid; grid-template-columns:1fr 1fr; gap:var(--space-8); align-items:center; }
+    .sn-ch.alt .sn-text { order:2; }            /* flip sides on alternate chapters */
+    .sn-num { font-family:var(--font-serif); font-weight:500; font-size:120px; line-height:.9; color:var(--rich-green); opacity:.9; }
+    .sn-ch h2 { font-size:46px; margin:var(--space-2) 0 var(--space-3); }
+    .sn-ch p.lead { font-size:18px; margin-bottom:var(--space-5); max-width:46ch; }
+    .sn-svc { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; }
+    .sn-svc li a { display:flex; justify-content:space-between; align-items:center; padding:14px 0;
+      border-top:1px solid var(--gray-200); font-family:var(--font-sans); font-size:16px; color:var(--gray-900); text-decoration:none; }
+    .sn-svc li:last-child a { border-bottom:1px solid var(--gray-200); }
+    .sn-svc li a::after { content:"→"; color:var(--rich-green); }
+    .sn-svc li a:hover { color:#00744D; }
+    .sn-art .wf-img { min-height:360px; }
+
+    /* Dark chapters */
+    .sn-ch.dark { background:var(--pine); color:#CFE3DF; }
+    .sn-ch.dark h2 { color:#fff; } .sn-ch.dark .sn-num { color:#5FD3A3; }
+    .sn-ch.dark .sn-svc li a { color:#fff; border-color:rgba(255,255,255,.18); }
+    .sn-ch.dark .sn-svc li:last-child a { border-color:rgba(255,255,255,.18); }
+    .sn-ch.dark .sn-svc li a:hover { color:#9FE0C5; }
+
+    /* Stats strip between chapters */
+    .sn-stats { background:var(--gray-100); }
+    .sn-stats .container { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-6); padding:var(--space-7) 40px; }
+    .sn-stat .n { font-family:var(--font-serif); font-weight:500; font-size:48px; color:var(--gray-900); line-height:1; }
+    .sn-stat .l { font-size:13px; color:var(--gray-600); margin-top:var(--space-2); }
+
+    /* Insights + CTA */
+    .sn-ins { padding:var(--space-8) 0; }
+    .sn-ins-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-5); margin-top:var(--space-5); }
+    .sn-ins .wf-thumb { height:150px; } .sn-ins .label { color:var(--teal); display:block; margin-top:var(--space-3); }
+    .sn-ins h4 { font-family:var(--font-serif); font-weight:500; font-size:19px; margin:var(--space-2) 0; }
+    .sn-cta { background:var(--deep-teal); color:#fff; }
+    .sn-cta .container { display:flex; align-items:center; justify-content:space-between; gap:var(--space-6); padding:var(--space-8) 40px; flex-wrap:wrap; }
+    .sn-cta h2 { color:#fff; font-size:40px; }
+
+    @media (max-width:980px){
+      .sn-hero-copy h1{font-size:38px;} .sn-ch .container{grid-template-columns:1fr; gap:var(--space-5);}
+      .sn-ch.alt .sn-text{order:0;} .sn-num{font-size:84px;} .sn-ch h2{font-size:32px;}
+      .sn-stats .container{grid-template-columns:1fr 1fr;} .sn-ins-grid{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+  <div class="wf-badge"><b>Concept 17 · Seasons</b><a href="./index.html">All concepts ↗</a></div>
+
+  <div class="wf-canvas">
+    <div id="site-header"></div>
+
+    <header class="sn-hero">
+      <div class="wf-img">Hero image — farmland through the seasons</div>
+      <div class="sn-hero-scrim"></div>
+      <div class="sn-hero-in"><div class="container"><div class="sn-hero-copy">
+        <span class="label">The Land Lifecycle</span>
+        <h1>Every acre has a journey.</h1>
+        <p>From acquisition to harvest to reinvestment, Peoples Company is your partner at every stage of the land lifecycle.</p>
+      </div></div></div>
+    </header>
+
+    <!-- 01 Acquire -->
+    <section class="sn-ch"><div class="container">
+      <div class="sn-text">
+        <div class="sn-num">01</div>
+        <h2>Acquire</h2>
+        <p class="lead">Find and secure the right ground — through expert brokerage, competitive auctions, and institutional capital.</p>
+        <ul class="sn-svc">
+          <li><a href="#">Land Brokerage &amp; Auctions</a></li>
+          <li><a href="#">Capital Markets</a></li>
+        </ul>
+      </div>
+      <div class="sn-art"><div class="wf-img">Acquire — imagery</div></div>
+    </div></section>
+
+    <!-- 02 Grow (dark) -->
+    <section class="sn-ch dark alt"><div class="container">
+      <div class="sn-text">
+        <div class="sn-num">02</div>
+        <h2>Grow</h2>
+        <p class="lead">Protect and improve your asset — professional management, energy income, and risk protection.</p>
+        <ul class="sn-svc">
+          <li><a href="#">Land Management</a></li>
+          <li><a href="#">Energy Management</a></li>
+          <li><a href="#">Crop Insurance</a></li>
+        </ul>
+      </div>
+      <div class="sn-art"><div class="wf-img">Grow — imagery</div></div>
+    </div></section>
+
+    <!-- stats strip -->
+    <section class="sn-stats"><div class="container">
+      <div class="sn-stat"><div class="n">$6B+</div><div class="l">Farmland Transactions</div></div>
+      <div class="sn-stat"><div class="n">170+</div><div class="l">Ag Professionals</div></div>
+      <div class="sn-stat"><div class="n">20+</div><div class="l">Regional Offices</div></div>
+      <div class="sn-stat"><div class="n">1.6K+</div><div class="l">EXPO Attendees</div></div>
+    </div></section>
+
+    <!-- 03 Value -->
+    <section class="sn-ch"><div class="container">
+      <div class="sn-text">
+        <div class="sn-num">03</div>
+        <h2>Value</h2>
+        <p class="lead">Know exactly what your land is worth — certified, data-driven valuation powered by proprietary technology.</p>
+        <ul class="sn-svc">
+          <li><a href="#">Agricultural Appraisal</a></li>
+          <li><a href="#">FarmWorth Data &amp; Tools</a></li>
+        </ul>
+      </div>
+      <div class="sn-art"><div class="wf-img">Value — FarmWorth data</div></div>
+    </div></section>
+
+    <!-- 04 Reinvest (dark) -->
+    <section class="sn-ch dark alt"><div class="container">
+      <div class="sn-text">
+        <div class="sn-num">04</div>
+        <h2>Reinvest</h2>
+        <p class="lead">Put proceeds to work and scale your holdings — portfolio strategy and corporate solutions.</p>
+        <ul class="sn-svc">
+          <li><a href="#">Capital Markets</a></li>
+          <li><a href="#">Corporate Services</a></li>
+        </ul>
+      </div>
+      <div class="sn-art"><div class="wf-img">Reinvest — imagery</div></div>
+    </div></section>
+
+    <!-- Insights -->
+    <section class="container sn-ins">
+      <span class="label">Insights &amp; Research</span>
+      <h2 style="margin-top:var(--space-2);">Clarity for every land decision</h2>
+      <div class="sn-ins-grid">
+        <article class="card"><div class="wf-img wf-thumb">Article</div><span class="label">Land Values · May 2026</span><h4>Understanding Midwest Farmland Trends in 2026</h4><a href="#" class="read-more is-static">Read more</a></article>
+        <article class="card"><div class="wf-img wf-thumb">Article</div><span class="label">Energy · May 2026</span><h4>Solar &amp; Wind Leases: What Landowners Should Ask</h4><a href="#" class="read-more is-static">Read more</a></article>
+        <article class="card"><div class="wf-img wf-thumb">Report</div><span class="label">Research Report</span><h4>Why Family Offices &amp; Farmland Align</h4><a href="#" class="read-more is-static">Download</a></article>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sn-cta"><div class="container">
+      <div><span class="label" style="color:#9FE0C5;">Get in touch</span><h2>Wherever you are in the journey, let's talk.</h2></div>
+      <a href="#" class="btn btn-white">Contact Us</a>
+    </div></section>
+
+    <footer class="wf-footer"><div class="container" style="padding-top:var(--space-7);padding-bottom:var(--space-6);display:flex;justify-content:space-between;gap:var(--space-4);flex-wrap:wrap;">
+      <span style="font-size:13px;">© 2026 Peoples Company · Licensed in 50 states (EHO) · 1108 S. 44th St, Suite 102, Cumming, IA 50061 · 855.800.LAND</span>
+      <span style="font-size:13px;">Privacy · Terms · Accessibility</span>
+    </div></footer>
+  </div>
+
+  <script src="./_nav-data.js?v=1"></script>
+  <script src="./_nav.js?v=2"></script>
+</body>
+</html>

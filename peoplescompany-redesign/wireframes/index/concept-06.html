@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Index Wireframe · Concept 06 — Dual Path (Replit-style) | Peoples Company</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Bold sans (Archivo) to match the president's preferred mockup; Inter for body -->
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="../../shared/main.css?v=20260601" rel="stylesheet" />
+  <link href="./_wireframe.css?v=2" rel="stylesheet" />
+
+  <style>
+    .wf-bar { position:static; }
+
+    /* ---- Concept 06 type + color (faithful to Replit mockup) ---- */
+    :root{
+      --c6-cyan:#00AEEF;   /* bright brand cyan — DARK backgrounds only (white text fails on light) */
+      --c6-blue:#0077A8;   /* accessible blue — text/buttons on light (white text = 5.0:1, AA) */
+      --c6-ink:#0A0F1A;
+    }
+    .c6 { font-family:"Inter",sans-serif; color:var(--gray-600); }
+    .c6 h1,.c6 h2,.c6 h3,.c6 .disp { font-family:"Archivo",sans-serif; font-weight:800;
+      color:var(--c6-ink); letter-spacing:-0.01em; line-height:1.02; }
+    .c6 h1{ font-size:60px; } .c6 h2{ font-size:44px; } .c6 .eyebrow{ font-family:"Inter";
+      font-weight:600; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--c6-blue); }
+    .c6 .wrap{ max-width:1320px; margin:0 auto; padding:0 40px; }
+
+    /* Buttons */
+    .c6-btn{ display:inline-flex; align-items:center; gap:10px; font-family:"Inter"; font-weight:600;
+      font-size:15px; padding:14px 26px; text-decoration:none; border:0; cursor:pointer; }
+    .c6-btn.dark{ background:var(--c6-ink); color:#fff; } .c6-btn.dark:hover{ background:#000; }
+    .c6-btn.blue{ background:var(--c6-blue); color:#fff; } .c6-btn.blue:hover{ background:#005f86; }
+    .c6-btn.cyan{ background:var(--c6-cyan); color:var(--c6-ink); } /* dark-bg only; ink text on cyan = 8.3:1 */
+    .c6-btn.ghost{ background:transparent; color:var(--c6-ink); border:1px solid var(--c6-ink); }
+
+    /* Header — minimal */
+    .c6-head{ position:sticky; top:0; z-index:40; background:#fff; border-bottom:1px solid var(--color-border); }
+    .c6-head .wrap{ display:flex; align-items:center; gap:var(--space-6); padding-top:var(--space-4); padding-bottom:var(--space-4); }
+    .c6-head .c6-logo img{ height:46px; width:auto; display:block; }
+    .c6-head nav{ margin-left:auto; display:flex; align-items:center; gap:var(--space-6); }
+    .c6-head nav a{ font-family:"Inter"; font-weight:500; font-size:15px; color:var(--c6-ink); text-decoration:none; }
+    .c6-head nav a:hover{ color:var(--c6-blue); }
+
+    /* Hero */
+    .c6-hero{ position:relative; }
+    .c6-hero .wf-img{ min-height:460px; border:0; border-radius:0; }
+    .c6-hero-scrim{ position:absolute; inset:0; background:linear-gradient(90deg, rgba(255,255,255,.96) 0%, rgba(255,255,255,.82) 38%, rgba(255,255,255,0) 78%); }
+    .c6-hero-in{ position:absolute; inset:0; display:flex; align-items:center; }
+    .c6-hero h1{ max-width:13ch; } .c6-hero p{ font-size:20px; max-width:40ch; margin:var(--space-4) 0 0; color:var(--gray-600); }
+
+    /* Dual path cards */
+    .c6-paths{ display:grid; grid-template-columns:1fr 1fr; gap:0; background:#fff;
+      box-shadow:0 30px 60px rgba(10,15,26,.10); margin-top:-70px; position:relative; z-index:2; }
+    .c6-path{ padding:var(--space-8) var(--space-7); }
+    .c6-path + .c6-path{ border-left:1px solid var(--color-border); }
+    .c6-path h2{ font-size:34px; } .c6-path p{ margin:var(--space-3) 0 var(--space-6); max-width:34ch; }
+
+    /* Stats band */
+    .c6-stats{ background:var(--gray-100); }
+    .c6-stats .wrap{ display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-6); padding-top:var(--space-8); padding-bottom:var(--space-8); }
+    .c6-stat .n{ font-family:"Archivo"; font-weight:800; font-size:52px; color:var(--c6-blue); line-height:1; }
+    .c6-stat .l{ font-family:"Inter"; font-weight:600; font-size:13px; letter-spacing:.06em; text-transform:uppercase; color:var(--gray-600); margin-top:var(--space-2); }
+
+    /* Integrated Solutions — tabbed */
+    .c6-sol{ padding:var(--space-9) 0; }
+    .c6-sol .head{ max-width:60ch; margin-bottom:var(--space-7); }
+    .c6-sol .head p{ font-size:18px; margin-top:var(--space-3); }
+    .c6-sol-grid{ display:grid; grid-template-columns:1fr 1.1fr; gap:var(--space-7); align-items:start; }
+    .c6-tabs{ display:flex; flex-direction:column; }
+    .c6-tab{ display:flex; align-items:center; justify-content:space-between; gap:10px;
+      padding:18px 22px; border-bottom:1px solid var(--gray-200); background:#fff; cursor:pointer;
+      font-family:"Archivo"; font-weight:700; font-size:19px; color:var(--c6-ink); text-align:left; width:100%; border-left:0;border-right:0;border-top:0; }
+    .c6-tab:first-child{ border-top:1px solid var(--gray-200); }
+    .c6-tab::after{ content:"›"; color:var(--gray-500); font-size:20px; }
+    .c6-tab.is-active{ background:var(--c6-blue); color:#fff; } .c6-tab.is-active::after{ color:#fff; }
+    .c6-panel{ background:var(--gray-100); padding:var(--space-7); min-height:340px; }
+    .c6-panel .ico{ width:54px; height:54px; background:#fff; border-radius:10px; display:flex; align-items:center; justify-content:center; color:var(--c6-blue); font-size:13px; margin-bottom:var(--space-5); }
+    .c6-panel h3{ font-size:28px; margin-bottom:var(--space-3); }
+    .c6-panel p{ font-size:16px; max-width:46ch; margin-bottom:var(--space-5); }
+
+    /* FarmWorth — dark */
+    .c6-fw{ background:var(--c6-ink); color:#C7CBD1; padding:var(--space-9) 0; }
+    .c6-fw .wrap{ display:grid; grid-template-columns:1fr 1.1fr; gap:var(--space-8); align-items:center; }
+    .c6-fw .eyebrow{ color:var(--c6-cyan); }
+    .c6-fw h2{ color:#fff; font-size:52px; } .c6-fw h2 sup{ font-size:22px; }
+    .c6-fw p{ font-size:18px; margin:var(--space-4) 0 var(--space-5); }
+    .c6-fw ul{ list-style:none; margin:0 0 var(--space-6); padding:0; display:flex; flex-direction:column; gap:var(--space-3); }
+    .c6-fw li{ display:flex; align-items:center; gap:12px; color:#E5E7EB; font-size:16px; }
+    .c6-fw li::before{ content:"›"; color:var(--c6-cyan); font-weight:700; }
+    /* FarmWorth map facsimile */
+    .c6-map{ background:#0d1411; border:1px solid #1f2a25; border-radius:12px; padding:14px; position:relative; min-height:360px;
+      display:grid; grid-template-columns:1fr 190px; gap:12px; font-family:"Inter"; }
+    .c6-map .canvas{ position:relative; background:radial-gradient(circle at 30% 30%, #10231b, #0a0f0d); border-radius:8px; overflow:hidden; }
+    .c6-map .topbar{ position:absolute; top:10px; left:12px; right:12px; display:flex; justify-content:space-between; font-size:11px; letter-spacing:.1em; color:#9FB3AC; }
+    .c6-map .live{ color:#39d98a; } .c6-map .live::before{ content:"●"; margin-right:5px; }
+    .c6-parcel{ position:absolute; border:2px solid; border-radius:4px; opacity:.9; }
+    .c6-tip{ position:absolute; left:14px; bottom:14px; background:#0a0f0d; border:1px solid #243; border-radius:8px; padding:10px 12px; }
+    .c6-tip b{ color:#fff; font-size:13px; } .c6-tip .sub{ color:#9FB3AC; font-size:12px; margin:2px 0 8px; }
+    .c6-tip .mini{ display:inline-block; border:1px solid #2b6; color:#7fe; font-size:11px; padding:2px 7px; border-radius:5px; margin-right:5px; }
+    .c6-layers{ background:#0a0f0d; border-radius:8px; padding:12px; font-size:12px; }
+    .c6-layers .grp{ color:#7B8C86; letter-spacing:.08em; font-size:10px; margin:10px 0 6px; }
+    .c6-layers .row{ display:flex; justify-content:space-between; align-items:center; padding:4px 0; color:#C7CBD1; }
+    .c6-layers .sw{ display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:7px; vertical-align:middle; }
+    .c6-layers .tog{ width:26px; height:14px; border-radius:8px; background:#243; position:relative; }
+    .c6-layers .tog.on{ background:var(--c6-cyan); } .c6-layers .tog.on::after{ content:""; position:absolute; right:2px; top:2px; width:10px; height:10px; border-radius:50%; background:#fff; }
+    .c6-layers .tog::after{ content:""; position:absolute; left:2px; top:2px; width:10px; height:10px; border-radius:50%; background:#889; }
+
+    /* PC Way */
+    .c6-way{ padding:var(--space-9) 0; text-align:center; }
+    .c6-way .head{ max-width:50ch; margin:0 auto var(--space-7); }
+    .c6-way .head p{ font-size:18px; margin-top:var(--space-3); }
+    .c6-steps{ display:grid; grid-template-columns:repeat(6,1fr); gap:var(--space-4); text-align:left; }
+    .c6-step{ border:1px solid var(--color-border); padding:var(--space-5); }
+    .c6-step .num{ font-family:"Archivo"; font-weight:800; font-size:40px; color:#E5E7EB; line-height:1; }
+    .c6-step h4{ font-family:"Archivo"; font-weight:700; font-size:18px; color:var(--c6-ink); margin:var(--space-3) 0 var(--space-2); }
+    .c6-step p{ font-size:13px; margin:0; }
+
+    /* Dual CTA */
+    .c6-cta{ display:grid; grid-template-columns:1fr 1fr; }
+    .c6-cta > div{ padding:var(--space-9) 40px; text-align:center; }
+    .c6-cta .sell{ background:#fff; } .c6-cta .invest{ background:var(--gray-100); }
+    .c6-cta h2{ font-size:44px; } .c6-cta p{ font-size:17px; margin:var(--space-3) auto var(--space-5); max-width:34ch; }
+
+    /* Footer */
+    .c6-foot{ background:var(--c6-ink); color:#9CA3AF; padding:var(--space-8) 0 var(--space-6); font-family:"Inter"; font-size:14px; }
+    .c6-foot .wrap{ display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:var(--space-6); }
+    .c6-foot h5{ font-family:"Inter"; font-weight:600; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:#fff; margin:0 0 var(--space-3); }
+    .c6-foot ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:9px; }
+    .c6-foot a{ color:#9CA3AF; text-decoration:none; } .c6-foot a:hover{ color:#fff; }
+    .c6-foot .blurb{ max-width:34ch; margin-top:var(--space-4); }
+    .c6-foot .copy{ border-top:1px solid #1f2a36; margin-top:var(--space-7); padding-top:var(--space-5); text-align:center; font-size:12px; color:#6B7785; }
+
+    @media (max-width:980px){
+      .c6 h1{font-size:40px;} .c6 h2{font-size:30px;}
+      .c6-paths,.c6-sol-grid,.c6-fw .wrap,.c6-cta{ grid-template-columns:1fr; }
+      .c6-stats .wrap{ grid-template-columns:1fr 1fr; }
+      .c6-steps{ grid-template-columns:1fr 1fr; }
+      .c6-foot .wrap{ grid-template-columns:1fr 1fr; }
+      .c6-paths{ margin-top:0; }
+    }
+  </style>
+</head>
+<body class="c6">
+  <div class="wf-badge"><b>Concept 06 · Dual Path</b><a href="./index.html">All concepts ↗</a></div>
+
+  <div class="wf-canvas">
+
+    <!-- Header -->
+    <header class="c6-head"><div class="wrap">
+      <a class="c6-logo" href="../../version-a/index.html"><img src="../../shared/logos/peoples-company-logo.png" alt="Peoples Company — Integrated Land Solutions" /></a>
+      <nav aria-label="Primary">
+        <a href="#">Brokerage</a>
+        <a href="#">Capital Markets</a>
+        <a href="#">About</a>
+        <a href="#" class="c6-btn dark" style="padding:12px 22px;">855.800.LAND</a>
+      </nav>
+    </div></header>
+
+    <!-- Hero -->
+    <section class="c6-hero">
+      <div class="wf-img">Hero image — aerial farmland</div>
+      <div class="c6-hero-scrim"></div>
+      <div class="c6-hero-in"><div class="wrap">
+        <span class="eyebrow">Integrated Land Solutions</span>
+        <h1>Rooted in Land. Built for Scale.</h1>
+        <p>Where agricultural capital meets opportunity — from a single century farm to an institutional portfolio.</p>
+      </div></div>
+    </section>
+
+    <!-- Dual path -->
+    <section class="wrap">
+      <div class="c6-paths">
+        <div class="c6-path">
+          <h2>I own farmland.</h2>
+          <p>Looking to sell a century farm, optimize your land management, or understand your asset's value.</p>
+          <a href="#" class="c6-btn blue">Path for Landowners →</a>
+        </div>
+        <div class="c6-path">
+          <h2>I invest in farmland.</h2>
+          <p>Looking to allocate capital, acquire prime agricultural assets, or secure professional management.</p>
+          <a href="#" class="c6-btn dark">Path for Investors →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="c6-stats"><div class="wrap">
+      <div class="c6-stat"><div class="n">$6B+</div><div class="l">Farmland Transactions</div></div>
+      <div class="c6-stat"><div class="n">170+</div><div class="l">Ag Professionals</div></div>
+      <div class="c6-stat"><div class="n">20+</div><div class="l">Regional Offices</div></div>
+      <div class="c6-stat"><div class="n">1.6K+</div><div class="l">Land Investment EXPO Attendees</div></div>
+    </div></section>
+
+    <!-- Integrated Solutions (tabbed) -->
+    <section class="c6-sol"><div class="wrap">
+      <div class="head"><h2>Integrated Solutions</h2><p>A comprehensive suite of services supporting the entire lifecycle of agricultural real estate.</p></div>
+      <div class="c6-sol-grid">
+        <div class="c6-tabs" id="c6-tabs" role="tablist"></div>
+        <div class="c6-panel" id="c6-panel"></div>
+      </div>
+    </div></section>
+
+    <!-- FarmWorth -->
+    <section class="c6-fw"><div class="wrap">
+      <div>
+        <span class="eyebrow">Proprietary Technology</span>
+        <h2 style="margin-top:var(--space-3);">The FarmWorth<sup>™</sup> Advantage</h2>
+        <p>Our bespoke mapping and valuation technology aggregates thousands of data points — from soil types and historical yields to real-time transaction comps. We don't just guess value; we prove it.</p>
+        <ul>
+          <li>High-resolution soil capability analysis</li>
+          <li>Automated appraisal modeling</li>
+          <li>Proprietary comparable sales database</li>
+        </ul>
+        <a href="#" class="c6-btn cyan">Explore FarmWorth →</a>
+      </div>
+      <div class="c6-map">
+        <div class="canvas">
+          <div class="topbar"><span>▦ FARMWORTH™</span><span class="live">LIVE</span></div>
+          <div class="c6-parcel" style="border-color:#39c2e0; left:38%; top:24%; width:20%; height:22%;"></div>
+          <div class="c6-parcel" style="border-color:#e6c84b; left:60%; top:18%; width:22%; height:24%;"></div>
+          <div class="c6-parcel" style="border-color:#e08a3c; left:55%; top:40%; width:18%; height:20%;"></div>
+          <div class="c6-parcel" style="border-color:#a86fe0; left:22%; top:42%; width:22%; height:26%;"></div>
+          <div class="c6-parcel" style="border-color:#39c2e0; left:60%; top:58%; width:20%; height:22%;"></div>
+          <div class="c6-tip">
+            <b>Example Farm</b>
+            <div class="sub">240 ac — Wapello County, IA | $9,800/ac</div>
+            <span class="mini">Map Binder</span><span class="mini">CMA</span><span class="mini">Details</span>
+          </div>
+        </div>
+        <div class="c6-layers">
+          <div style="color:#fff;font-weight:600;letter-spacing:.08em;">DATA LAYERS</div>
+          <div class="grp">PUBLIC DATA</div>
+          <div class="row"><span><span class="sw" style="background:#39c2e0;"></span>Parcels</span><span class="tog on"></span></div>
+          <div class="row"><span><span class="sw" style="background:#e6c84b;"></span>CLUs</span><span class="tog on"></span></div>
+          <div class="row"><span><span class="sw" style="background:#6b7785;"></span>Soils</span><span class="tog"></span></div>
+          <div class="row"><span><span class="sw" style="background:#6b7785;"></span>FEMA</span><span class="tog"></span></div>
+          <div class="grp">PEOPLES COMPANY</div>
+          <div class="row"><span>Appraisal</span><span class="tog on"></span></div>
+          <div class="row"><span>Brokerage</span><span class="tog on"></span></div>
+          <div class="row"><span>Capital Markets</span><span class="tog on"></span></div>
+          <div class="row"><span>Land Management</span><span class="tog"></span></div>
+          <div class="grp">COMPARABLES</div>
+          <div class="row"><span>Agware</span><span class="tog on"></span></div>
+          <div class="row"><span>Acres.com</span><span class="tog"></span></div>
+          <div class="row"><span>Camo.ag</span><span class="tog"></span></div>
+        </div>
+      </div>
+    </div></section>
+
+    <!-- The PC Way -->
+    <section class="c6-way"><div class="wrap">
+      <div class="head"><h2>The PC Way</h2><p>A rigorous, standardized process that guarantees excellence at every phase of the transaction.</p></div>
+      <div class="c6-steps">
+        <div class="c6-step"><div class="num">01</div><h4>Discover</h4><p>Comprehensive asset evaluation and market analysis.</p></div>
+        <div class="c6-step"><div class="num">02</div><h4>Propose</h4><p>Strategic recommendations and customized approach.</p></div>
+        <div class="c6-step"><div class="num">03</div><h4>Pre-Launch</h4><p>Asset preparation, marketing collateral, and compliance.</p></div>
+        <div class="c6-step"><div class="num">04</div><h4>Launch</h4><p>Targeted multi-channel marketing and buyer outreach.</p></div>
+        <div class="c6-step"><div class="num">05</div><h4>Execute</h4><p>Negotiation, auction execution, and contract formation.</p></div>
+        <div class="c6-step"><div class="num">06</div><h4>Deliver</h4><p>Seamless closing and post-transaction support.</p></div>
+      </div>
+    </div></section>
+
+    <!-- Dual CTA -->
+    <section class="c6-cta">
+      <div class="sell"><h2>Ready to sell?</h2><p>Connect with a local expert to discuss the value of your farmland and your specific goals.</p><a href="#" class="c6-btn dark">Contact Brokerage →</a></div>
+      <div class="invest"><h2>Ready to invest?</h2><p>Partner with our capital markets team to build and manage your agricultural portfolio.</p><a href="#" class="c6-btn blue">Contact Capital Markets →</a></div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="c6-foot"><div class="wrap">
+      <div>
+        <img src="../../shared/logos/pc_logo_white.webp" alt="Peoples Company" style="height:42px;width:auto;" />
+        <p class="blurb">Integrated Land Solutions. The largest farmland brokerage and management firm in the United States.</p>
+      </div>
+      <div><h5>Services</h5><ul>
+        <li><a href="#">Land Brokerage &amp; Auctions</a></li><li><a href="#">Land Management</a></li>
+        <li><a href="#">Agricultural Appraisal</a></li><li><a href="#">Capital Markets</a></li>
+        <li><a href="#">Energy Management</a></li><li><a href="#">Crop Insurance</a></li>
+      </ul></div>
+      <div><h5>Company</h5><ul>
+        <li><a href="#">About Us</a></li><li><a href="#">Leadership</a></li>
+        <li><a href="#">Careers</a></li><li><a href="#">Land Investment EXPO</a></li>
+      </ul></div>
+      <div><h5>Contact</h5><ul>
+        <li><a href="#">855.800.LAND</a></li><li><a href="mailto:Info@PeoplesCompany.com">Info@PeoplesCompany.com</a></li>
+        <li>1108 S. 44th St, Suite 102</li><li>Cumming, IA 50061</li>
+      </ul></div>
+    </div>
+    <div class="wrap"><div class="copy">© 2026 Peoples Company. All rights reserved. · Licensed in 50 states (EHO) · Privacy · Terms · Accessibility</div></div>
+    </footer>
+
+  </div>
+
+  <script>
+    /* Tabbed Integrated Solutions */
+    (function(){
+      var SVC = [
+        ["Land Brokerage & Auctions","Our core expertise. Whether you're looking to acquire premium farmland or execute a complex disposition, our brokerage team delivers maximum value through local expertise and national reach. We conduct traditional listings and highly competitive land auctions."],
+        ["Land Management","Hands-on stewardship that protects and grows your asset — operator selection, lease negotiation, and ongoing oversight backed by data."],
+        ["Agricultural Appraisal","Accurate valuations require deep market knowledge. Our certified appraisers provide comprehensive, data-driven valuations for estates, financing, transactions, and institutional portfolio reporting across the country."],
+        ["Capital Markets","Equity placement, debt & structured finance, joint ventures, and sale-leaseback programs connecting institutional capital with prime agricultural assets."],
+        ["Energy Management","Solar, wind, and renewable lease evaluation and negotiation to maximize long-term land income."],
+        ["Crop Insurance","Risk-management products that protect operations against the unexpected."],
+        ["Corporate Services","Tailored programs for corporate and institutional landholders managing assets across portfolios."]
+      ];
+      var tabs = document.getElementById('c6-tabs'), panel = document.getElementById('c6-panel');
+      tabs.innerHTML = SVC.map(function(s,i){
+        return '<button class="c6-tab'+(i===0?' is-active':'')+'" role="tab" data-i="'+i+'">'+s[0]+'</button>';
+      }).join('');
+      function show(i){
+        panel.innerHTML = '<div class="ico">ico</div><h3>'+SVC[i][0]+'</h3><p>'+SVC[i][1]+'</p>'+
+          '<a href="#" class="c6-btn ghost">Learn more →</a>';
+        tabs.querySelectorAll('.c6-tab').forEach(function(t){ t.classList.toggle('is-active', +t.dataset.i===i); });
+      }
+      tabs.addEventListener('click', function(e){ var b=e.target.closest('.c6-tab'); if(b) show(+b.dataset.i); });
+      show(0);
+    })();
+  </script>
+</body>
+</html>

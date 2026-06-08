@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Index Wireframe · Concept 19 — Ledger | Peoples Company</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="../../shared/main.css?v=20260601" rel="stylesheet" />
+  <link href="./_wireframe.css?v=2" rel="stylesheet" />
+  <link href="./_nav.css?v=2" rel="stylesheet" />
+  <style>
+    /* Concept 19 — Ledger: austere, type-only index. Swiss/financial restraint, no imagery. */
+    :root { --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Roboto Mono", Menlo, Consolas, monospace; }
+    .lg-hero { padding:var(--space-9) 0 var(--space-8); border-bottom:1px solid var(--gray-900); }
+    .lg-hero .label { color:var(--gray-500); }
+    .lg-hero h1 { font-size:60px; max-width:20ch; margin:var(--space-4) 0 0; line-height:1.05; }
+    .lg-hero .sub { font-family:var(--font-sans); font-size:18px; color:var(--gray-600); max-width:54ch; margin-top:var(--space-4); }
+
+    .lg-meta { display:flex; gap:var(--space-7); flex-wrap:wrap; margin-top:var(--space-6);
+      font-family:var(--mono); font-size:13px; color:var(--gray-600); letter-spacing:.02em; }
+    .lg-meta b { color:var(--gray-900); font-weight:600; }
+
+    /* Section heading row */
+    .lg-shead { display:flex; align-items:baseline; gap:var(--space-4); padding:var(--space-7) 0 var(--space-3); }
+    .lg-shead .idx { font-family:var(--mono); font-size:13px; color:var(--rich-green); }
+    .lg-shead h2 { font-size:15px; font-family:var(--font-sans); font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--gray-900); }
+
+    /* Ledger rows */
+    .lg-rows { border-top:1px solid var(--gray-900); }
+    .lg-row { display:grid; grid-template-columns:64px 1fr 2fr auto; gap:var(--space-5); align-items:center;
+      padding:var(--space-5) var(--space-3); border-bottom:1px solid var(--gray-200); text-decoration:none; color:inherit;
+      position:relative; transition:background .12s ease; }
+    .lg-row:hover { background:var(--gray-100); }
+    .lg-row::before { content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--rich-green); transform:scaleY(0); transform-origin:top; transition:transform .12s ease; }
+    .lg-row:hover::before { transform:scaleY(1); }
+    .lg-row .no { font-family:var(--mono); font-size:14px; color:var(--gray-500); }
+    .lg-row .nm { font-family:var(--font-serif); font-weight:500; font-size:24px; color:var(--gray-900); }
+    .lg-row .ds { font-family:var(--font-sans); font-size:14px; color:var(--gray-600); }
+    .lg-row .go { font-family:var(--font-sans); font-size:14px; color:var(--gray-500); }
+    .lg-row:hover .go { color:var(--rich-green); }
+
+    /* Figures (stats) as a ledger block */
+    .lg-figs { display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid var(--gray-900); border-bottom:1px solid var(--gray-900); }
+    .lg-fig { padding:var(--space-6) var(--space-4); border-right:1px solid var(--gray-200); }
+    .lg-fig:last-child { border-right:0; }
+    .lg-fig .n { font-family:var(--font-serif); font-weight:500; font-size:46px; line-height:1; color:var(--gray-900); font-variant-numeric:tabular-nums; }
+    .lg-fig .l { font-family:var(--mono); font-size:12px; letter-spacing:.04em; color:var(--gray-600); margin-top:var(--space-3); }
+
+    .lg-foot { border-top:1px solid var(--gray-900); padding:var(--space-7) 0 var(--space-8);
+      display:flex; justify-content:space-between; gap:var(--space-5); flex-wrap:wrap; font-family:var(--mono); font-size:13px; color:var(--gray-600); }
+    .lg-foot a { color:var(--gray-900); text-decoration:none; } .lg-foot a:hover { color:var(--rich-green); }
+
+    @media (max-width:880px){
+      .lg-hero h1{font-size:38px;} .lg-row{grid-template-columns:44px 1fr; gap:var(--space-3);} .lg-row .ds,.lg-row .go{display:none;}
+      .lg-figs{grid-template-columns:1fr 1fr;} .lg-fig:nth-child(2){border-right:0;}
+    }
+  </style>
+</head>
+<body>
+  <div class="wf-badge"><b>Concept 19 · Ledger</b><a href="./index.html">All concepts ↗</a></div>
+
+  <div class="wf-canvas">
+    <div id="site-header"></div>
+
+    <div class="container">
+      <header class="lg-hero">
+        <span class="label">Integrated Land Solutions</span>
+        <h1>The complete record of how we create value in farmland.</h1>
+        <p class="sub">The national leader in agricultural real estate — brokerage, management, valuation, and capital, backed by proprietary data.</p>
+        <div class="lg-meta">
+          <span>EST. <b>1960s</b> · Cumming, Iowa</span>
+          <span><b>50</b> states licensed</span>
+          <span><b>The largest</b> farmland brokerage &amp; management firm in the U.S.</span>
+        </div>
+      </header>
+
+      <!-- Services as a ledger -->
+      <div class="lg-shead"><span class="idx">§ 01</span><h2>Capabilities</h2></div>
+      <div class="lg-rows">
+        <a class="lg-row" href="#"><span class="no">01</span><span class="nm">Land Brokerage &amp; Auctions</span><span class="ds">Traditional listings and competitive land auctions.</span><span class="go">View →</span></a>
+        <a class="lg-row" href="#"><span class="no">02</span><span class="nm">Land Management</span><span class="ds">Stewardship, operator oversight, lease negotiation.</span><span class="go">View →</span></a>
+        <a class="lg-row" href="#"><span class="no">03</span><span class="nm">Agricultural Appraisal</span><span class="ds">Certified, data-driven valuation nationwide.</span><span class="go">View →</span></a>
+        <a class="lg-row" href="#"><span class="no">04</span><span class="nm">Capital Markets</span><span class="ds">Equity, debt, JV, and sale-leaseback solutions.</span><span class="go">View →</span></a>
+        <a class="lg-row" href="#"><span class="no">05</span><span class="nm">Energy Management</span><span class="ds">Solar, wind, and renewable lease strategy.</span><span class="go">View →</span></a>
+        <a class="lg-row" href="#"><span class="no">06</span><span class="nm">Crop Insurance</span><span class="ds">Risk protection for operations.</span><span class="go">View →</span></a>
+        <a class="lg-row" href="#"><span class="no">07</span><span class="nm">Corporate Services</span><span class="ds">Programs for corporate &amp; institutional holders.</span><span class="go">View →</span></a>
+      </div>
+
+      <!-- Figures -->
+      <div class="lg-shead"><span class="idx">§ 02</span><h2>Track Record</h2></div>
+      <div class="lg-figs">
+        <div class="lg-fig"><div class="n">$6B+</div><div class="l">FARMLAND TRANSACTIONS</div></div>
+        <div class="lg-fig"><div class="n">170+</div><div class="l">AG PROFESSIONALS</div></div>
+        <div class="lg-fig"><div class="n">20+</div><div class="l">REGIONAL OFFICES</div></div>
+        <div class="lg-fig"><div class="n">1.6K+</div><div class="l">EXPO ATTENDEES</div></div>
+      </div>
+
+      <!-- Insights as a dated index -->
+      <div class="lg-shead"><span class="idx">§ 03</span><h2>Insights &amp; Research</h2></div>
+      <div class="lg-rows">
+        <a class="lg-row" href="#"><span class="no">05·26</span><span class="nm">Midwest Farmland Trends in 2026</span><span class="ds">Pricing, yields, and what landowners should expect.</span><span class="go">Read →</span></a>
+        <a class="lg-row" href="#"><span class="no">05·26</span><span class="nm">Solar &amp; Wind Leases</span><span class="ds">What landowners should ask before signing.</span><span class="go">Read →</span></a>
+        <a class="lg-row" href="#"><span class="no">2025</span><span class="nm">National Land Values Report</span><span class="ds">The annual benchmark, by region.</span><span class="go">PDF →</span></a>
+        <a class="lg-row" href="#"><span class="no">—</span><span class="nm">Why Family Offices &amp; Farmland Align</span><span class="ds">The institutional investment case.</span><span class="go">Read →</span></a>
+      </div>
+
+      <footer class="lg-foot">
+        <span>© 2026 PEOPLES COMPANY · LICENSED IN 50 STATES (EHO)</span>
+        <span><a href="#">855.800.LAND</a> · <a href="mailto:Info@PeoplesCompany.com">Info@PeoplesCompany.com</a> · 1108 S. 44th St, Suite 102, Cumming, IA 50061</span>
+      </footer>
+    </div>
+  </div>
+
+  <script src="./_nav-data.js?v=1"></script>
+  <script src="./_nav.js?v=2"></script>
+</body>
+</html>

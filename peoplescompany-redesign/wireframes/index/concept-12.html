@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Index Wireframe · Concept 12 — Market Pulse | Peoples Company</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="../../shared/main.css?v=20260601" rel="stylesheet" />
+  <link href="./_wireframe.css?v=2" rel="stylesheet" />
+  <link href="./_nav.css?v=2" rel="stylesheet" />
+  <style>
+    /* ── Layout ── */
+    .wf-canvas { max-width: none; margin: 0; border: 0; box-shadow: none; }
+
+    /* ── Review badge ── */
+    .wf-badge { position:fixed; z-index:80; bottom:14px; right:14px; background:#111827; color:#fff;
+      font-family:var(--font-sans); font-size:12px; padding:8px 12px; border-radius:999px; box-shadow:0 4px 14px rgba(0,0,0,.25); }
+    .wf-badge a { color:#9FE0C5; margin-left:8px; text-decoration:none; }
+
+    /* ── Section shared ── */
+    .mp-section { padding: var(--space-8) 0; }
+    .mp-section + .mp-section { border-top: 1px solid var(--gray-200); }
+
+    /* ======================================================
+       HERO — Data Dashboard
+       ====================================================== */
+    .mp-hero {
+      background: var(--pine);
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    /* subtle topographic grid lines */
+    .mp-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,139,92,.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,139,92,.07) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+    .mp-hero-inner {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: var(--space-7);
+      align-items: start;
+      padding: var(--space-7) 40px var(--space-8);
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* left: headline + index card */
+    .mp-hero-lead {}
+    .mp-eyebrow {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #9FE0C5;
+      margin-bottom: var(--space-3);
+    }
+    .mp-hero-lead h1 {
+      font-family: var(--font-serif);
+      font-size: 56px;
+      font-weight: 500;
+      color: #fff;
+      line-height: 1.08;
+      letter-spacing: -.01em;
+      margin-bottom: var(--space-4);
+    }
+    .mp-hero-lead p {
+      color: #CFE3DF;
+      font-size: 17px;
+      max-width: 48ch;
+      line-height: 1.6;
+      margin-bottom: var(--space-5);
+    }
+    .mp-hero-lead .mp-cta { display:flex; gap:var(--space-3); flex-wrap:wrap; }
+
+    /* Index card */
+    .mp-index-card {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius-md);
+      padding: var(--space-5);
+      margin-top: var(--space-5);
+      backdrop-filter: blur(8px);
+    }
+    .mp-index-label {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #9FE0C5;
+      margin-bottom: var(--space-2);
+    }
+    .mp-index-big {
+      font-family: var(--font-serif);
+      font-size: 72px;
+      font-weight: 500;
+      color: #fff;
+      line-height: 1;
+    }
+    .mp-index-change {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-top: var(--space-2);
+    }
+    .mp-trend-up {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(0,174,239,.15);
+      border: 1px solid rgba(0,174,239,.3);
+      color: #00AEEF;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+    }
+    .mp-trend-arrow { font-size: 14px; }
+    .mp-index-note {
+      color: #9CA3AF;
+      font-size: 12px;
+      font-family: var(--font-sans);
+    }
+
+    /* Sparkline SVG chart */
+    .mp-chart-wrap {
+      margin-top: var(--space-4);
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: var(--space-4);
+    }
+    .mp-chart-label {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #6B7280;
+      margin-bottom: var(--space-2);
+    }
+    .mp-sparkline { width: 100%; height: 60px; display: block; overflow: visible; }
+
+    /* right: regional tiles */
+    .mp-regions { display: flex; flex-direction: column; gap: var(--space-3); padding-top: 6px; }
+    .mp-reg-header {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #9FE0C5;
+      margin-bottom: var(--space-1);
+    }
+    .mp-reg-tile {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: var(--radius-sm);
+      padding: var(--space-3) var(--space-4);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: var(--space-3);
+    }
+    .mp-reg-tile:hover {
+      background: rgba(0,139,92,.12);
+      border-color: rgba(0,139,92,.3);
+    }
+    .mp-reg-name {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+    }
+    .mp-reg-state {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      color: #9CA3AF;
+      margin-top: 2px;
+    }
+    .mp-reg-val {
+      text-align: right;
+    }
+    .mp-reg-price {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 500;
+      color: #fff;
+    }
+    .mp-reg-change {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      color: #00AEEF;
+      margin-top: 2px;
+    }
+    .mp-reg-change.neutral { color: #9CA3AF; }
+    .mp-view-all-link {
+      text-align: center;
+      margin-top: var(--space-2);
+    }
+    .mp-view-all-link a {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: #9FE0C5;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(159,224,197,.3);
+      padding-bottom: 1px;
+    }
+    .mp-view-all-link a:hover { border-color: #9FE0C5; }
+
+    /* data ticker strip below hero */
+    .mp-ticker {
+      background: rgba(0,0,0,.25);
+      border-top: 1px solid rgba(255,255,255,.06);
+      padding: var(--space-3) 0;
+    }
+    .mp-ticker-in {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 40px;
+      display: flex;
+      gap: var(--space-7);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .mp-ticker-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      font-family: var(--font-sans);
+      font-size: 12px;
+    }
+    .mp-ticker-label { color: #9CA3AF; }
+    .mp-ticker-val { color: #fff; font-weight: 600; }
+    .mp-ticker-delta {
+      color: #00AEEF;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .mp-ticker-divider {
+      width: 1px;
+      height: 18px;
+      background: rgba(255,255,255,.12);
+    }
+    .mp-powered {
+      margin-left: auto;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      color: #6B7280;
+      white-space: nowrap;
+    }
+    .mp-powered span { color: #9FE0C5; font-weight: 600; }
+
+    /* ======================================================
+       AUDIENCE ROUTER
+       ====================================================== */
+    .mp-router-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+      margin-top: var(--space-6);
+    }
+    .mp-aud-card {
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: var(--space-5);
+      text-align: center;
+      text-decoration: none;
+      color: var(--gray-900);
+      transition: border-color .15s, box-shadow .15s, transform .15s;
+      display: block;
+    }
+    .mp-aud-card:hover, .mp-aud-card:focus {
+      border-color: #008B5C;
+      box-shadow: 0 4px 16px rgba(0,116,77,.12);
+      transform: translateY(-2px);
+      outline: 2px solid #008B5C;
+      outline-offset: 2px;
+    }
+    .mp-aud-icon {
+      width: 48px; height: 48px;
+      border-radius: var(--radius-sm);
+      background: var(--gray-100);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      margin: 0 auto var(--space-3);
+    }
+    .mp-aud-card h4 {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: var(--space-2);
+    }
+    .mp-aud-card p { font-size: 13px; color: var(--gray-600); margin: 0; }
+
+    /* ======================================================
+       SERVICES
+       ====================================================== */
+    .mp-svc-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: var(--space-5);
+      margin-bottom: var(--space-6);
+    }
+    .mp-svc-head h2 { font-family: var(--font-serif); font-size: 40px; font-weight: 500; max-width: 24ch; }
+    .mp-svc-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+    }
+    .mp-svc-card {
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: var(--space-5);
+      position: relative;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .mp-svc-card:hover { border-color: #008B5C; box-shadow: 0 2px 12px rgba(0,116,77,.08); }
+    .mp-svc-card .svc-num {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #008B5C;
+      margin-bottom: var(--space-3);
+    }
+    .mp-svc-card h4 {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: var(--space-2);
+    }
+    .mp-svc-card p { font-size: 13px; color: var(--gray-600); margin: 0 0 var(--space-3); }
+    .mp-svc-card a {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: #00744D;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .mp-svc-card a:hover { text-decoration: underline; }
+
+    /* farmworth promo card */
+    .mp-fw-card {
+      background: var(--pine);
+      border-color: var(--pine);
+      color: #fff;
+      grid-column: span 2;
+    }
+    .mp-fw-card:hover { border-color: #9FE0C5; box-shadow: 0 2px 12px rgba(0,0,0,.2); }
+    .mp-fw-card h4 { color: #fff; font-size: 22px; }
+    .mp-fw-card .svc-num { color: #9FE0C5; }
+    .mp-fw-card p { color: #CFE3DF; }
+    .mp-fw-card a { color: #9FE0C5; }
+    .mp-fw-inner {
+      display: flex;
+      gap: var(--space-5);
+      align-items: flex-start;
+    }
+    .mp-fw-badge {
+      background: rgba(0,174,239,.15);
+      border: 1px solid rgba(0,174,239,.3);
+      border-radius: var(--radius-sm);
+      padding: var(--space-2) var(--space-3);
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      color: #00AEEF;
+      white-space: nowrap;
+      letter-spacing: .05em;
+    }
+
+    /* ======================================================
+       DATA TOOLS BAND
+       ====================================================== */
+    .mp-data-band {
+      background: var(--gray-100);
+      border-top: 1px solid var(--gray-200);
+      border-bottom: 1px solid var(--gray-200);
+      padding: var(--space-7) 0;
+    }
+    .mp-data-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-8);
+      align-items: center;
+    }
+    .mp-data-text h2 {
+      font-family: var(--font-serif);
+      font-size: 36px;
+      font-weight: 500;
+      margin-bottom: var(--space-4);
+    }
+    .mp-data-text p {
+      font-size: 16px;
+      color: var(--gray-600);
+      max-width: 44ch;
+      margin-bottom: var(--space-5);
+    }
+    .mp-tool-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      margin-bottom: var(--space-5);
+    }
+    .mp-tool-row {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+    }
+    .mp-tool-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #008B5C;
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+    .mp-tool-row span { font-size: 14px; color: var(--gray-700, var(--gray-600)); }
+    .mp-data-visual {
+      background: var(--pine);
+      border-radius: var(--radius-md);
+      padding: var(--space-5);
+      position: relative;
+      overflow: hidden;
+    }
+    .mp-data-visual::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,139,92,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,139,92,.08) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+    .mp-dv-label {
+      position: relative;
+      font-family: var(--font-sans);
+      font-size: 10px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #9FE0C5;
+      margin-bottom: var(--space-3);
+    }
+    .mp-bar-chart {
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      height: 140px;
+    }
+    .mp-bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .mp-bar {
+      width: 100%;
+      background: rgba(0,174,239,.35);
+      border-radius: 3px 3px 0 0;
+      border: 1px solid rgba(0,174,239,.5);
+      transition: background .15s;
+    }
+    .mp-bar.is-current { background: rgba(0,174,239,.7); border-color: #00AEEF; }
+    .mp-bar-yr {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      color: #6B7280;
+      text-align: center;
+    }
+    .mp-bar-val {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      color: #CFE3DF;
+      text-align: center;
+    }
+    /* tooltip style annotation */
+    .mp-dv-tooltip {
+      position: absolute;
+      top: 0; right: 0;
+      background: rgba(0,0,0,.5);
+      border: 1px solid rgba(0,174,239,.3);
+      border-radius: 6px;
+      padding: var(--space-2) var(--space-3);
+      font-family: var(--font-sans);
+      font-size: 11px;
+      color: #CFE3DF;
+      white-space: nowrap;
+    }
+    .mp-dv-tooltip strong { color: #00AEEF; display: block; font-size: 14px; }
+
+    /* ======================================================
+       STATS BAND
+       ====================================================== */
+    .mp-stats {
+      background: var(--pine);
+      padding: var(--space-8) 0;
+    }
+    .mp-stats-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 40px;
+      display: grid;
+      grid-template-columns: 1fr repeat(4, auto);
+      gap: var(--space-7);
+      align-items: center;
+    }
+    .mp-stats-headline {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 500;
+      color: #fff;
+      max-width: 20ch;
+    }
+    .mp-stat-item { text-align: center; }
+    .mp-stat-n {
+      font-family: var(--font-serif);
+      font-size: 52px;
+      font-weight: 500;
+      color: #fff;
+      line-height: 1;
+    }
+    .mp-stat-l {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: #9FE0C5;
+      margin-top: var(--space-2);
+    }
+    .mp-stat-divider {
+      width: 1px;
+      height: 60px;
+      background: rgba(255,255,255,.12);
+    }
+
+    /* ======================================================
+       INSIGHTS
+       ====================================================== */
+    .mp-ins-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: var(--space-5);
+      margin-bottom: var(--space-6);
+    }
+    .mp-ins-head h2 { font-family: var(--font-serif); font-size: 40px; font-weight: 500; }
+    .mp-ins-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+    }
+    .mp-ins-card {
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: box-shadow .15s;
+    }
+    .mp-ins-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.08); }
+    .mp-ins-thumb { height: 160px; }
+    .mp-ins-body { padding: var(--space-4); }
+    .mp-ins-tag {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #00744D;
+      margin-bottom: var(--space-2);
+    }
+    .mp-ins-card h4 {
+      font-family: var(--font-serif);
+      font-size: 17px;
+      font-weight: 500;
+      margin-bottom: var(--space-3);
+      line-height: 1.35;
+    }
+    .mp-ins-card a {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: #00744D;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .mp-ins-card a:hover { text-decoration: underline; }
+
+    /* ======================================================
+       CTA BAND
+       ====================================================== */
+    .mp-cta-band {
+      background: var(--gray-100);
+      border-top: 1px solid var(--gray-200);
+      padding: var(--space-8) 0;
+    }
+    .mp-cta-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-7);
+    }
+    .mp-cta-card {
+      background: #fff;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: var(--space-6);
+    }
+    .mp-cta-card.is-dark {
+      background: var(--pine);
+      border-color: var(--pine);
+    }
+    .mp-cta-card h3 {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 500;
+      margin-bottom: var(--space-3);
+    }
+    .mp-cta-card.is-dark h3 { color: #fff; }
+    .mp-cta-card p {
+      font-size: 15px;
+      color: var(--gray-600);
+      margin-bottom: var(--space-5);
+      max-width: 40ch;
+    }
+    .mp-cta-card.is-dark p { color: #CFE3DF; }
+    .mp-cta-card .cta-btns { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+
+    /* ======================================================
+       FOOTER
+       ====================================================== */
+    .mp-footer {
+      background: #111827;
+      color: #C7CBD1;
+      font-family: var(--font-sans);
+      font-size: 14px;
+    }
+    .mp-footer-top {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: var(--space-8) 40px var(--space-7);
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: var(--space-8);
+    }
+    .mp-footer-brand img { height: 40px; width: auto; margin-bottom: var(--space-4); }
+    .mp-footer-brand p { font-size: 13px; color: #9CA3AF; max-width: 28ch; line-height: 1.6; }
+    .mp-footer-brand .mp-footer-contact { margin-top: var(--space-4); font-size: 13px; }
+    .mp-footer-brand .mp-footer-contact a { color: #9FE0C5; text-decoration: none; }
+    .mp-footer-brand .mp-footer-contact a:hover { color: #fff; }
+    .mp-footer-cols {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-5);
+    }
+    .mp-footer-col h4 {
+      color: #fff;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: var(--space-3);
+    }
+    .mp-footer-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 9px; }
+    .mp-footer-col a { color: #9CA3AF; text-decoration: none; font-size: 13px; }
+    .mp-footer-col a:hover { color: #fff; }
+    .mp-footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.08);
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: var(--space-4) 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-4);
+      font-size: 12px;
+      color: #6B7280;
+      flex-wrap: wrap;
+    }
+    .mp-footer-bottom a { color: #6B7280; text-decoration: none; }
+    .mp-footer-bottom a:hover { color: #9CA3AF; }
+
+    /* ======================================================
+       LABEL utility
+       ====================================================== */
+    .label {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #00744D;
+      display: block;
+      margin-bottom: var(--space-3);
+    }
+
+    /* ======================================================
+       RESPONSIVE
+       ====================================================== */
+    @media (max-width: 1100px) {
+      .mp-hero-inner { grid-template-columns: 1fr; }
+      .mp-regions { flex-direction: row; flex-wrap: wrap; }
+      .mp-reg-tile { flex: 1 1 200px; }
+      .mp-stats-inner { grid-template-columns: 1fr 1fr; }
+      .mp-stat-divider { display: none; }
+    }
+    @media (max-width: 900px) {
+      .mp-hero-lead h1 { font-size: 36px; }
+      .mp-svc-grid { grid-template-columns: 1fr 1fr; }
+      .mp-fw-card { grid-column: span 2; }
+      .mp-ins-grid { grid-template-columns: 1fr 1fr; }
+      .mp-router-grid { grid-template-columns: 1fr 1fr; }
+      .mp-data-inner { grid-template-columns: 1fr; }
+      .mp-cta-inner { grid-template-columns: 1fr; }
+      .mp-footer-top { grid-template-columns: 1fr; }
+      .mp-footer-cols { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .mp-svc-grid, .mp-ins-grid, .mp-router-grid { grid-template-columns: 1fr; }
+      .mp-fw-card { grid-column: span 1; }
+      .mp-footer-cols { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wf-badge"><b>Concept 12 · Market Pulse</b><a href="./index.html">All concepts ↗</a></div>
+
+  <div class="wf-canvas">
+
+    <!-- SHARED TOP NAV -->
+    <div id="site-header"></div>
+
+    <!-- ================================================
+         HERO — Data Dashboard
+         ================================================ -->
+    <section class="mp-hero" aria-label="Farmland Market Dashboard">
+      <div class="mp-hero-inner">
+
+        <!-- Left: headline + index number + sparkline -->
+        <div class="mp-hero-lead">
+          <p class="mp-eyebrow">National Farmland Market Intelligence</p>
+          <h1>The Data Authority<br />in U.S. Farmland</h1>
+          <p>Peoples Company tracks land values, transaction data, and regional market trends across every farmland state — so you can make confident decisions.</p>
+          <div class="mp-cta">
+            <a href="#" class="btn" style="background:#00744D;border-color:#00744D;color:#fff;">Explore FarmWorth™ Data</a>
+            <a href="#" class="btn" style="background:transparent;border:1px solid rgba(255,255,255,.5);color:#fff;">Talk to an Advisor</a>
+          </div>
+
+          <!-- Primary Index Card -->
+          <div class="mp-index-card" role="region" aria-label="National Land Values Index">
+            <div class="mp-index-label">National Land Values Index · Q2 2026</div>
+            <div class="mp-index-big" aria-label="Index value: 312 points">312</div>
+            <div class="mp-index-change">
+              <span class="mp-trend-up" aria-label="Trending upward"><span class="mp-trend-arrow" aria-hidden="true">▲</span> Up 4.7% year-over-year</span>
+              <span class="mp-index-note">Composite · 20-state coverage</span>
+            </div>
+            <!-- Sparkline chart (SVG, no real data) -->
+            <div class="mp-chart-wrap">
+              <div class="mp-chart-label">5-Year Trend Index (illustrative)</div>
+              <svg class="mp-sparkline" viewBox="0 0 320 60" aria-label="Line chart showing upward trend in land values over 5 years" role="img">
+                <title>National Land Values Index — 5-Year Upward Trend (illustrative)</title>
+                <defs>
+                  <linearGradient id="sparkFill" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#00AEEF" stop-opacity=".25"/>
+                    <stop offset="100%" stop-color="#00AEEF" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <!-- fill area -->
+                <path d="M0 52 L40 48 L80 44 L120 38 L160 34 L200 28 L240 22 L280 16 L320 10 L320 60 L0 60 Z"
+                      fill="url(#sparkFill)" />
+                <!-- line -->
+                <polyline points="0,52 40,48 80,44 120,38 160,34 200,28 240,22 280,16 320,10"
+                          fill="none" stroke="#00AEEF" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+                <!-- endpoint dot -->
+                <circle cx="320" cy="10" r="4" fill="#00AEEF" />
+                <!-- year labels -->
+                <text x="0" y="60" font-family="Inter,sans-serif" font-size="9" fill="#6B7280">2022</text>
+                <text x="75" y="60" font-family="Inter,sans-serif" font-size="9" fill="#6B7280">2023</text>
+                <text x="155" y="60" font-family="Inter,sans-serif" font-size="9" fill="#6B7280">2024</text>
+                <text x="235" y="60" font-family="Inter,sans-serif" font-size="9" fill="#6B7280">2025</text>
+                <text x="295" y="60" font-family="Inter,sans-serif" font-size="9" fill="#9FE0C5">2026</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: regional tiles -->
+        <div class="mp-regions" role="region" aria-label="Regional Land Values per acre">
+          <div class="mp-reg-header">Regional Values ($/acre)</div>
+
+          <div class="mp-reg-tile">
+            <div>
+              <div class="mp-reg-name">Iowa</div>
+              <div class="mp-reg-state">Midwest Corn Belt</div>
+            </div>
+            <div class="mp-reg-val">
+              <div class="mp-reg-price">$9,800</div>
+              <div class="mp-reg-change" aria-label="Trending upward, highest activity"><span aria-hidden="true">▲</span> Highest Activity</div>
+            </div>
+          </div>
+
+          <div class="mp-reg-tile">
+            <div>
+              <div class="mp-reg-name">Nebraska</div>
+              <div class="mp-reg-state">Central Plains</div>
+            </div>
+            <div class="mp-reg-val">
+              <div class="mp-reg-price">$6,200</div>
+              <div class="mp-reg-change" aria-label="Trending upward, active market"><span aria-hidden="true">▲</span> Active Market</div>
+            </div>
+          </div>
+
+          <div class="mp-reg-tile">
+            <div>
+              <div class="mp-reg-name">Illinois</div>
+              <div class="mp-reg-state">Eastern Corn Belt</div>
+            </div>
+            <div class="mp-reg-val">
+              <div class="mp-reg-price">$11,400</div>
+              <div class="mp-reg-change" aria-label="Trending upward, strong demand"><span aria-hidden="true">▲</span> Strong Demand</div>
+            </div>
+          </div>
+
+          <div class="mp-reg-tile">
+            <div>
+              <div class="mp-reg-name">Kansas</div>
+              <div class="mp-reg-state">Southern Plains</div>
+            </div>
+            <div class="mp-reg-val">
+              <div class="mp-reg-price">$3,100</div>
+              <div class="mp-reg-change neutral" aria-label="Stable — no significant change"><span aria-hidden="true">–</span> Stable</div>
+            </div>
+          </div>
+
+          <div class="mp-reg-tile">
+            <div>
+              <div class="mp-reg-name">Indiana</div>
+              <div class="mp-reg-state">Eastern Belt</div>
+            </div>
+            <div class="mp-reg-val">
+              <div class="mp-reg-price">$8,600</div>
+              <div class="mp-reg-change" aria-label="Trending upward, appreciating"><span aria-hidden="true">▲</span> Appreciating</div>
+            </div>
+          </div>
+
+          <div class="mp-reg-tile">
+            <div>
+              <div class="mp-reg-name">Minnesota</div>
+              <div class="mp-reg-state">Northern Plains</div>
+            </div>
+            <div class="mp-reg-val">
+              <div class="mp-reg-price">$7,300</div>
+              <div class="mp-reg-change" aria-label="Trending upward, growing"><span aria-hidden="true">▲</span> Growing</div>
+            </div>
+          </div>
+
+          <div class="mp-view-all-link">
+            <a href="#">View all 20 regional markets →</a>
+          </div>
+        </div>
+
+      </div><!-- /mp-hero-inner -->
+
+      <!-- Data ticker strip -->
+      <div class="mp-ticker" role="region" aria-label="Market data summary">
+        <div class="mp-ticker-in">
+          <div class="mp-ticker-item">
+            <span class="mp-ticker-label">Total Transactions</span>
+            <span class="mp-ticker-val">$6B+</span>
+          </div>
+          <div class="mp-ticker-divider" aria-hidden="true"></div>
+          <div class="mp-ticker-item">
+            <span class="mp-ticker-label">Avg Days on Market</span>
+            <span class="mp-ticker-val">38</span>
+            <span class="mp-ticker-delta" aria-label="Down 12% versus last year">▼ 12% vs. last yr</span>
+          </div>
+          <div class="mp-ticker-divider" aria-hidden="true"></div>
+          <div class="mp-ticker-item">
+            <span class="mp-ticker-label">Sale-to-List Ratio</span>
+            <span class="mp-ticker-val">101.4%</span>
+            <span class="mp-ticker-delta" aria-label="Up versus last year">▲ vs. last yr</span>
+          </div>
+          <div class="mp-ticker-divider" aria-hidden="true"></div>
+          <div class="mp-ticker-item">
+            <span class="mp-ticker-label">States Tracked</span>
+            <span class="mp-ticker-val">20+</span>
+          </div>
+          <div class="mp-ticker-divider" aria-hidden="true"></div>
+          <div class="mp-ticker-item">
+            <span class="mp-ticker-label">Data Updated</span>
+            <span class="mp-ticker-val">Q2 2026</span>
+          </div>
+          <div class="mp-powered">Powered by <span>FarmWorth™</span></div>
+        </div>
+      </div>
+
+    </section><!-- /mp-hero -->
+
+    <!-- ================================================
+         AUDIENCE ROUTER
+         ================================================ -->
+    <section class="mp-section" aria-label="Who we serve">
+      <div class="container">
+        <span class="label">Who We Serve</span>
+        <h2 style="font-family:var(--font-serif);font-size:40px;font-weight:500;margin-bottom:var(--space-3);">Data and expertise for every stakeholder</h2>
+        <p style="font-size:16px;color:var(--gray-600);max-width:56ch;margin-bottom:0;">Whether you own land, operate it, or invest in it — Peoples Company has the tools, research, and professionals to guide your decision.</p>
+        <div class="mp-router-grid">
+          <a href="#" class="mp-aud-card">
+            <div class="mp-aud-icon" aria-hidden="true">🌾</div>
+            <h4>Landowners</h4>
+            <p>Maximize the value of your land with expert brokerage, management, and appraisal services.</p>
+          </a>
+          <a href="#" class="mp-aud-card">
+            <div class="mp-aud-icon" aria-hidden="true">🚜</div>
+            <h4>Farmers &amp; Operators</h4>
+            <p>Access crop insurance, land leasing, and management services built for working agriculture.</p>
+          </a>
+          <a href="#" class="mp-aud-card">
+            <div class="mp-aud-icon" aria-hidden="true">📊</div>
+            <h4>Investors</h4>
+            <p>Deploy capital into U.S. farmland with institutional-grade analysis and market access.</p>
+          </a>
+          <a href="#" class="mp-aud-card">
+            <div class="mp-aud-icon" aria-hidden="true">🏛️</div>
+            <h4>Family Offices</h4>
+            <p>Preserve and grow inter-generational wealth through diversified farmland allocations.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================
+         SERVICES
+         ================================================ -->
+    <section class="mp-section" aria-label="Our services">
+      <div class="container">
+        <div class="mp-svc-head">
+          <div>
+            <span class="label">Integrated Land Solutions</span>
+            <h2 style="font-family:var(--font-serif);font-size:40px;font-weight:500;">Seven ways we create<br />land value</h2>
+          </div>
+          <a href="#" style="font-family:var(--font-sans);font-size:14px;color:#00744D;text-decoration:none;font-weight:500;white-space:nowrap;">All Services →</a>
+        </div>
+        <div class="mp-svc-grid">
+          <div class="mp-svc-card">
+            <div class="svc-num">01</div>
+            <h4>Land Brokerage &amp; Auctions</h4>
+            <p>Competitive listings and auction programs for maximum price discovery.</p>
+            <a href="#">Learn more →</a>
+          </div>
+          <div class="mp-svc-card">
+            <div class="svc-num">02</div>
+            <h4>Land Management</h4>
+            <p>Day-to-day stewardship, operator oversight, and long-term land strategy.</p>
+            <a href="#">Learn more →</a>
+          </div>
+          <div class="mp-svc-card">
+            <div class="svc-num">03</div>
+            <h4>Agricultural Appraisal</h4>
+            <p>Certified, data-driven valuations for financing, estate, and transactions.</p>
+            <a href="#">Learn more →</a>
+          </div>
+          <div class="mp-svc-card">
+            <div class="svc-num">04</div>
+            <h4>Capital Markets</h4>
+            <p>Connecting institutional capital with farmland investment opportunities.</p>
+            <a href="#">Learn more →</a>
+          </div>
+          <div class="mp-svc-card">
+            <div class="svc-num">05</div>
+            <h4>Energy Management</h4>
+            <p>Solar and wind lease advisory, negotiation, and portfolio oversight.</p>
+            <a href="#">Learn more →</a>
+          </div>
+          <div class="mp-svc-card">
+            <div class="svc-num">06</div>
+            <h4>Crop Insurance</h4>
+            <p>Risk management programs protecting farm operations and revenue.</p>
+            <a href="#">Learn more →</a>
+          </div>
+          <!-- FarmWorth promo spans two columns -->
+          <div class="mp-svc-card mp-fw-card">
+            <div class="mp-fw-inner">
+              <div>
+                <div class="svc-num">Proprietary Technology</div>
+                <h4>FarmWorth™ Data Platform</h4>
+                <p>Soil capability analysis, automated appraisal modeling, comparable-sales database, and interactive market maps — our data advantage, your decision edge.</p>
+                <a href="#">Explore FarmWorth™ →</a>
+              </div>
+              <div>
+                <div class="mp-fw-badge">Data-Driven</div>
+              </div>
+            </div>
+          </div>
+          <div class="mp-svc-card">
+            <div class="svc-num">07</div>
+            <h4>Corporate Services</h4>
+            <p>Specialized programs for institutional landowners and ag corporations.</p>
+            <a href="#">Learn more →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================
+         DATA TOOLS BAND
+         ================================================ -->
+    <div class="mp-data-band" role="region" aria-label="FarmWorth data tools">
+      <div class="mp-data-inner">
+        <div class="mp-data-text">
+          <span class="label">FarmWorth™ Intelligence</span>
+          <h2>The most comprehensive farmland dataset in the country</h2>
+          <p>Our proprietary FarmWorth™ platform aggregates parcel-level data, soil scores, comparable sales, and energy lease overlays — giving our clients an unmatched analytical edge.</p>
+          <div class="mp-tool-list">
+            <div class="mp-tool-row">
+              <div class="mp-tool-dot" aria-hidden="true"></div>
+              <span>National comparable-sales database with 40,000+ buyer contacts</span>
+            </div>
+            <div class="mp-tool-row">
+              <div class="mp-tool-dot" aria-hidden="true"></div>
+              <span>Parcel-level soil capability index &amp; productivity scores</span>
+            </div>
+            <div class="mp-tool-row">
+              <div class="mp-tool-dot" aria-hidden="true"></div>
+              <span>Automated appraisal modeling for rapid valuation</span>
+            </div>
+            <div class="mp-tool-row">
+              <div class="mp-tool-dot" aria-hidden="true"></div>
+              <span>Interactive map with data layer toggles (public &amp; proprietary)</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:var(--space-3);flex-wrap:wrap;">
+            <a href="#" class="btn" style="background:#00744D;border-color:#00744D;color:#fff;">Request a Demo</a>
+            <a href="#" class="btn" style="background:transparent;border:1px solid var(--gray-300,var(--gray-200));color:var(--gray-900);">Data &amp; Tools</a>
+          </div>
+        </div>
+
+        <!-- Bar chart visual -->
+        <div class="mp-data-visual" aria-label="Illustrative bar chart: national average farmland value per acre 2020–2026">
+          <div class="mp-dv-label">National Avg Value / Acre (illustrative)</div>
+          <div class="mp-bar-chart" role="img" aria-label="Bar chart showing farmland value rising from roughly $7,200 in 2020 to $9,800 in 2026">
+            <div class="mp-bar-col">
+              <div class="mp-bar-val">$7.2k</div>
+              <div class="mp-bar" style="height:72px;" title="2020: ~$7,200/ac"></div>
+              <div class="mp-bar-yr">2020</div>
+            </div>
+            <div class="mp-bar-col">
+              <div class="mp-bar-val">$7.6k</div>
+              <div class="mp-bar" style="height:82px;" title="2021: ~$7,600/ac"></div>
+              <div class="mp-bar-yr">2021</div>
+            </div>
+            <div class="mp-bar-col">
+              <div class="mp-bar-val">$8.2k</div>
+              <div class="mp-bar" style="height:95px;" title="2022: ~$8,200/ac"></div>
+              <div class="mp-bar-yr">2022</div>
+            </div>
+            <div class="mp-bar-col">
+              <div class="mp-bar-val">$8.8k</div>
+              <div class="mp-bar" style="height:106px;" title="2023: ~$8,800/ac"></div>
+              <div class="mp-bar-yr">2023</div>
+            </div>
+            <div class="mp-bar-col">
+              <div class="mp-bar-val">$9.2k</div>
+              <div class="mp-bar" style="height:115px;" title="2024: ~$9,200/ac"></div>
+              <div class="mp-bar-yr">2024</div>
+            </div>
+            <div class="mp-bar-col">
+              <div class="mp-bar-val">$9.5k</div>
+              <div class="mp-bar" style="height:122px;" title="2025: ~$9,500/ac"></div>
+              <div class="mp-bar-yr">2025</div>
+            </div>
+            <div class="mp-bar-col">
+              <div class="mp-bar-val" style="color:#00AEEF;">$9.8k</div>
+              <div class="mp-bar is-current" style="height:133px;" title="2026 Q2: ~$9,800/ac (Iowa avg)"></div>
+              <div class="mp-bar-yr" style="color:#9FE0C5;">2026</div>
+            </div>
+          </div>
+          <div class="mp-dv-tooltip"><strong>$9,800/ac</strong>Iowa · Q2 2026</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================
+         STATS BAND
+         ================================================ -->
+    <section class="mp-stats" aria-label="By the numbers">
+      <div class="mp-stats-inner">
+        <div class="mp-stats-headline">The largest farmland brokerage firm in the United States.</div>
+        <div class="mp-stat-divider" aria-hidden="true"></div>
+        <div class="mp-stat-item">
+          <div class="mp-stat-n">$6B+</div>
+          <div class="mp-stat-l">Farmland Transactions</div>
+        </div>
+        <div class="mp-stat-divider" aria-hidden="true"></div>
+        <div class="mp-stat-item">
+          <div class="mp-stat-n">170+</div>
+          <div class="mp-stat-l">Ag Professionals</div>
+        </div>
+        <div class="mp-stat-divider" aria-hidden="true"></div>
+        <div class="mp-stat-item">
+          <div class="mp-stat-n">20+</div>
+          <div class="mp-stat-l">Regional Offices</div>
+        </div>
+        <div class="mp-stat-divider" aria-hidden="true"></div>
+        <div class="mp-stat-item">
+          <div class="mp-stat-n">1.6K+</div>
+          <div class="mp-stat-l">EXPO Attendees</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================
+         INSIGHTS
+         ================================================ -->
+    <section class="mp-section" aria-label="Insights and research">
+      <div class="container">
+        <div class="mp-ins-head">
+          <div>
+            <span class="label">Insights &amp; Research</span>
+            <h2 style="font-family:var(--font-serif);font-size:40px;font-weight:500;">Market intelligence you can act on</h2>
+          </div>
+          <a href="#" style="font-family:var(--font-sans);font-size:14px;color:#00744D;text-decoration:none;font-weight:500;white-space:nowrap;">All Insights →</a>
+        </div>
+        <div class="mp-ins-grid">
+          <article class="mp-ins-card">
+            <div class="wf-img mp-ins-thumb">Article photo</div>
+            <div class="mp-ins-body">
+              <div class="mp-ins-tag">Land Values · May 2026</div>
+              <h4>Understanding Midwest Farmland Trends in 2026</h4>
+              <a href="#">Read article →</a>
+            </div>
+          </article>
+          <article class="mp-ins-card">
+            <div class="wf-img mp-ins-thumb">Article photo</div>
+            <div class="mp-ins-body">
+              <div class="mp-ins-tag">Energy · May 2026</div>
+              <h4>Solar &amp; Wind Leases: What Landowners Should Ask</h4>
+              <a href="#">Read article →</a>
+            </div>
+          </article>
+          <article class="mp-ins-card">
+            <div class="wf-img mp-ins-thumb">Report cover</div>
+            <div class="mp-ins-body">
+              <div class="mp-ins-tag">Research Report</div>
+              <h4>2025 National Land Values Report</h4>
+              <a href="#">Download report →</a>
+            </div>
+          </article>
+          <article class="mp-ins-card">
+            <div class="wf-img mp-ins-thumb">Article photo</div>
+            <div class="mp-ins-body">
+              <div class="mp-ins-tag">Investment · 2026</div>
+              <h4>Why Family Offices &amp; Farmland Align</h4>
+              <a href="#">Read article →</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================
+         DUAL CTA BAND
+         ================================================ -->
+    <div class="mp-cta-band" role="region" aria-label="Contact and get started">
+      <div class="mp-cta-inner">
+        <div class="mp-cta-card">
+          <span class="label">Sell Your Land</span>
+          <h3>Ready to get maximum value for your farmland?</h3>
+          <p>Our team of 170+ ag professionals has transacted over $6B in farmland. Let's talk about your goals.</p>
+          <div class="cta-btns">
+            <a href="#" class="btn" style="background:#00744D;border-color:#00744D;color:#fff;">Talk to a Broker</a>
+            <a href="#" class="btn" style="background:transparent;border:1px solid var(--gray-200);color:var(--gray-900);">Request an Appraisal</a>
+          </div>
+        </div>
+        <div class="mp-cta-card is-dark">
+          <span class="label" style="color:#9FE0C5;">Invest in Farmland</span>
+          <h3>Looking for durable returns through land investment?</h3>
+          <p>From family offices to institutional funds — Peoples Company provides the market access and analysis you need.</p>
+          <div class="cta-btns">
+            <a href="#" class="btn" style="background:#00744D;border-color:#00744D;color:#fff;">Capital Markets</a>
+            <a href="#" class="btn" style="background:transparent;border:1px solid rgba(255,255,255,.3);color:#fff;">Download Investment Case</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================
+         FOOTER
+         ================================================ -->
+    <footer class="mp-footer">
+      <div class="mp-footer-top">
+        <div class="mp-footer-brand">
+          <img src="../../shared/logos/pc_logo_white.webp" alt="Peoples Company — Integrated Land Solutions" />
+          <p>Integrated Land Solutions. The largest farmland brokerage and management firm in the United States.</p>
+          <div class="mp-footer-contact">
+            <div><a href="tel:8558005263">855.800.LAND</a></div>
+            <div><a href="mailto:Info@PeoplesCompany.com">Info@PeoplesCompany.com</a></div>
+            <div style="color:#9CA3AF;margin-top:var(--space-2);">1108 S. 44th St, Suite 102<br />Cumming, IA 50061</div>
+          </div>
+        </div>
+        <div class="mp-footer-cols">
+          <div class="mp-footer-col">
+            <h4>Real Estate</h4>
+            <ul>
+              <li><a href="#">Farmland For Sale</a></li>
+              <li><a href="#">Upcoming Auctions</a></li>
+              <li><a href="#">Sold Properties</a></li>
+              <li><a href="#">Interactive Map</a></li>
+            </ul>
+          </div>
+          <div class="mp-footer-col">
+            <h4>What We Do</h4>
+            <ul>
+              <li><a href="#">Land Brokerage &amp; Auctions</a></li>
+              <li><a href="#">Land Management</a></li>
+              <li><a href="#">Agricultural Appraisal</a></li>
+              <li><a href="#">Capital Markets</a></li>
+              <li><a href="#">Energy Management</a></li>
+              <li><a href="#">Crop Insurance</a></li>
+              <li><a href="#">Corporate Services</a></li>
+            </ul>
+          </div>
+          <div class="mp-footer-col">
+            <h4>The Company</h4>
+            <ul>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Our Team</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Land Investment EXPO</a></li>
+              <li><a href="#">FarmWorth™</a></li>
+              <li><a href="#">Regions &amp; Offices</a></li>
+            </ul>
+          </div>
+          <div class="mp-footer-col">
+            <h4>Insights</h4>
+            <ul>
+              <li><a href="#">National Land Values</a></li>
+              <li><a href="#">Industry Research</a></li>
+              <li><a href="#">Data &amp; Tools</a></li>
+              <li><a href="#">Newsletters</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Press Releases</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="mp-footer-bottom">
+        <span>© 2026 Peoples Company · Licensed in 50 states · Equal Housing Opportunity</span>
+        <div style="display:flex;gap:var(--space-5);">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Use</a>
+          <a href="#">Accessibility</a>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /wf-canvas -->
+
+  <script src="./_nav-data.js?v=1"></script>
+  <script src="./_nav.js?v=2"></script>
+</body>
+</html>

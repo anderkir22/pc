@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Index Wireframe · Concept 09 — Split World | Peoples Company</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="../../shared/main.css?v=20260601" rel="stylesheet" />
+  <link href="./_wireframe.css?v=2" rel="stylesheet" />
+  <link href="./_nav.css?v=2" rel="stylesheet" />
+  <style>
+    /* ── Full-bleed canvas ── */
+    .wf-canvas { max-width: none; margin: 0; border: 0; box-shadow: none; }
+
+    /* ── Review badge ── */
+    .wf-badge {
+      position: fixed; z-index: 200; bottom: 14px; right: 14px;
+      background: #111827; color: #fff; font-family: var(--font-sans);
+      font-size: 12px; padding: 8px 12px; border-radius: 999px;
+      box-shadow: 0 4px 14px rgba(0,0,0,.25);
+    }
+    .wf-badge a { color: #9FE0C5; margin-left: 8px; text-decoration: none; }
+
+    /* ────────────────────────────────────────────────────
+       TRANSLUCENT NAV over split hero
+       Override nav colors so it floats on the dark split
+    ──────────────────────────────────────────────────── */
+    .site-header {
+      position: absolute !important; /* floats over the hero */
+      top: 0; left: 0; right: 0;
+      background: rgba(10, 15, 26, 0.72) !important;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255,255,255,.1) !important;
+      z-index: 100;
+    }
+    .sh-util {
+      background: transparent !important;
+      border-bottom: 1px solid rgba(255,255,255,.08) !important;
+    }
+    .sh-util-in { color: rgba(255,255,255,.7) !important; }
+    .sh-util a { color: rgba(255,255,255,.7) !important; }
+    .sh-util a:hover { color: #9FE0C5 !important; }
+    .sh-bar .sh-logo img { filter: brightness(0) invert(1); } /* white logo */
+    .sh-nav > li > a { color: rgba(255,255,255,.9) !important; }
+    .sh-nav > li:hover > a,
+    .sh-nav > li:focus-within > a { background: #00744D !important; color: #fff !important; }
+    .sh-search { border-color: rgba(255,255,255,.3) !important; color: rgba(255,255,255,.6) !important; background: rgba(255,255,255,.08) !important; }
+    .sh-search:hover { border-color: rgba(255,255,255,.6) !important; }
+
+    /* ────────────────────────────────────────────────────
+       SPLIT HERO — immersive 50/50 full-viewport
+    ──────────────────────────────────────────────────── */
+    .sw-hero {
+      display: flex;
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Each half */
+    .sw-half {
+      position: relative;
+      flex: 1 1 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0;
+      overflow: hidden;
+      transition: flex-grow .5s cubic-bezier(.4,0,.2,1);
+      cursor: pointer;
+    }
+    /* On hover/focus: hovered half expands, other recedes */
+    .sw-hero:has(.sw-half:hover) .sw-half:not(:hover),
+    .sw-hero:has(.sw-half:focus-within) .sw-half:not(:focus-within) {
+      flex-grow: 0.38;
+    }
+    .sw-hero:has(.sw-half:hover) .sw-half:hover,
+    .sw-hero:has(.sw-half:focus-within) .sw-half:focus-within {
+      flex-grow: 1.62;
+    }
+
+    /* Keyboard focus ring for the whole panel */
+    .sw-half:focus-within .sw-focus-ring {
+      outline: 3px solid #9FE0C5;
+      outline-offset: -3px;
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* Background imagery placeholders + scrims */
+    .sw-bg {
+      position: absolute;
+      inset: 0;
+      transition: transform .5s cubic-bezier(.4,0,.2,1);
+    }
+    .sw-half:hover .sw-bg { transform: scale(1.03); }
+
+    .sw-bg-landowner {
+      background:
+        linear-gradient(170deg, rgba(10,26,16,.1) 0%, rgba(8,32,20,.75) 60%, rgba(5,20,12,.92) 100%),
+        repeating-linear-gradient(135deg, #1a3a28 0 20px, #1e4530 20px 40px);
+    }
+    .sw-bg-investor {
+      background:
+        linear-gradient(170deg, rgba(10,15,30,.1) 0%, rgba(8,18,38,.75) 60%, rgba(5,10,28,.92) 100%),
+        repeating-linear-gradient(135deg, #141e35 0 20px, #1a2642 20px 40px);
+    }
+
+    /* Diagonal divider between halves */
+    .sw-divider {
+      position: absolute;
+      top: 0; bottom: 0;
+      left: 50%;
+      width: 3px;
+      background: linear-gradient(180deg, transparent 0%, #008B5C 30%, #9FE0C5 50%, #008B5C 70%, transparent 100%);
+      z-index: 5;
+      pointer-events: none;
+      transition: left .5s cubic-bezier(.4,0,.2,1);
+    }
+    /* Clip paths make each half slightly angled at the join for a dramatic look */
+    .sw-half-landowner {
+      clip-path: polygon(0 0, calc(100% + 40px) 0, 100% 100%, 0 100%);
+    }
+    .sw-half-investor {
+      clip-path: polygon(-40px 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    /* Copy area — sits above scrim at bottom of each half */
+    .sw-copy {
+      position: relative;
+      z-index: 6;
+      padding: 56px 64px 72px;
+      transition: padding .4s ease;
+    }
+    .sw-half-investor .sw-copy { padding-left: 80px; }
+
+    .sw-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--font-sans); font-size: 11px; font-weight: 600;
+      letter-spacing: .14em; text-transform: uppercase;
+      margin-bottom: var(--space-3);
+    }
+    .sw-half-landowner .sw-eyebrow { color: #9FE0C5; }
+    .sw-half-investor  .sw-eyebrow { color: #A5C8FF; }
+
+    .sw-eyebrow::before {
+      content: ""; display: block; width: 24px; height: 2px;
+    }
+    .sw-half-landowner .sw-eyebrow::before { background: #008B5C; }
+    .sw-half-investor  .sw-eyebrow::before { background: #3B82F6; }
+
+    .sw-copy h2 {
+      font-family: var(--font-serif);
+      font-size: 52px; font-weight: 500; line-height: 1.1;
+      color: #fff; margin: 0 0 var(--space-4);
+    }
+    .sw-copy h2 em { font-style: italic; }
+    .sw-half-landowner h2 em { color: #9FE0C5; }
+    .sw-half-investor  h2 em { color: #A5C8FF; }
+
+    .sw-copy p {
+      font-family: var(--font-sans); font-size: 16px; color: rgba(255,255,255,.78);
+      max-width: 38ch; line-height: 1.65; margin: 0 0 var(--space-5);
+    }
+
+    /* CTA buttons */
+    .sw-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 28px; border-radius: var(--radius-pill);
+      font-family: var(--font-sans); font-weight: 600; font-size: 15px;
+      text-decoration: none; border: 2px solid transparent;
+      transition: background .15s, border-color .15s, transform .15s;
+      position: relative;
+    }
+    .sw-btn:hover { transform: translateY(-2px); }
+    .sw-btn:focus { outline: 3px solid #9FE0C5; outline-offset: 3px; }
+    .sw-btn::after { content: " →"; }
+
+    .sw-btn-land {
+      background: #00744D; color: #fff; border-color: #00744D;
+    }
+    .sw-btn-land:hover, .sw-btn-land:focus { background: #005c3a; border-color: #005c3a; }
+
+    .sw-btn-invest {
+      background: #1E3A6E; color: #fff; border-color: #2563EB;
+    }
+    .sw-btn-invest:hover, .sw-btn-invest:focus { background: #1a3360; border-color: #1d4ed8; }
+
+    /* Audience label pill at top of each half */
+    .sw-label-pill {
+      position: absolute;
+      top: 40%;
+      z-index: 7;
+      font-family: var(--font-sans); font-size: 13px; font-weight: 600;
+      letter-spacing: .08em; text-transform: uppercase;
+      padding: 8px 18px;
+      border-radius: var(--radius-pill);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .3s .1s;
+    }
+    .sw-half:hover .sw-label-pill,
+    .sw-half:focus-within .sw-label-pill { opacity: 1; }
+    .sw-half-landowner .sw-label-pill {
+      right: 24px;
+      background: rgba(0,116,77,.85);
+      color: #fff;
+      border: 1px solid rgba(159,224,197,.4);
+    }
+    .sw-half-investor .sw-label-pill {
+      left: 24px;
+      background: rgba(30,58,110,.85);
+      color: #fff;
+      border: 1px solid rgba(165,200,255,.4);
+    }
+
+    /* Subtle "I" label always visible on non-hovered half */
+    .sw-side-label {
+      position: absolute;
+      top: 50%; right: var(--space-5);
+      transform: translateY(-50%);
+      writing-mode: vertical-lr;
+      text-orientation: mixed;
+      font-family: var(--font-sans); font-size: 11px; font-weight: 600;
+      letter-spacing: .2em; text-transform: uppercase;
+      color: rgba(255,255,255,.35);
+      z-index: 7;
+      transition: opacity .3s;
+      pointer-events: none;
+    }
+    .sw-half-investor .sw-side-label { right: auto; left: var(--space-5); }
+
+    /* Hover hint arrow */
+    .sw-hint {
+      position: absolute; bottom: 40px;
+      font-family: var(--font-sans); font-size: 12px;
+      color: rgba(255,255,255,.4); letter-spacing: .08em;
+      text-transform: uppercase; z-index: 7;
+      display: flex; align-items: center; gap: 6px;
+      transition: color .2s;
+      pointer-events: none;
+    }
+    .sw-half-landowner .sw-hint { right: 28px; }
+    .sw-half-investor  .sw-hint { left: 28px; }
+    .sw-half:hover .sw-hint { color: rgba(255,255,255,.7); }
+
+    /* ── Shared section styles ── */
+    .sw-section { padding: var(--space-9) 0; }
+    .sw-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--font-sans); font-size: 12px; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase; color: #00744D;
+      margin-bottom: var(--space-3);
+    }
+    .sw-label::before { content: ""; display: block; width: 20px; height: 2px; background: #008B5C; }
+
+    /* ── Services ── */
+    .sw-svc { background: var(--gray-100); }
+    .sw-svc-head {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-bottom: var(--space-6); gap: var(--space-4); flex-wrap: wrap;
+    }
+    .sw-svc-head h2 {
+      font-family: var(--font-serif); font-size: 44px; font-weight: 500;
+      color: var(--gray-900); margin: 0; max-width: 22ch;
+    }
+    .sw-svc-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4);
+    }
+    .sw-svc-card {
+      background: #fff; border: 1px solid var(--gray-200);
+      border-top: 3px solid transparent; border-radius: var(--radius-md);
+      padding: var(--space-5);
+      display: flex; flex-direction: column; gap: var(--space-3);
+      transition: border-top-color .15s, box-shadow .15s;
+    }
+    .sw-svc-card:hover { border-top-color: #008B5C; box-shadow: 0 4px 14px rgba(0,0,0,.06); }
+    .sw-svc-icon {
+      width: 40px; height: 40px; border-radius: 8px;
+      background: #E6F5EE; color: #00744D;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+    .sw-svc-card h4 { font-family: var(--font-serif); font-weight: 500; font-size: 18px; color: var(--gray-900); margin: 0; }
+    .sw-svc-card p  { font-family: var(--font-sans); font-size: 13px; color: var(--gray-600); margin: 0; line-height: 1.5; }
+    .sw-svc-all {
+      background: #00744D; border-top-color: #00744D;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .sw-svc-all a { color: #fff; font-family: var(--font-sans); font-weight: 600; font-size: 14px; text-decoration: none; }
+    .sw-svc-all a:hover, .sw-svc-all a:focus { text-decoration: underline; }
+
+    /* ── Stats ── */
+    .sw-stats { background: var(--pine); color: #fff; }
+    .sw-stats-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-6);
+    }
+    .sw-stats .st-n { font-family: var(--font-serif); font-size: 60px; font-weight: 500; color: #fff; line-height: 1; }
+    .sw-stats .st-l { font-family: var(--font-sans); font-size: 13px; color: #9FE0C5; margin-top: var(--space-2); text-transform: uppercase; letter-spacing: .06em; }
+
+    /* ── Insights ── */
+    .sw-ins-head {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-bottom: var(--space-6); gap: var(--space-4); flex-wrap: wrap;
+    }
+    .sw-ins-head h2 { font-family: var(--font-serif); font-size: 44px; font-weight: 500; color: var(--gray-900); margin: 0; }
+    .sw-ins-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+    .sw-ins-card { border: 1px solid var(--gray-200); border-radius: var(--radius-md); overflow: hidden; }
+    .sw-ins-card .wf-thumb { height: 180px; border-radius: 0; }
+    .sw-ins-body { padding: var(--space-4); }
+    .sw-ins-tag { font-family: var(--font-sans); font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #00744D; display: block; margin-bottom: var(--space-2); }
+    .sw-ins-card h4 { font-family: var(--font-serif); font-size: 20px; font-weight: 500; color: var(--gray-900); margin: 0 0 var(--space-3); line-height: 1.3; }
+    .sw-ins-card a.read-more { font-family: var(--font-sans); font-size: 13px; color: #00744D; font-weight: 600; text-decoration: none; }
+    .sw-ins-card a.read-more:hover { text-decoration: underline; }
+
+    /* ── CTA ── */
+    .sw-cta-band { background: linear-gradient(135deg, #0D2B22 0%, #103B38 100%); padding: var(--space-9) 0; }
+    .sw-cta-inner { display: flex; align-items: center; justify-content: space-between; gap: var(--space-6); flex-wrap: wrap; }
+    .sw-cta-band h2 { font-family: var(--font-serif); font-size: 48px; font-weight: 500; color: #fff; margin: 0 0 var(--space-3); }
+    .sw-cta-band p  { font-family: var(--font-sans); font-size: 17px; color: #CFE3DF; max-width: 44ch; margin: 0; }
+    .sw-cta-btns { display: flex; gap: var(--space-3); flex-wrap: wrap; flex-shrink: 0; }
+    .btn-green-fill { background: #00744D; color: #fff; border: 2px solid #00744D; padding: 13px 28px; border-radius: var(--radius-pill); font-family: var(--font-sans); font-weight: 600; font-size: 15px; text-decoration: none; transition: background .15s; }
+    .btn-green-fill:hover, .btn-green-fill:focus { background: #005c3a; border-color: #005c3a; outline: 2px solid #9FE0C5; outline-offset: 2px; }
+    .btn-white-ghost { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,.5); padding: 13px 28px; border-radius: var(--radius-pill); font-family: var(--font-sans); font-weight: 500; font-size: 15px; text-decoration: none; transition: border-color .15s; }
+    .btn-white-ghost:hover, .btn-white-ghost:focus { border-color: #fff; outline: 2px solid #9FE0C5; outline-offset: 2px; }
+
+    /* ── Footer ── */
+    .sw-footer { background: #111827; color: #C7CBD1; font-family: var(--font-sans); font-size: 14px; }
+    .sw-footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: var(--space-7); padding: var(--space-8) 0 var(--space-7); }
+    .sw-footer h4 { color: #fff; font-family: var(--font-sans); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; margin: 0 0 var(--space-4); }
+    .sw-footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+    .sw-footer a { color: #C7CBD1; text-decoration: none; }
+    .sw-footer a:hover, .sw-footer a:focus { color: #fff; text-decoration: underline; }
+    .sw-footer-brand p { font-size: 13px; color: #9CA3AF; line-height: 1.6; margin: var(--space-4) 0 0; }
+    .sw-footer-logo { height: 40px; width: auto; display: block; }
+    .sw-footer-contact { font-size: 13px; color: #9CA3AF; margin-top: var(--space-3); line-height: 1.8; }
+    .sw-footer-contact a { color: #9FE0C5; }
+    .sw-footer-bottom { border-top: 1px solid rgba(255,255,255,.1); padding: var(--space-5) 0; display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; font-size: 12px; color: #6B7280; }
+    .sw-footer-bottom a { color: #6B7280; text-decoration: none; }
+    .sw-footer-bottom a:hover { color: #9CA3AF; }
+
+    /* ── :has() fallback for older browsers — graceful degradation ── */
+    @supports not selector(:has(*)) {
+      /* Without :has, just show equal halves at all times */
+      .sw-hero .sw-half { flex: 1 1 50%; }
+    }
+
+    /* ── Reduced motion ── */
+    @media (prefers-reduced-motion: reduce) {
+      .sw-half, .sw-bg, .sw-btn { transition: none !important; }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .sw-hero { flex-direction: column; min-height: auto; }
+      .sw-half { min-height: 60vh; flex: none !important; width: 100%; }
+      .sw-half-landowner,
+      .sw-half-investor { clip-path: none; }
+      .sw-divider { display: none; }
+      .sw-copy { padding: 40px 32px 48px; }
+      .sw-half-investor .sw-copy { padding-left: 32px; }
+      .sw-copy h2 { font-size: 38px; }
+      .sw-svc-grid { grid-template-columns: repeat(2, 1fr); }
+      .sw-ins-grid { grid-template-columns: repeat(2, 1fr); }
+      .sw-stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .sw-footer-top { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .sw-copy h2 { font-size: 30px; }
+      .sw-svc-grid { grid-template-columns: 1fr; }
+      .sw-ins-grid { grid-template-columns: 1fr; }
+      .sw-footer-top { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wf-badge"><b>Concept 09 · Split World</b><a href="./index.html">All concepts ↗</a></div>
+
+  <div class="wf-canvas">
+    <!-- Nav injected here — positioned absolute over the split hero -->
+    <div id="site-header"></div>
+
+    <!-- ════════════════════════════════════════════════════
+         SPLIT HERO — immersive 50/50 full-viewport
+         Two audience paths: Landowners (left) / Investors (right)
+    ════════════════════════════════════════════════════ -->
+    <section class="sw-hero" aria-label="Choose your path">
+      <!-- Vertical divider accent line -->
+      <div class="sw-divider" aria-hidden="true"></div>
+
+      <!-- ── LEFT — Landowners / Stewardship ── -->
+      <div class="sw-half sw-half-landowner"
+           tabindex="0"
+           role="region"
+           aria-label="Path for Landowners — sell or manage farmland">
+        <!-- Background image placeholder -->
+        <div class="sw-bg sw-bg-landowner" aria-hidden="true"></div>
+        <!-- Image annotation -->
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:3;pointer-events:none;">
+          <div class="wf-img" style="width:240px;height:100px;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.4);">Farmland landscape photo</div>
+        </div>
+        <!-- Focus ring overlay -->
+        <div class="sw-focus-ring" aria-hidden="true"></div>
+        <!-- Always-visible side label (when other half is expanded) -->
+        <span class="sw-side-label" aria-hidden="true">Landowners</span>
+        <!-- Hover label pill -->
+        <div class="sw-label-pill" aria-hidden="true">Landowners</div>
+        <!-- Copy -->
+        <div class="sw-copy">
+          <span class="sw-eyebrow">For Landowners</span>
+          <h2>I own farmland.<br><em>Help me steward it.</em></h2>
+          <p>Sell at maximum value or trust your land to experienced managers. We've guided landowners through $6B+ in agricultural transactions.</p>
+          <a href="#" class="sw-btn sw-btn-land" aria-label="Explore the path for landowners">Path for Landowners</a>
+        </div>
+        <!-- Hover hint -->
+        <div class="sw-hint" aria-hidden="true">
+          <span>Explore</span>
+          <span>→</span>
+        </div>
+      </div>
+
+      <!-- ── RIGHT — Investors / Capital ── -->
+      <div class="sw-half sw-half-investor"
+           tabindex="0"
+           role="region"
+           aria-label="Path for Investors — access farmland capital markets">
+        <!-- Background image placeholder -->
+        <div class="sw-bg sw-bg-investor" aria-hidden="true"></div>
+        <!-- Image annotation -->
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:3;pointer-events:none;">
+          <div class="wf-img" style="width:240px;height:100px;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.4);">Institutional capital / data visual</div>
+        </div>
+        <!-- Focus ring overlay -->
+        <div class="sw-focus-ring" aria-hidden="true"></div>
+        <!-- Always-visible side label -->
+        <span class="sw-side-label" aria-hidden="true">Investors</span>
+        <!-- Hover label pill -->
+        <div class="sw-label-pill" aria-hidden="true">Investors</div>
+        <!-- Copy -->
+        <div class="sw-copy">
+          <span class="sw-eyebrow">For Investors</span>
+          <h2>I invest in farmland.<br><em>Show me the opportunity.</em></h2>
+          <p>Direct land ownership, capital markets structuring, and portfolio advisory for family offices, institutions, and private capital.</p>
+          <a href="#" class="sw-btn sw-btn-invest" aria-label="Explore the path for investors">Path for Investors</a>
+        </div>
+        <!-- Hover hint -->
+        <div class="sw-hint" aria-hidden="true">
+          <span>Explore</span>
+          <span>→</span>
+        </div>
+      </div>
+
+      <!-- Scroll cue (absolute bottom-center) -->
+      <div style="position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:8;display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:none;">
+        <span style="font-family:var(--font-sans);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);">Scroll</span>
+        <span style="color:rgba(255,255,255,.3);font-size:14px;animation:sw-bounce 1.6s ease-in-out infinite;">↓</span>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════
+         UNIFIED SECTIONS — below the split
+    ════════════════════════════════════════════════════ -->
+
+    <!-- Audience quick links bridge -->
+    <div style="background:#fff;border-top:4px solid #008B5C;padding:var(--space-5) 0;">
+      <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);flex-wrap:wrap;">
+        <span style="font-family:var(--font-sans);font-size:13px;color:var(--gray-500);">Not sure where to start?</span>
+        <div style="display:flex;gap:var(--space-3);flex-wrap:wrap;">
+          <a href="#" style="font-family:var(--font-sans);font-size:13px;font-weight:600;color:#00744D;text-decoration:none;border:1px solid #008B5C;padding:8px 16px;border-radius:var(--radius-pill);">Farmers &amp; Operators →</a>
+          <a href="#" style="font-family:var(--font-sans);font-size:13px;font-weight:600;color:#00744D;text-decoration:none;border:1px solid #008B5C;padding:8px 16px;border-radius:var(--radius-pill);">Family Offices →</a>
+          <a href="#" style="font-family:var(--font-sans);font-size:13px;font-weight:600;color:#00744D;text-decoration:none;border:1px solid #008B5C;padding:8px 16px;border-radius:var(--radius-pill);">View All Services →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Services ── -->
+    <section id="services" class="sw-section sw-svc" aria-label="Our services">
+      <div class="container">
+        <div class="sw-svc-head">
+          <div>
+            <span class="sw-label">What We Do</span>
+            <h2>Integrated land solutions across every discipline</h2>
+          </div>
+          <a href="#" class="btn-green-fill" style="white-space:nowrap;flex-shrink:0;">View All Services</a>
+        </div>
+        <div class="sw-svc-grid">
+          <div class="sw-svc-card">
+            <div class="sw-svc-icon" aria-hidden="true">🌾</div>
+            <h4>Land Brokerage &amp; Auctions</h4>
+            <p>Listings and competitive auctions reaching a national buyer network.</p>
+          </div>
+          <div class="sw-svc-card">
+            <div class="sw-svc-icon" aria-hidden="true">🏡</div>
+            <h4>Land Management</h4>
+            <p>Full-service stewardship, operator oversight, and lease management.</p>
+          </div>
+          <div class="sw-svc-card">
+            <div class="sw-svc-icon" aria-hidden="true">📊</div>
+            <h4>Agricultural Appraisal</h4>
+            <p>Certified, data-driven land valuation for lenders, owners, and buyers.</p>
+          </div>
+          <div class="sw-svc-card">
+            <div class="sw-svc-icon" aria-hidden="true">💼</div>
+            <h4>Capital Markets</h4>
+            <p>Connecting institutional capital with agricultural real estate.</p>
+          </div>
+          <div class="sw-svc-card">
+            <div class="sw-svc-icon" aria-hidden="true">⚡</div>
+            <h4>Energy Management</h4>
+            <p>Solar, wind, and energy lease strategy for landowners.</p>
+          </div>
+          <div class="sw-svc-card">
+            <div class="sw-svc-icon" aria-hidden="true">🛡️</div>
+            <h4>Crop Insurance</h4>
+            <p>Tailored coverage protecting farm operations and yield.</p>
+          </div>
+          <div class="sw-svc-card">
+            <div class="sw-svc-icon" aria-hidden="true">🏢</div>
+            <h4>Corporate Services</h4>
+            <p>Institutional programs for ag lenders and large portfolios.</p>
+          </div>
+          <div class="sw-svc-card sw-svc-all">
+            <a href="#">Explore all services →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Stats band ── -->
+    <section class="sw-section sw-stats" aria-label="By the numbers">
+      <div class="container">
+        <div style="margin-bottom:var(--space-6);">
+          <div style="width:32px;height:3px;background:#008B5C;margin-bottom:var(--space-4);"></div>
+          <span class="sw-label" style="color:#9FE0C5;">By the Numbers</span>
+          <h2 style="font-family:var(--font-serif);font-size:44px;font-weight:500;color:#fff;margin:var(--space-3) 0 0;max-width:28ch;">
+            A track record built on trust, data, and decades of agricultural expertise.
+          </h2>
+        </div>
+        <div class="sw-stats-grid">
+          <div><div class="st-n">$6B+</div><div class="st-l">Farmland Transactions</div></div>
+          <div><div class="st-n">170+</div><div class="st-l">Ag Professionals</div></div>
+          <div><div class="st-n">20+</div><div class="st-l">Regional Offices</div></div>
+          <div><div class="st-n">1.6K+</div><div class="st-l">Land Investment EXPO Attendees</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Insights ── -->
+    <section class="sw-section" aria-label="Insights and research">
+      <div class="container">
+        <div class="sw-ins-head">
+          <div>
+            <span class="sw-label">Insights &amp; Research</span>
+            <h2>Clarity for every land decision</h2>
+          </div>
+          <a href="#" style="font-family:var(--font-sans);font-size:14px;color:#00744D;font-weight:600;text-decoration:none;white-space:nowrap;flex-shrink:0;">View all insights →</a>
+        </div>
+        <div class="sw-ins-grid">
+          <article class="sw-ins-card">
+            <div class="wf-img wf-thumb" role="img" aria-label="Article image placeholder">Farmland photo</div>
+            <div class="sw-ins-body">
+              <span class="sw-ins-tag">Land Values · May 2026</span>
+              <h4>Understanding Midwest Farmland Trends in 2026</h4>
+              <a href="#" class="read-more">Read more →</a>
+            </div>
+          </article>
+          <article class="sw-ins-card">
+            <div class="wf-img wf-thumb" role="img" aria-label="Article image placeholder">Solar farm photo</div>
+            <div class="sw-ins-body">
+              <span class="sw-ins-tag">Energy · May 2026</span>
+              <h4>Solar &amp; Wind Leases: What Landowners Should Ask</h4>
+              <a href="#" class="read-more">Read more →</a>
+            </div>
+          </article>
+          <article class="sw-ins-card">
+            <div class="wf-img wf-thumb" role="img" aria-label="Report cover placeholder">Report cover</div>
+            <div class="sw-ins-body">
+              <span class="sw-ins-tag">Research Report</span>
+              <h4>2025 National Land Values Report</h4>
+              <a href="#" class="read-more">Download →</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CTA ── -->
+    <section id="contact" class="sw-cta-band" aria-label="Contact call to action">
+      <div class="container sw-cta-inner">
+        <div>
+          <span style="display:inline-flex;align-items:center;gap:8px;font-family:var(--font-sans);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#9FE0C5;margin-bottom:var(--space-3);">
+            <span style="display:block;width:20px;height:2px;background:#008B5C;"></span>Get in Touch
+          </span>
+          <h2>Start a conversation<br>with a local advisor</h2>
+          <p>Whether you're selling, managing, or investing in farmland, our regional experts are ready to help.</p>
+        </div>
+        <div class="sw-cta-btns">
+          <a href="#" class="btn-green-fill">Contact Us</a>
+          <a href="#" class="btn-white-ghost">Find an Office</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Footer ── -->
+    <footer class="sw-footer" role="contentinfo">
+      <div class="container">
+        <div class="sw-footer-top">
+          <div class="sw-footer-brand">
+            <img src="../../shared/logos/pc_logo_white.webp" alt="Peoples Company — Integrated Land Solutions" class="sw-footer-logo" />
+            <p>Integrated Land Solutions. The largest farmland brokerage and management firm in the United States.</p>
+            <div class="sw-footer-contact">
+              1108 S. 44th St, Suite 102, Cumming, IA 50061<br>
+              <a href="tel:8558005263">855.800.LAND</a> &nbsp;·&nbsp;
+              <a href="mailto:Info@PeoplesCompany.com">Info@PeoplesCompany.com</a>
+            </div>
+          </div>
+          <div>
+            <h4>Real Estate</h4>
+            <ul>
+              <li><a href="#">Farmland For Sale</a></li>
+              <li><a href="#">Upcoming Auctions</a></li>
+              <li><a href="#">Sold Properties</a></li>
+              <li><a href="#">Interactive Map</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>What We Do</h4>
+            <ul>
+              <li><a href="#">Land Brokerage &amp; Auctions</a></li>
+              <li><a href="#">Land Management</a></li>
+              <li><a href="#">Agricultural Appraisal</a></li>
+              <li><a href="#">Capital Markets</a></li>
+              <li><a href="#">Energy Management</a></li>
+              <li><a href="#">Crop Insurance</a></li>
+              <li><a href="#">Corporate Services</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>The Company</h4>
+            <ul>
+              <li><a href="#">Overview</a></li>
+              <li><a href="#">Our Team</a></li>
+              <li><a href="#">Regions &amp; Offices</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Land Investment EXPO</a></li>
+              <li><a href="#">FarmWorth</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Insights</h4>
+            <ul>
+              <li><a href="#">National Land Values</a></li>
+              <li><a href="#">Industry Research</a></li>
+              <li><a href="#">Newsletters</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">In the News</a></li>
+              <li><a href="#">Press Releases</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="sw-footer-bottom">
+          <span>© 2026 Peoples Company · Licensed in 50 states (EHO)</span>
+          <span>
+            <a href="#">Privacy Policy</a> &nbsp;·&nbsp;
+            <a href="#">Terms of Use</a> &nbsp;·&nbsp;
+            <a href="#">Accessibility</a>
+          </span>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /wf-canvas -->
+
+  <script src="./_nav-data.js?v=1"></script>
+  <script src="./_nav.js?v=2"></script>
+  <script>
+    /* ── Bounce animation keyframe ── */
+    (function () {
+      var s = document.createElement('style');
+      s.textContent = '@keyframes sw-bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(5px);}}';
+      document.head.appendChild(s);
+    })();
+
+    /* ── Split hero keyboard navigation ──
+       Tab focuses each half; Enter/Space navigates to that path's section.
+       Arrow keys toggle between halves. */
+    (function () {
+      var halves = document.querySelectorAll('.sw-half');
+
+      halves.forEach(function (half, idx) {
+        half.addEventListener('keydown', function (e) {
+          /* Enter/Space = follow the CTA link inside the half */
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            var btn = half.querySelector('.sw-btn');
+            if (btn) btn.click();
+          }
+          /* Arrow keys navigate between halves */
+          if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            var next = halves[idx + 1] || halves[0];
+            next.focus();
+          }
+          if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            var prev = halves[idx - 1] || halves[halves.length - 1];
+            prev.focus();
+          }
+        });
+
+        /* Announce expansion state on focus for screen reader users */
+        half.addEventListener('focus', function () {
+          /* Expand via JS class in case :has() is not supported */
+          halves.forEach(function (h) { h.classList.remove('sw-focused'); });
+          half.classList.add('sw-focused');
+        });
+        half.addEventListener('blur', function (e) {
+          if (!half.contains(e.relatedTarget)) {
+            half.classList.remove('sw-focused');
+          }
+        });
+      });
+
+      /* JS fallback for :has() — handle flex-grow via classes */
+      (function () {
+        var style = document.createElement('style');
+        style.textContent =
+          '.sw-half.sw-focused{flex-grow:1.62;}' +
+          '.sw-half:not(.sw-focused)+.sw-half:not(.sw-focused){flex-grow:0.38;}';
+        /* Only inject if :has() not supported */
+        try {
+          document.querySelector(':has(*)');
+        } catch (err) {
+          document.head.appendChild(style);
+        }
+      })();
+    })();
+
+    /* ── Passive scroll-linked section visibility (no errors) ── */
+    (function () {
+      /* Smooth scroll for anchor links */
+      document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var id = a.getAttribute('href').slice(1);
+          if (!id) return;
+          var target = document.getElementById(id);
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

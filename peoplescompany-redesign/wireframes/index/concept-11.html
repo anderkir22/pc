@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Index Wireframe · Concept 11 — Broadsheet | Peoples Company</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="../../shared/main.css?v=20260601" rel="stylesheet" />
+  <link href="./_wireframe.css?v=2" rel="stylesheet" />
+  <link href="./_nav.css?v=2" rel="stylesheet" />
+  <style>
+    /* ── Canvas ── */
+    .wf-canvas { max-width:none; margin:0; border:0; box-shadow:none; }
+
+    /* ── Review badge ── */
+    .wf-badge { position:fixed; z-index:80; bottom:14px; right:14px;
+      background:#111827; color:#fff; font-family:var(--font-sans); font-size:12px;
+      padding:8px 12px; border-radius:999px; box-shadow:0 4px 14px rgba(0,0,0,.25); }
+    .wf-badge a { color:#9FE0C5; margin-left:8px; text-decoration:none; }
+
+    /* ================================================================
+       TYPOGRAPHIC VARIABLES & GLOBAL BROADSHEET RULES
+    ================================================================ */
+    /* Section kicker — small-caps, tracked, green */
+    .bs-kicker {
+      display:inline-block;
+      font-family:var(--font-sans); font-size:11px;
+      font-variant:small-caps; letter-spacing:.18em; text-transform:uppercase;
+      font-weight:600; color:#00744D;
+    }
+
+    /* Hairline rule (reusable) */
+    .bs-rule {
+      display:block; height:0; border:0;
+      border-top:1px solid var(--gray-200);
+      margin:0;
+    }
+    .bs-rule-thick {
+      display:block; height:0; border:0;
+      border-top:3px double var(--gray-900);
+    }
+    .bs-rule-green {
+      display:block; height:2px; background:#008B5C;
+      border:0;
+    }
+
+    /* ================================================================
+       MASTHEAD / BROADSHEET HEADER BAND
+       (sits just below the nav — replaces a hero image)
+    ================================================================ */
+    .bs-masthead {
+      background:#fff;
+      border-bottom:1px solid var(--gray-900);
+      padding:var(--space-5) 0 0;
+    }
+    .bs-masthead-rule-top { border-top:3px solid var(--gray-900); margin-bottom:var(--space-4); }
+    .bs-pub-line {
+      display:flex; align-items:center; justify-content:space-between;
+      font-family:var(--font-sans); font-size:11px; color:var(--gray-500);
+      letter-spacing:.06em; text-transform:uppercase;
+      padding-bottom:var(--space-3);
+      border-bottom:1px solid var(--gray-300);
+      margin-bottom:var(--space-4);
+    }
+    .bs-pub-line strong { color:var(--gray-900); }
+
+    /* The dominant editorial headline */
+    .bs-headline-wrap {
+      padding-bottom:var(--space-5);
+      text-align:center;
+    }
+    .bs-overline {
+      display:block; font-family:var(--font-sans); font-size:11px;
+      letter-spacing:.16em; text-transform:uppercase; color:#00744D;
+      margin-bottom:var(--space-3); font-weight:600;
+    }
+    .bs-main-headline {
+      font-family:var(--font-serif); font-size:86px; font-weight:500;
+      line-height:1.0; color:var(--gray-900);
+      letter-spacing:-.5px;
+      margin:0 auto var(--space-3); max-width:22ch;
+    }
+    .bs-deck {
+      font-family:var(--font-serif); font-style:italic; font-size:22px;
+      color:var(--gray-600); max-width:60ch; margin:0 auto; line-height:1.5;
+    }
+
+    /* ================================================================
+       DROP-CAP INTRO PARAGRAPH
+    ================================================================ */
+    .bs-dropcap-wrap {
+      background:#fff; padding:var(--space-7) 0 var(--space-6);
+      border-bottom:1px solid var(--gray-200);
+    }
+    .bs-intro-grid {
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:0 var(--space-6);
+    }
+    /* Column dividers */
+    .bs-intro-grid > * + * {
+      border-left:1px solid var(--gray-200);
+      padding-left:var(--space-6);
+    }
+    .bs-col1 {}
+    .bs-col1 p:first-child::first-letter {
+      font-family:var(--font-serif); font-size:96px; font-weight:500;
+      line-height:.8; float:left; margin:6px 10px 0 0; color:var(--gray-900);
+    }
+    .bs-intro-p {
+      font-family:var(--font-serif); font-size:18px; line-height:1.75;
+      color:var(--gray-700, #374151); margin:0 0 var(--space-4);
+    }
+    .bs-col2, .bs-col3 {
+      font-family:var(--font-serif); font-size:17px; line-height:1.75;
+      color:var(--gray-700, #374151);
+    }
+    .bs-col2 p, .bs-col3 p { margin:0 0 var(--space-4); }
+
+    /* ================================================================
+       FIGURES ROW — typographic statistics
+    ================================================================ */
+    .bs-figures {
+      padding:var(--space-7) 0;
+      border-bottom:1px solid var(--gray-200);
+      background:#fff;
+    }
+    .bs-figures-label {
+      display:flex; align-items:center; gap:var(--space-4); margin-bottom:var(--space-5);
+    }
+    .bs-figures-label hr { flex:1; border:0; border-top:1px solid var(--gray-200); }
+    .bs-figures-grid {
+      display:grid; grid-template-columns:repeat(4,1fr); gap:0;
+    }
+    .bs-fig {
+      padding:0 var(--space-6) 0 0;
+      position:relative;
+    }
+    .bs-fig + .bs-fig { border-left:1px solid var(--gray-200); padding-left:var(--space-6); padding-right:0; }
+    .bs-fig .bf-num {
+      font-family:var(--font-serif); font-size:62px; font-weight:500;
+      line-height:1; color:var(--gray-900); display:block;
+    }
+    .bs-fig .bf-rule {
+      width:32px; height:2px; background:#008B5C; margin:var(--space-3) 0;
+      display:block;
+    }
+    .bs-fig .bf-label {
+      font-family:var(--font-sans); font-size:13px; color:var(--gray-600);
+      text-transform:uppercase; letter-spacing:.07em; line-height:1.4;
+    }
+
+    /* ================================================================
+       THREE-COLUMN EDITORIAL BODY
+       (Markets brief · Services · Quote)
+    ================================================================ */
+    .bs-editorial {
+      padding:var(--space-7) 0;
+      background:#fff;
+      border-bottom:1px solid var(--gray-200);
+    }
+    .bs-editorial-grid {
+      display:grid;
+      grid-template-columns:1fr 1px 1fr 1px 1fr;
+      gap:0 var(--space-6);
+      align-items:start;
+    }
+    .bs-col-divider {
+      background:var(--gray-200); width:1px; align-self:stretch;
+    }
+
+    .bs-col-head {
+      padding-bottom:var(--space-3); margin-bottom:var(--space-4);
+      border-bottom:2px solid var(--gray-900);
+    }
+    .bs-col-head h2 {
+      font-family:var(--font-serif); font-size:24px; font-weight:500;
+      margin:var(--space-2) 0 0; line-height:1.2;
+    }
+    .bs-body-text {
+      font-family:var(--font-serif); font-size:16px; line-height:1.75;
+      color:var(--gray-700, #374151); margin:0 0 var(--space-4);
+    }
+    .bs-body-text + .bs-body-text { margin-top:0; }
+
+    /* Pull quote style */
+    .bs-pullquote {
+      border-top:3px double var(--gray-900);
+      border-bottom:1px solid var(--gray-900);
+      padding:var(--space-4) 0; margin:var(--space-5) 0;
+    }
+    .bs-pullquote blockquote {
+      font-family:var(--font-serif); font-size:22px; font-style:italic;
+      font-weight:400; color:var(--gray-900); margin:0 0 var(--space-2);
+      line-height:1.4;
+    }
+    .bs-pullquote cite {
+      font-family:var(--font-sans); font-size:12px; color:var(--gray-500);
+      letter-spacing:.06em; text-transform:uppercase; font-style:normal;
+    }
+
+    /* ================================================================
+       SERVICES — elegant indexed list
+    ================================================================ */
+    .bs-services {
+      background:var(--gray-100); padding:var(--space-7) 0;
+      border-bottom:1px solid var(--gray-200);
+    }
+    .bs-services-inner {
+      display:grid; grid-template-columns:280px 1fr; gap:var(--space-8); align-items:start;
+    }
+    .bs-services-head h2 {
+      font-family:var(--font-serif); font-size:38px; font-weight:500;
+      line-height:1.15; margin:var(--space-3) 0 var(--space-4);
+    }
+    .bs-services-head p {
+      font-family:var(--font-serif); font-size:16px; color:var(--gray-600);
+      line-height:1.65; margin:0;
+    }
+    .bs-svc-list {
+      display:grid; grid-template-columns:1fr 1fr; list-style:none; margin:0; padding:0;
+      border-top:1px solid var(--gray-900);
+    }
+    .bs-svc-item {
+      display:flex; gap:var(--space-4); align-items:baseline;
+      padding:var(--space-4) 0;
+      border-bottom:1px solid var(--gray-200);
+    }
+    /* Column rule between the two service columns */
+    .bs-svc-item:nth-child(odd) { padding-right:var(--space-6); border-right:1px solid var(--gray-200); }
+    .bs-svc-item:nth-child(even) { padding-left:var(--space-6); }
+    .bs-svc-num {
+      font-family:var(--font-serif); font-size:14px; color:#008B5C;
+      font-weight:500; flex-shrink:0; width:24px;
+    }
+    .bs-svc-name {
+      font-family:var(--font-serif); font-size:18px; font-weight:500; color:var(--gray-900);
+    }
+    .bs-svc-desc {
+      font-family:var(--font-sans); font-size:13px; color:var(--gray-600);
+      margin-top:2px; line-height:1.4;
+    }
+
+    /* ================================================================
+       INSIGHTS — columned editorial list
+    ================================================================ */
+    .bs-insights {
+      padding:var(--space-7) 0;
+      background:#fff; border-bottom:1px solid var(--gray-200);
+    }
+    .bs-insights-top {
+      display:grid; grid-template-columns:1fr 1fr 1fr 1fr;
+      gap:0; border-top:2px solid var(--gray-900);
+      margin-bottom:var(--space-6);
+    }
+    .bs-ins-col {
+      padding:var(--space-5) 0 var(--space-4) 0;
+      position:relative;
+    }
+    .bs-ins-col + .bs-ins-col {
+      border-left:1px solid var(--gray-200);
+      padding-left:var(--space-5);
+    }
+    .bs-ins-col .bs-kicker { display:block; margin-bottom:var(--space-3); }
+    .bs-ins-title {
+      font-family:var(--font-serif); font-size:20px; font-weight:500;
+      line-height:1.3; color:var(--gray-900); margin:0 0 var(--space-3);
+    }
+    .bs-ins-snippet {
+      font-family:var(--font-serif); font-style:italic; font-size:15px;
+      color:var(--gray-600); line-height:1.6; margin:0 0 var(--space-3);
+    }
+    .bs-ins-link {
+      font-family:var(--font-sans); font-size:12px; color:#00744D;
+      text-decoration:none; letter-spacing:.06em; text-transform:uppercase; font-weight:600;
+    }
+    .bs-ins-link:hover { text-decoration:underline; }
+
+    /* Below the column grid, a visual placeholder wide image */
+    .bs-insights-img {
+      margin-top:var(--space-4);
+    }
+
+    /* ================================================================
+       CTA / CONTACT — elegant dark band
+    ================================================================ */
+    .bs-cta {
+      background:var(--pine); color:#fff;
+      padding:var(--space-8) 0;
+    }
+    .bs-cta-inner {
+      display:grid; grid-template-columns:1fr 1px 1fr; gap:0 var(--space-8);
+      align-items:center;
+    }
+    .bs-cta-div { background:rgba(255,255,255,.12); width:1px; align-self:stretch; }
+    .bs-cta-copy .overline {
+      display:block; font-family:var(--font-sans); font-size:11px;
+      letter-spacing:.16em; text-transform:uppercase; color:#9FE0C5;
+      margin-bottom:var(--space-3); font-weight:600;
+    }
+    .bs-cta-copy h2 {
+      font-family:var(--font-serif); font-size:44px; font-weight:500;
+      color:#fff; margin:0 0 var(--space-4); line-height:1.15;
+    }
+    .bs-cta-copy p {
+      font-family:var(--font-serif); font-style:italic; font-size:18px;
+      color:rgba(255,255,255,.75); margin:0; line-height:1.6;
+    }
+    .bs-contact-list {
+      list-style:none; margin:0; padding:0;
+      display:flex; flex-direction:column; gap:var(--space-4);
+    }
+    .bs-contact-list li {
+      display:flex; align-items:baseline; gap:var(--space-4);
+      border-bottom:1px solid rgba(255,255,255,.1); padding-bottom:var(--space-4);
+    }
+    .bs-contact-label {
+      font-family:var(--font-sans); font-size:11px; letter-spacing:.1em;
+      text-transform:uppercase; color:#9FE0C5; font-weight:600; width:80px; flex-shrink:0;
+    }
+    .bs-contact-value {
+      font-family:var(--font-serif); font-size:20px; color:#fff;
+      text-decoration:none;
+    }
+    .bs-contact-value:hover { text-decoration:underline; }
+    .bs-cta-btn {
+      display:inline-flex; align-items:center;
+      background:#00744D; color:#fff; border:none;
+      padding:14px 32px; border-radius:var(--radius-pill);
+      font-family:var(--font-sans); font-size:15px; font-weight:600;
+      text-decoration:none; margin-top:var(--space-5);
+      transition:background .15s;
+    }
+    .bs-cta-btn:hover,
+    .bs-cta-btn:focus { background:#005c3b; outline:2px solid #9FE0C5; outline-offset:2px; }
+
+    /* ================================================================
+       FOOTER
+    ================================================================ */
+    .bs-footer {
+      background:#111827; color:#C7CBD1;
+      font-family:var(--font-sans); font-size:14px;
+      padding:var(--space-8) 0 var(--space-6);
+    }
+    .bs-footer-grid {
+      display:grid; grid-template-columns:2fr 1fr 1fr 1fr 1fr;
+      gap:var(--space-7); margin-bottom:var(--space-7);
+    }
+    .bs-footer-brand img { height:44px; margin-bottom:var(--space-4); }
+    .bs-footer-tagline {
+      font-style:italic; font-family:var(--font-serif); font-size:16px;
+      color:#9CA3AF; margin:0 0 var(--space-4); max-width:30ch; line-height:1.5;
+    }
+    .bs-footer-contact a {
+      color:#9FE0C5; text-decoration:none; display:block; margin-bottom:4px;
+    }
+    .bs-footer-contact a:hover { text-decoration:underline; }
+    .bs-footer h4 {
+      color:#fff; font-family:var(--font-sans); font-size:12px;
+      text-transform:uppercase; letter-spacing:.1em; font-weight:600;
+      margin:0 0 var(--space-4); padding-bottom:var(--space-2);
+      border-bottom:1px solid rgba(255,255,255,.1);
+    }
+    .bs-footer ul { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+    .bs-footer a { color:#C7CBD1; text-decoration:none; }
+    .bs-footer a:hover { color:#fff; }
+    .bs-footer-bottom {
+      border-top:1px solid rgba(255,255,255,.08); padding-top:var(--space-5);
+      display:flex; justify-content:space-between; align-items:center;
+      flex-wrap:wrap; gap:var(--space-3); font-size:12px; color:#6B7280;
+    }
+    .bs-footer-bottom a { color:#6B7280; }
+    .bs-footer-bottom a:hover { color:#fff; }
+
+    /* ================================================================
+       RESPONSIVE
+    ================================================================ */
+    @media (max-width:1100px){
+      .bs-main-headline { font-size:64px; }
+    }
+    @media (max-width:860px){
+      .bs-main-headline { font-size:44px; }
+      .bs-intro-grid { grid-template-columns:1fr; }
+      .bs-intro-grid > * + * { border-left:0; padding-left:0; border-top:1px solid var(--gray-200); padding-top:var(--space-5); }
+      .bs-figures-grid { grid-template-columns:1fr 1fr; }
+      .bs-fig + .bs-fig:nth-child(odd) { border-left:0; padding-left:0; padding-top:var(--space-5); border-top:1px solid var(--gray-200); }
+      .bs-editorial-grid { grid-template-columns:1fr; }
+      .bs-col-divider { display:none; }
+      .bs-services-inner { grid-template-columns:1fr; }
+      .bs-insights-top { grid-template-columns:1fr 1fr; }
+      .bs-ins-col:nth-child(odd) { border-left:0; padding-left:0; }
+      .bs-cta-inner { grid-template-columns:1fr; }
+      .bs-cta-div { display:none; }
+      .bs-footer-grid { grid-template-columns:1fr 1fr; }
+    }
+    @media (max-width:560px){
+      .bs-main-headline { font-size:36px; }
+      .bs-svc-list { grid-template-columns:1fr; }
+      .bs-svc-item:nth-child(odd) { padding-right:0; border-right:0; }
+      .bs-svc-item:nth-child(even) { padding-left:0; }
+      .bs-insights-top { grid-template-columns:1fr; }
+      .bs-ins-col + .bs-ins-col { border-left:0; padding-left:0; border-top:1px solid var(--gray-200); padding-top:var(--space-4); }
+      .bs-figures-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wf-badge"><b>Concept 11 · Broadsheet</b><a href="./index.html">All concepts ↗</a></div>
+
+  <div class="wf-canvas">
+    <div id="site-header"></div>
+
+    <!-- ══════════════════════════════════════════
+         MASTHEAD / BROADSHEET HEADER
+    ══════════════════════════════════════════ -->
+    <header class="bs-masthead" role="banner" aria-label="Broadsheet masthead">
+      <div class="container">
+        <hr class="bs-rule-thick bs-masthead-rule-top" aria-hidden="true" />
+        <div class="bs-pub-line">
+          <span>Vol. 1, No. 1 &ensp;·&ensp; <strong>The National Farmland Review</strong></span>
+          <span>Peoples Company &ensp;&middot;&ensp; Cumming, Iowa &ensp;&middot;&ensp; June 2026</span>
+          <span>Integrated Land Solutions</span>
+        </div>
+        <div class="bs-headline-wrap">
+          <span class="bs-overline">National Leader in Agricultural Real Estate</span>
+          <h1 class="bs-main-headline">Where American Land Meets Opportunity.</h1>
+          <p class="bs-deck">Six decades of expertise, 170 professionals, $6 billion in transactions — and a platform built for what comes next.</p>
+        </div>
+        <hr class="bs-rule-green" aria-hidden="true" />
+      </div>
+    </header>
+
+    <!-- ══════════════════════════════════════════
+         DROP-CAP INTRO — 3-column text
+    ══════════════════════════════════════════ -->
+    <section class="bs-dropcap-wrap" aria-labelledby="intro-heading">
+      <div class="container">
+        <div style="margin-bottom:var(--space-4);">
+          <span class="bs-kicker">About Peoples Company</span>
+        </div>
+        <div class="bs-intro-grid">
+          <div class="bs-col1">
+            <p class="bs-intro-p">Peoples Company is the largest farmland brokerage and management firm in the United States — a national platform built on trust, data, and generations of agricultural knowledge. From a single Iowa office to more than twenty regional locations, the firm has grown alongside the American land market, never losing its roots.</p>
+          </div>
+          <div class="bs-col2">
+            <p>Our advisors work with landowners who have held their ground for generations, with farm operators seeking productive long-term leases, and with sophisticated investors who understand that productive farmland offers a rare combination of income, appreciation, and resilience.</p>
+            <p>Every service we offer — from brokerage and auctions to capital markets and energy management — is designed to deliver value at every stage of land ownership.</p>
+          </div>
+          <div class="bs-col3">
+            <p>What sets Peoples Company apart is integration. A landowner can sell, manage, insure, and appraise their property through one relationship, backed by FarmWorth™, the firm's proprietary data platform providing institutional-grade analysis for every acre.</p>
+            <div class="bs-pullquote" role="complementary" aria-label="Pull quote">
+              <blockquote>"Land isn't just an asset. It's a legacy — and it deserves a team that understands both."</blockquote>
+              <cite>— Peoples Company, Integrated Land Solutions</cite>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         FIGURES ROW
+    ══════════════════════════════════════════ -->
+    <section class="bs-figures" aria-labelledby="figures-heading">
+      <div class="container">
+        <div class="bs-figures-label">
+          <span class="bs-kicker" id="figures-heading">By the Numbers</span>
+          <hr class="bs-rule" aria-hidden="true" />
+        </div>
+        <div class="bs-figures-grid">
+          <div class="bs-fig">
+            <span class="bf-num">$6B+</span>
+            <span class="bf-rule" aria-hidden="true"></span>
+            <span class="bf-label">Farmland Transactions</span>
+          </div>
+          <div class="bs-fig">
+            <span class="bf-num">170+</span>
+            <span class="bf-rule" aria-hidden="true"></span>
+            <span class="bf-label">Ag Professionals</span>
+          </div>
+          <div class="bs-fig">
+            <span class="bf-num">20+</span>
+            <span class="bf-rule" aria-hidden="true"></span>
+            <span class="bf-label">Regional Offices</span>
+          </div>
+          <div class="bs-fig">
+            <span class="bf-num">1.6K+</span>
+            <span class="bf-rule" aria-hidden="true"></span>
+            <span class="bf-label">Land Investment EXPO Attendees</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         THREE-COLUMN EDITORIAL BODY
+         (Markets · Services intro · Investors)
+    ══════════════════════════════════════════ -->
+    <section class="bs-editorial" aria-labelledby="ed-markets">
+      <div class="container">
+        <div class="bs-editorial-grid">
+
+          <!-- Col 1: Markets brief -->
+          <div>
+            <div class="bs-col-head">
+              <span class="bs-kicker">Markets</span>
+              <h2 id="ed-markets">Farmland Values Remain Resilient Through 2026</h2>
+            </div>
+            <p class="bs-body-text">Midwest farmland markets have held firm against macroeconomic headwinds, with strong demand from both institutional and individual buyers. Low supply of quality row-crop ground and sustained operator income underpin values across the Corn Belt.</p>
+            <p class="bs-body-text">Peoples Company's FarmWorth™ platform tracks comparable-sale data across 2,000+ counties, giving clients an edge in competitive markets and in private negotiations.</p>
+            <div class="bs-pullquote">
+              <blockquote>"Quality farmland is one of the most durable stores of value in the American economy."</blockquote>
+              <cite>— 2025 National Land Values Report, Peoples Company</cite>
+            </div>
+            <p class="bs-body-text">Renewable energy leases — solar and wind — are adding a new income layer to agricultural land, increasingly affecting per-acre value calculations in transitional markets.</p>
+          </div>
+
+          <div class="bs-col-divider" aria-hidden="true"></div>
+
+          <!-- Col 2: Services brief -->
+          <div>
+            <div class="bs-col-head">
+              <span class="bs-kicker">Services</span>
+              <h2 id="ed-services">An Integrated Platform for Every Land Need</h2>
+            </div>
+            <p class="bs-body-text">Peoples Company offers seven complementary services — meaning a single relationship can cover the complete life-cycle of farmland ownership, from acquisition and management through appraisal, financing, energy, insurance, and eventual sale.</p>
+            <p class="bs-body-text">For institutional owners and family offices, the Corporate Services practice provides portfolio-scale oversight coordinated with Capital Markets and Appraisal teams for consolidated reporting.</p>
+            <p class="bs-body-text">For landowners, the Land Management practice handles everything from tenant selection and lease structuring to crop monitoring — preserving the value of the land and the relationship with the farming community.</p>
+            <p class="bs-body-text">See the full indexed services listing below, or speak with one of our 170+ professionals to find the right combination for your situation.</p>
+          </div>
+
+          <div class="bs-col-divider" aria-hidden="true"></div>
+
+          <!-- Col 3: Investor angle -->
+          <div>
+            <div class="bs-col-head">
+              <span class="bs-kicker">Research</span>
+              <h2 id="ed-investors">Why Family Offices Are Turning to Farmland</h2>
+            </div>
+            <p class="bs-body-text">The alignment between farmland's characteristics — low correlation to equities, income-producing, inflation-hedged — and the long-duration mandates of family offices and endowments has driven sustained institutional interest.</p>
+            <p class="bs-body-text">Peoples Company's Capital Markets practice connects family offices, institutional funds, private equity, and Ag REITs with high-quality farmland assets, leveraging the firm's national reach and proprietary comparable-sales data.</p>
+            <div class="bs-pullquote">
+              <blockquote>"Farmland offers what most alternative assets cannot: genuine scarcity, embedded income, and generational staying power."</blockquote>
+              <cite>— Peoples Company Capital Markets</cite>
+            </div>
+            <p class="bs-body-text">The Land Investment EXPO, held annually, brings together over 1,600 institutional and individual attendees for research presentations, networking, and deal flow — a unique forum for the farmland investment community.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         SERVICES — indexed list
+    ══════════════════════════════════════════ -->
+    <section class="bs-services" aria-labelledby="svc-heading">
+      <div class="container">
+        <div class="bs-services-inner">
+          <div class="bs-services-head">
+            <span class="bs-kicker">What We Do</span>
+            <h2 id="svc-heading">Seven Disciplines. One Integrated Platform.</h2>
+            <p>From brokerage to crop insurance, every service is staffed by specialists and underpinned by FarmWorth™ data — coordinated across your entire land portfolio.</p>
+          </div>
+          <ul class="bs-svc-list" aria-label="Services list">
+            <li class="bs-svc-item">
+              <span class="bs-svc-num" aria-hidden="true">I.</span>
+              <div>
+                <div class="bs-svc-name">Land Brokerage &amp; Auctions</div>
+                <div class="bs-svc-desc">Listings and competitive auction platform, national buyer network.</div>
+              </div>
+            </li>
+            <li class="bs-svc-item">
+              <span class="bs-svc-num" aria-hidden="true">II.</span>
+              <div>
+                <div class="bs-svc-name">Land Management</div>
+                <div class="bs-svc-desc">Stewardship, lease structuring, operator oversight, consulting.</div>
+              </div>
+            </li>
+            <li class="bs-svc-item">
+              <span class="bs-svc-num" aria-hidden="true">III.</span>
+              <div>
+                <div class="bs-svc-name">Agricultural Appraisal</div>
+                <div class="bs-svc-desc">Certified, data-driven valuations. Order an appraisal today.</div>
+              </div>
+            </li>
+            <li class="bs-svc-item">
+              <span class="bs-svc-num" aria-hidden="true">IV.</span>
+              <div>
+                <div class="bs-svc-name">Capital Markets</div>
+                <div class="bs-svc-desc">Equity placement, debt &amp; structured finance, portfolio advisory.</div>
+              </div>
+            </li>
+            <li class="bs-svc-item">
+              <span class="bs-svc-num" aria-hidden="true">V.</span>
+              <div>
+                <div class="bs-svc-name">Energy Management</div>
+                <div class="bs-svc-desc">Solar &amp; wind lease strategy, renewable energy advisory.</div>
+              </div>
+            </li>
+            <li class="bs-svc-item">
+              <span class="bs-svc-num" aria-hidden="true">VI.</span>
+              <div>
+                <div class="bs-svc-name">Crop Insurance</div>
+                <div class="bs-svc-desc">Coverage analysis and placement for farm operations.</div>
+              </div>
+            </li>
+            <li class="bs-svc-item">
+              <span class="bs-svc-num" aria-hidden="true">VII.</span>
+              <div>
+                <div class="bs-svc-name">Corporate Services</div>
+                <div class="bs-svc-desc">Portfolio-scale programs for institutions and family offices.</div>
+              </div>
+            </li>
+            <li class="bs-svc-item" style="display:flex;align-items:center;grid-column:span 1;">
+              <a href="#" style="font-family:var(--font-sans);font-size:13px;color:#00744D;font-weight:600;text-decoration:none;letter-spacing:.06em;text-transform:uppercase;">All Services →</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         INSIGHTS — columned editorial list
+    ══════════════════════════════════════════ -->
+    <section class="bs-insights" aria-labelledby="ins-heading">
+      <div class="container">
+        <div style="margin-bottom:var(--space-3);">
+          <span class="bs-kicker" id="ins-heading">Insights &amp; Research</span>
+        </div>
+        <div class="bs-insights-top" role="list">
+          <div class="bs-ins-col" role="listitem">
+            <span class="bs-kicker">Land Values</span>
+            <h3 class="bs-ins-title">Understanding Midwest Farmland Trends in 2026</h3>
+            <p class="bs-ins-snippet">Sustained demand, constrained supply, and energy transition payments are reshaping per-acre value expectations across the Corn Belt.</p>
+            <a href="#" class="bs-ins-link">Read More →</a>
+          </div>
+          <div class="bs-ins-col" role="listitem">
+            <span class="bs-kicker">Energy</span>
+            <h3 class="bs-ins-title">Solar &amp; Wind Leases: What Landowners Should Ask</h3>
+            <p class="bs-ins-snippet">Before signing an energy lease, landowners should understand term lengths, easement scope, and the long-term implications for agricultural use.</p>
+            <a href="#" class="bs-ins-link">Read More →</a>
+          </div>
+          <div class="bs-ins-col" role="listitem">
+            <span class="bs-kicker">Research Report</span>
+            <h3 class="bs-ins-title">2025 National Land Values Report</h3>
+            <p class="bs-ins-snippet">Peoples Company's flagship annual report, drawing on transaction data from 2,000+ counties. The definitive guide to U.S. farmland values.</p>
+            <a href="#" class="bs-ins-link">Download →</a>
+          </div>
+          <div class="bs-ins-col" role="listitem">
+            <span class="bs-kicker">Investment</span>
+            <h3 class="bs-ins-title">Why Family Offices &amp; Farmland Align</h3>
+            <p class="bs-ins-snippet">Low correlation, income yield, inflation hedging, and generational durability make farmland a natural fit for long-horizon family office allocations.</p>
+            <a href="#" class="bs-ins-link">Read More →</a>
+          </div>
+        </div>
+        <div class="bs-insights-img">
+          <div class="wf-img is-wide" aria-label="Placeholder — farmland landscape editorial image">Editorial farmland image — wide</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         CTA / CONTACT
+    ══════════════════════════════════════════ -->
+    <section class="bs-cta" aria-labelledby="cta-heading">
+      <div class="container">
+        <div class="bs-cta-inner">
+          <div class="bs-cta-copy">
+            <span class="overline">Get in Touch</span>
+            <h2 id="cta-heading">Start a conversation with our team.</h2>
+            <p>Whether you own farmland, farm it, or invest in it — our 170+ professionals across 20+ regional offices are ready to help.</p>
+            <a href="#" class="bs-cta-btn">Contact Peoples Company</a>
+          </div>
+          <div class="bs-cta-div" aria-hidden="true"></div>
+          <div>
+            <ul class="bs-contact-list" aria-label="Contact information">
+              <li>
+                <span class="bs-contact-label">Phone</span>
+                <a href="tel:8558002526" class="bs-contact-value">855.800.LAND</a>
+              </li>
+              <li>
+                <span class="bs-contact-label">Email</span>
+                <a href="mailto:Info@PeoplesCompany.com" class="bs-contact-value">Info@PeoplesCompany.com</a>
+              </li>
+              <li>
+                <span class="bs-contact-label">Address</span>
+                <span class="bs-contact-value" style="font-size:17px;">1108 S. 44th St, Suite 102<br>Cumming, IA 50061</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         FOOTER
+    ══════════════════════════════════════════ -->
+    <footer class="bs-footer" aria-label="Site footer">
+      <div class="container">
+        <div class="bs-footer-grid">
+          <div class="bs-footer-brand">
+            <img src="../../shared/logos/pc_logo_white.webp" alt="Peoples Company" />
+            <p class="bs-footer-tagline">Integrated Land Solutions. The largest farmland brokerage and management firm in the United States.</p>
+            <div class="bs-footer-contact">
+              <a href="tel:8558002526">855.800.LAND</a>
+              <a href="mailto:Info@PeoplesCompany.com">Info@PeoplesCompany.com</a>
+              <span style="color:#6B7280;font-size:13px;">1108 S. 44th St, Suite 102, Cumming, IA 50061</span>
+            </div>
+          </div>
+          <div>
+            <h4>Real Estate</h4>
+            <ul>
+              <li><a href="#">For Sale</a></li>
+              <li><a href="#">Auctions</a></li>
+              <li><a href="#">Sold Properties</a></li>
+              <li><a href="#">Interactive Map</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>What We Do</h4>
+            <ul>
+              <li><a href="#">Land Brokerage &amp; Auctions</a></li>
+              <li><a href="#">Land Management</a></li>
+              <li><a href="#">Agricultural Appraisal</a></li>
+              <li><a href="#">Capital Markets</a></li>
+              <li><a href="#">Energy Management</a></li>
+              <li><a href="#">Crop Insurance</a></li>
+              <li><a href="#">Corporate Services</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>The Company</h4>
+            <ul>
+              <li><a href="#">Overview</a></li>
+              <li><a href="#">Our Team</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Land Investment EXPO</a></li>
+              <li><a href="#">Regions &amp; Offices</a></li>
+              <li><a href="#">FarmWorth</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Insights &amp; News</h4>
+            <ul>
+              <li><a href="#">National Land Values</a></li>
+              <li><a href="#">Industry Research</a></li>
+              <li><a href="#">Newsletters</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Press Releases</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="bs-footer-bottom">
+          <span>© 2026 Peoples Company &middot; Licensed in 50 states &middot; Equal Housing Opportunity</span>
+          <span><a href="#">Privacy</a> &middot; <a href="#">Terms</a> &middot; <a href="#">Accessibility</a></span>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /.wf-canvas -->
+
+  <script src="./_nav-data.js?v=1"></script>
+  <script src="./_nav.js?v=2"></script>
+</body>
+</html>

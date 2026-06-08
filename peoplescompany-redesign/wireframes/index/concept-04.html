@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Index Wireframe · Concept 04 — Bottom Dock | Peoples Company</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="../../shared/main.css?v=20260601" rel="stylesheet" />
+  <link href="./_wireframe.css?v=2" rel="stylesheet" />
+
+  <style>
+    /* Full-bleed: dock locks to the real browser bottom edge (no centered sheet) */
+    .wf-canvas { max-width:none; margin:0; border:0; box-shadow:none; }
+    .wf-badge { position:fixed; z-index:80; top:10px; left:50%; transform:translateX(-50%);
+      background:#111827; color:#fff; font-family:var(--font-sans); font-size:12px; padding:7px 12px;
+      border-radius:999px; box-shadow:0 4px 14px rgba(0,0,0,.25); }
+    .wf-badge a { color:#9FE0C5; margin-left:8px; text-decoration:none; }
+    .c4-body { padding-bottom:104px; }      /* clear the fixed bottom bar */
+
+    /* Minimal top — logo + utility only */
+    .c4-top { display:flex; align-items:center; padding:var(--space-4) 40px; }
+    .c4-top .c4-logo img { height:42px; width:auto; display:block; }
+    .c4-top .c4-util { margin-left:auto; display:flex; gap:var(--space-5); align-items:center;
+      font-family:var(--font-sans); font-size:13px; color:var(--gray-600); }
+    .c4-top .c4-util a { color:var(--gray-600); text-decoration:none; }
+    .c4-top .c4-util a:hover { color:#00744D; }
+
+    /* Hero */
+    .c4-hero { position:relative; margin:0 40px; border-radius:var(--radius-lg); overflow:hidden; }
+    .c4-hero .wf-img { min-height:520px; border:0; border-radius:0; }
+    .c4-hero-scrim { position:absolute; inset:0; background:linear-gradient(90deg, rgba(10,15,26,.72), rgba(10,15,26,.2)); }
+    .c4-hero-in { position:absolute; inset:0; display:flex; align-items:center; padding:0 var(--space-8); }
+    .c4-hero-copy { color:#fff; max-width:600px; }
+    .c4-hero-copy .label { color:#9FE0C5; } .c4-hero-copy h1 { color:#fff; margin:var(--space-3) 0 var(--space-4); }
+    .c4-hero-copy p { color:#E5E7EB; font-size:18px; max-width:46ch; }
+    .c4-hero-cta { display:flex; gap:var(--space-3); margin-top:var(--space-5); }
+    .btn-onhero { background:transparent; color:#fff; border:1px solid rgba(255,255,255,.7); }
+
+    .c4-sec { padding:var(--space-8) 40px var(--space-6); }
+    .c4-h { margin-bottom:var(--space-5); }
+    .c4-svc { display:grid; grid-template-columns:repeat(7,1fr); gap:var(--space-3); }
+    .c4-svc a { border:1px solid var(--color-border); border-radius:var(--radius-md);
+      padding:var(--space-4) var(--space-3); text-align:center; text-decoration:none;
+      display:flex; flex-direction:column; align-items:center; gap:var(--space-3); }
+    .c4-svc a:hover { border-color:var(--rich-green); }
+    .c4-svc .c4-ico { width:34px; height:34px; border-radius:8px; background:var(--gray-100);
+      display:flex;align-items:center;justify-content:center;color:var(--teal);font-size:10px; }
+    .c4-svc span.t { font-family:var(--font-sans); font-size:13px; color:var(--gray-900); line-height:1.3; }
+
+    .c4-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-5);
+      background:var(--gray-100); border-radius:var(--radius-lg); padding:var(--space-6) var(--space-7); }
+    .c4-stat .n { font-family:var(--font-serif); font-weight:500; font-size:38px; color:var(--gray-900); line-height:1; }
+    .c4-stat .l { font-size:13px; color:var(--gray-600); margin-top:var(--space-2); }
+
+    .c4-ins { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-5); }
+    .c4-ins .wf-thumb { height:140px; }
+    .c4-ins .label { color:var(--teal); display:block; margin-top:var(--space-3); }
+    .c4-ins h4 { font-family:var(--font-serif); font-weight:500; font-size:18px; margin:var(--space-2) 0; }
+
+    /* ===== Bottom dock ===== */
+    .c4-dock { position:fixed; left:0; right:0; bottom:0; z-index:60;
+      display:flex; align-items:center; justify-content:center; gap:6px; padding:10px 24px;
+      background:#0A0F1A; box-shadow:0 -6px 24px rgba(10,15,26,.30); }
+    .c4-dock > .item { position:relative; }
+    .c4-dock > .item > a { display:inline-flex; align-items:center; gap:6px;
+      padding:11px 18px; border-radius:var(--radius-pill);
+      font-family:var(--font-sans); font-weight:500; font-size:15px; color:#fff; text-decoration:none; white-space:nowrap; }
+    .c4-dock > .item > a::after { content:"▴"; font-size:10px; color:#7B8494; }
+    .c4-dock > .item:hover > a, .c4-dock > .item:focus-within > a { background:#00744D; }
+    .c4-dock .c4-contact { background:#00744D; color:#fff; padding:11px 20px; border-radius:var(--radius-pill);
+      font-family:var(--font-sans); font-weight:500; font-size:15px; text-decoration:none; }
+    .c4-dock .c4-search { color:#7B8494; padding:0 12px; font-size:18px; }
+
+    /* Upward flyout mega-menu */
+    .c4-mega { position:absolute; bottom:100%; left:50%; transform:translateX(-50%) translateY(8px);
+      margin-bottom:12px; width:max-content; max-width:760px;
+      background:#fff; border-radius:var(--radius-md); border-top:3px solid #008B5C;
+      box-shadow:0 -12px 30px rgba(10,15,26,.22);
+      opacity:0; visibility:hidden; transition:opacity .14s, transform .14s, visibility .14s; }
+    .c4-dock > .item:hover .c4-mega, .c4-dock > .item:focus-within .c4-mega {
+      opacity:1; visibility:visible; transform:translateX(-50%) translateY(0); }
+    .c4-mega::after { content:""; position:absolute; top:100%; left:0; right:0; height:14px; } /* hover bridge */
+    .c4-mega-in { padding:var(--space-5); display:grid; gap:var(--space-5);
+      grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); }
+    .c4-col h5 { font-family:var(--font-sans); font-weight:600; font-size:11px; letter-spacing:.1em;
+      text-transform:uppercase; color:var(--gray-900); margin:0 0 var(--space-2); padding-bottom:6px; border-bottom:1px solid var(--gray-200); }
+    .c4-col ul { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
+    .c4-col a { font-family:var(--font-sans); font-size:14px; color:var(--gray-600); text-decoration:none; }
+    .c4-col a:hover { color:#00744D; }
+    .c4-col .soft { color:var(--gray-500); font-size:12px; }
+
+    .c4-foot { background:#0A0F1A; color:#9CA3AF; padding:var(--space-6) 40px; font-size:13px;
+      display:flex; justify-content:space-between; gap:var(--space-4); flex-wrap:wrap; }
+
+    @media (max-width:900px){
+      .c4-svc{grid-template-columns:repeat(4,1fr);}
+      .c4-stats,.c4-ins{grid-template-columns:repeat(2,1fr);}
+      .c4-dock{flex-wrap:wrap;}
+    }
+  </style>
+</head>
+<body>
+  <div class="wf-badge"><b>Concept 04 · Bottom Dock</b><a href="./index.html">All concepts ↗</a></div>
+
+  <div class="wf-canvas">
+    <div class="c4-body">
+
+      <!-- Minimal top -->
+      <div class="c4-top">
+        <a class="c4-logo" href="../../version-a/index.html"><img src="../../shared/logos/peoples-company-logo.png" alt="Peoples Company" /></a>
+        <div class="c4-util"><span>(855) 800-LAND</span><a href="#">Land Investment Expo</a><a href="#">Client Login</a></div>
+      </div>
+
+      <!-- Hero -->
+      <header class="c4-hero">
+        <div class="wf-img is-hero">Hero image — farmland landscape</div>
+        <div class="c4-hero-scrim"></div>
+        <div class="c4-hero-in"><div class="c4-hero-copy">
+          <span class="label">National Leader in Agricultural Real Estate</span>
+          <h1>Trusted Farmland Expertise. Institutional Insight.</h1>
+          <p>Helping landowners, farmers, and investors make confident decisions through data-driven insight and decades of experience.</p>
+          <div class="c4-hero-cta"><a href="#" class="btn btn-white">Explore Our Services</a><a href="#" class="btn btn-onhero">Talk to an Advisor</a></div>
+        </div></div>
+      </header>
+
+      <section class="c4-sec">
+        <div class="c4-h"><span class="label">What We Do</span><h2 style="margin-top:var(--space-2);">Creating value across the land lifecycle</h2></div>
+        <div class="c4-svc">
+          <a href="#"><span class="c4-ico">ico</span><span class="t">Land Brokerage &amp; Auctions</span></a>
+          <a href="#"><span class="c4-ico">ico</span><span class="t">Land Management</span></a>
+          <a href="#"><span class="c4-ico">ico</span><span class="t">Agricultural Appraisal</span></a>
+          <a href="#"><span class="c4-ico">ico</span><span class="t">Capital Markets</span></a>
+          <a href="#"><span class="c4-ico">ico</span><span class="t">Energy Management</span></a>
+          <a href="#"><span class="c4-ico">ico</span><span class="t">Crop Insurance</span></a>
+          <a href="#"><span class="c4-ico">ico</span><span class="t">Corporate Services</span></a>
+        </div>
+      </section>
+
+      <section class="c4-sec" style="padding-top:0;">
+        <div class="c4-stats">
+          <div class="c4-stat"><div class="n">50+</div><div class="l">Years, rooted in Iowa since the 1960s</div></div>
+          <div class="c4-stat"><div class="n">50</div><div class="l">States licensed — national reach</div></div>
+          <div class="c4-stat"><div class="n">$6B+</div><div class="l">Farmland transacted &amp; managed</div></div>
+          <div class="c4-stat"><div class="n">#1</div><div class="l">National leader in ag real estate</div></div>
+        </div>
+      </section>
+
+      <section class="c4-sec">
+        <div class="c4-h" style="display:flex;justify-content:space-between;align-items:baseline;">
+          <div><span class="label">Insights &amp; Research</span><h2 style="margin-top:var(--space-2);">Clarity for every land decision</h2></div>
+          <a href="#" class="read-more is-static">View all insights</a>
+        </div>
+        <div class="c4-ins">
+          <article class="card"><div class="wf-img wf-thumb">Article</div><span class="label">Land Values · May 2026</span><h4>Midwest Farmland Trends in 2026</h4><a href="#" class="read-more is-static">Read more</a></article>
+          <article class="card"><div class="wf-img wf-thumb">Article</div><span class="label">Energy · May 2026</span><h4>Solar &amp; Wind Leases: What to Ask</h4><a href="#" class="read-more is-static">Read more</a></article>
+          <article class="card"><div class="wf-img wf-thumb">Report</div><span class="label">Research Report</span><h4>2025 National Land Values Report</h4><a href="#" class="read-more is-static">Download</a></article>
+          <article class="card"><div class="wf-img wf-thumb">Report</div><span class="label">Research Report</span><h4>Why Family Offices &amp; Farmland Align</h4><a href="#" class="read-more is-static">Download</a></article>
+        </div>
+      </section>
+
+      <footer class="c4-foot">
+        <span>© 2026 Peoples Company · Licensed in 50 states (EHO) · 1108 S. 44th St, Suite 102, Cumming, IA 50061</span>
+        <span>Privacy · Terms · Accessibility</span>
+      </footer>
+
+    </div>
+  </div>
+
+  <!-- Bottom dock (built from shared IA) -->
+  <nav class="c4-dock" id="c4-dock" aria-label="Primary"></nav>
+
+  <script src="./_nav-data.js?v=1"></script>
+  <script>
+    (function(){
+      var N = window.PC_NAV; if(!N) return;
+      var esc=function(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");};
+      var items = N.items.map(function(it){
+        var cols = it.cols.map(function(c){
+          if (c.note) return '<div class="c4-col"><p class="soft" style="margin:0;">'+esc(c.note)+'</p></div>';
+          if (c.h && (!c.items||!c.items.length)) return '<div class="c4-col"><h5 style="border:0;"><a href="#" style="color:inherit;text-decoration:none;">'+esc(c.h)+'</a></h5></div>';
+          var links=(c.items||[]).map(function(i){return '<li><a href="#">'+esc(i)+'</a></li>';}).join('');
+          return '<div class="c4-col"><h5>'+esc(c.h)+'</h5><ul>'+links+'</ul></div>';
+        }).join('');
+        return '<div class="item"><a href="#" aria-haspopup="true">'+esc(it.label)+'</a>'+
+               '<div class="c4-mega" role="menu" aria-label="'+esc(it.label)+'"><div class="c4-mega-in">'+cols+'</div></div></div>';
+      }).join('');
+      document.getElementById('c4-dock').innerHTML =
+        '<span class="c4-search" role="search" title="Search">🔍</span>' + items +
+        '<a class="c4-contact" href="#">Contact</a>';
+    })();
+  </script>
+</body>
+</html>

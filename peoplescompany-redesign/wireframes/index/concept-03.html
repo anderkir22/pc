@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Index Wireframe · Concept 03 — Horizontal Deck | Peoples Company</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="../../shared/main.css?v=20260601" rel="stylesheet" />
+  <link href="./_wireframe.css?v=2" rel="stylesheet" />
+
+  <style>
+    /* Full-bleed immersive deck */
+    .wf-canvas { max-width:none; margin:0; border:0; box-shadow:none; }
+    .wf-badge { position:fixed; z-index:80; bottom:14px; right:14px; background:#111827; color:#fff;
+      font-family:var(--font-sans); font-size:12px; padding:8px 12px; border-radius:999px; box-shadow:0 4px 14px rgba(0,0,0,.25); }
+    .wf-badge a { color:#9FE0C5; margin-left:8px; text-decoration:none; }
+    /* Thin progress line (replaces the bottom pager) */
+    .c3-prog-wrap { height:3px; background:var(--gray-100); }
+    .c3-prog { height:100%; width:0; background:#00744D; transition:width .12s linear; }
+
+    /* Slim top bar */
+    .c3-top { display:flex; align-items:center; gap:var(--space-6); padding:var(--space-4) 40px;
+      border-bottom:1px solid var(--color-border); background:#fff; }
+    .c3-top .c3-logo img { height:40px; width:auto; display:block; }
+    .c3-top nav { display:flex; gap:var(--space-5); margin-left:var(--space-6); }
+    .c3-top nav a { font-family:var(--font-sans); font-size:15px; color:var(--gray-600); text-decoration:none; }
+    .c3-top nav a:hover, .c3-top nav a.is-active { color:#00744D; }
+    .c3-top .c3-actions { margin-left:auto; display:flex; gap:var(--space-3); align-items:center; }
+
+    /* Horizontal scroller */
+    .c3-track {
+      display:flex; overflow-x:auto; overflow-y:hidden;
+      scroll-snap-type:x mandatory; scroll-behavior:smooth;
+      height:calc(100vh - 76px); /* minus top bar + progress line */
+      min-height:560px;
+      scrollbar-width:none; -ms-overflow-style:none;   /* hide the bottom scrollbar */
+    }
+    .c3-track::-webkit-scrollbar { display:none; }
+    .c3-panel { flex:0 0 100%; scroll-snap-align:start; height:100%;
+      display:flex; align-items:center; padding:0 40px; position:relative; }
+    .c3-inner { width:100%; max-width:1180px; margin:0 auto; }
+    .c3-num { font-family:var(--font-sans); font-size:13px; letter-spacing:.12em; color:var(--gray-500); }
+
+    /* Panel 1 — hero (full-bleed image) */
+    .c3-hero { padding:0; }
+    .c3-hero .wf-img { position:absolute; inset:0; min-height:0; border:0; border-radius:0; }
+    .c3-hero-scrim { position:absolute; inset:0; background:linear-gradient(90deg, rgba(10,15,26,.75), rgba(10,15,26,.25)); }
+    .c3-hero .c3-inner { position:relative; color:#fff; }
+    .c3-hero .label { color:#9FE0C5; }
+    .c3-hero h1 { color:#fff; font-size:56px; margin:var(--space-3) 0 var(--space-4); max-width:16ch; }
+    .c3-hero p { color:#E5E7EB; max-width:48ch; font-size:18px; }
+    .c3-hero .c3-cta { display:flex; gap:var(--space-3); margin-top:var(--space-5); }
+    .btn-onhero { background:transparent; color:#fff; border:1px solid rgba(255,255,255,.7); }
+
+    /* Panel 2 — services */
+    .c3-svc { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-4); margin-top:var(--space-6); }
+    .c3-card { border:1px solid var(--color-border); border-radius:var(--radius-md); padding:var(--space-5); }
+    .c3-card .c3-ico { width:36px; height:36px; border-radius:8px; background:var(--gray-100);
+      display:flex;align-items:center;justify-content:center;color:var(--teal);font-size:11px;margin-bottom:var(--space-3); }
+    .c3-card h4 { font-family:var(--font-sans); font-size:15px; margin:0; color:var(--gray-900); }
+
+    /* Panel 3 — stats (dark) */
+    .c3-stats-panel { background:var(--pine); }
+    .c3-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-6); margin-top:var(--space-6); }
+    .c3-stats .c3-num2 { font-family:var(--font-serif); font-weight:500; font-size:56px; color:#fff; line-height:1; }
+    .c3-stats .c3-lab { color:#CFE3DF; font-size:14px; margin-top:var(--space-2); }
+    .c3-stats-panel .label { color:#9FE0C5; } .c3-stats-panel h2 { color:#fff; }
+
+    /* Panel 4 — insights */
+    .c3-ins { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-5); margin-top:var(--space-6); }
+    .c3-ins .wf-thumb { height:150px; }
+    .c3-ins .label { color:var(--teal); display:block; margin-top:var(--space-3); }
+    .c3-ins h4 { font-family:var(--font-serif); font-weight:500; font-size:18px; margin:var(--space-2) 0; }
+
+    /* Panel 5 — contact + footer */
+    .c3-contact { background:var(--gray-100); }
+    .c3-contact .c3-grid { display:grid; grid-template-columns:1fr 1fr; gap:var(--space-7); margin-top:var(--space-5); }
+    .c3-news { display:flex; gap:var(--space-3); }
+    .c3-news .c3-input { flex:1; border:1px solid var(--gray-200); background:#fff; border-radius:var(--radius-pill); padding:12px 18px; color:var(--gray-500); font-family:var(--font-sans); font-size:14px; }
+    .c3-foot { margin-top:var(--space-7); padding-top:var(--space-4); border-top:1px solid var(--gray-200); font-size:13px; color:var(--gray-600); }
+
+    @media (max-width:900px){
+      .c3-svc,.c3-stats,.c3-ins,.c3-contact .c3-grid { grid-template-columns:1fr 1fr; }
+      .c3-hero h1 { font-size:38px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wf-badge"><b>Concept 03 · Horizontal Deck</b><a href="./index.html">All concepts ↗</a></div>
+
+  <div class="wf-canvas">
+
+    <!-- Slim top bar -->
+    <div class="c3-top">
+      <a class="c3-logo" href="../../version-a/index.html"><img src="../../shared/logos/peoples-company-logo.png" alt="Peoples Company" /></a>
+      <nav aria-label="Primary">
+        <a href="#" data-go="0" class="is-active">Home</a>
+        <a href="#" data-go="1">What We Do</a>
+        <a href="#" data-go="2">Why Us</a>
+        <a href="#" data-go="3">Insights</a>
+        <a href="#" data-go="4">Contact</a>
+      </nav>
+      <div class="c3-actions">
+        <span class="sh-search" style="border:1px solid var(--gray-200);border-radius:999px;padding:8px 14px;font-family:var(--font-sans);font-size:13px;color:var(--gray-500);">🔍 Search</span>
+        <a href="#" class="btn btn-black" style="padding:10px 18px;font-size:14px;background:#00744D;border-color:#00744D;">Contact</a>
+      </div>
+    </div>
+
+    <!-- Progress line -->
+    <div class="c3-prog-wrap"><div class="c3-prog" id="c3-prog"></div></div>
+
+    <!-- Horizontal track -->
+    <div class="c3-track" id="c3-track">
+
+      <section class="c3-panel c3-hero" id="p0">
+        <div class="wf-img">Hero image — farmland landscape</div>
+        <div class="c3-hero-scrim"></div>
+        <div class="c3-inner">
+          <span class="label">National Leader in Agricultural Real Estate</span>
+          <h1>Trusted Farmland Expertise. Institutional Insight.</h1>
+          <p>Helping landowners, farmers, and investors make confident decisions through data-driven insight and decades of experience.</p>
+          <div class="c3-cta"><a href="#" class="btn btn-white">Explore Services</a><a href="#" class="btn btn-onhero">Talk to an Advisor</a></div>
+          <p style="margin-top:var(--space-6);color:#9FE0C5;font-size:14px;">Scroll right →</p>
+        </div>
+      </section>
+
+      <section class="c3-panel" id="p1">
+        <div class="c3-inner">
+          <span class="c3-num">01 / Services</span>
+          <h2 style="margin-top:var(--space-2);">Creating value across the land lifecycle</h2>
+          <div class="c3-svc">
+            <div class="c3-card"><span class="c3-ico">ico</span><h4>Land Brokerage &amp; Auctions</h4></div>
+            <div class="c3-card"><span class="c3-ico">ico</span><h4>Land Management</h4></div>
+            <div class="c3-card"><span class="c3-ico">ico</span><h4>Agricultural Appraisal</h4></div>
+            <div class="c3-card"><span class="c3-ico">ico</span><h4>Capital Markets</h4></div>
+            <div class="c3-card"><span class="c3-ico">ico</span><h4>Energy Management</h4></div>
+            <div class="c3-card"><span class="c3-ico">ico</span><h4>Crop Insurance</h4></div>
+            <div class="c3-card"><span class="c3-ico">ico</span><h4>Corporate Services</h4></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="c3-panel c3-stats-panel" id="p2">
+        <div class="c3-inner">
+          <span class="label">Why Peoples Company</span>
+          <h2 style="margin-top:var(--space-2);">Rooted in tradition. Built for scale.</h2>
+          <div class="c3-stats">
+            <div><div class="c3-num2">50+</div><div class="c3-lab">Years, since the 1960s</div></div>
+            <div><div class="c3-num2">50</div><div class="c3-lab">States licensed</div></div>
+            <div><div class="c3-num2">$6B+</div><div class="c3-lab">Transacted &amp; managed</div></div>
+            <div><div class="c3-num2">#1</div><div class="c3-lab">In ag real estate</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="c3-panel" id="p3">
+        <div class="c3-inner">
+          <span class="c3-num">03 / Insights &amp; Research</span>
+          <h2 style="margin-top:var(--space-2);">Clarity for every land decision</h2>
+          <div class="c3-ins">
+            <article class="card"><div class="wf-img wf-thumb">Article</div><span class="label">Land Values · May 2026</span><h4>Midwest Farmland Trends in 2026</h4><a href="#" class="read-more is-static">Read more</a></article>
+            <article class="card"><div class="wf-img wf-thumb">Article</div><span class="label">Energy · May 2026</span><h4>Solar &amp; Wind Leases: What to Ask</h4><a href="#" class="read-more is-static">Read more</a></article>
+            <article class="card"><div class="wf-img wf-thumb">Report</div><span class="label">Research Report</span><h4>2025 National Land Values Report</h4><a href="#" class="read-more is-static">Download</a></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="c3-panel c3-contact" id="p4">
+        <div class="c3-inner">
+          <span class="c3-num">04 / Get in touch</span>
+          <h2 style="margin-top:var(--space-2);">Start a conversation</h2>
+          <div class="c3-grid">
+            <div><p class="body">Connect with our team to discuss your land goals.</p><a href="#" class="btn btn-black" style="background:#00744D;border-color:#00744D;">Contact Us</a></div>
+            <div><span class="label">Land Matters Newsletter</span><p class="body" style="margin:var(--space-2) 0 var(--space-3);">Market trends and land values, in your inbox.</p>
+              <div class="c3-news"><span class="c3-input">you@example.com</span><a href="#" class="btn btn-black">Subscribe</a></div></div>
+          </div>
+          <div class="c3-foot">© 2026 Peoples Company · Licensed in 50 states (EHO) · Privacy · Terms · Accessibility</div>
+        </div>
+      </section>
+
+    </div>
+
+  </div>
+
+  <script>
+    (function(){
+      var track = document.getElementById('c3-track');
+      var prog  = document.getElementById('c3-prog');
+      var panels = track.querySelectorAll('.c3-panel');
+      var navs = document.querySelectorAll('.c3-top nav a');
+      function go(i){ panels[i].scrollIntoView({behavior:'smooth', inline:'start', block:'nearest'}); }
+      document.querySelectorAll('[data-go]').forEach(function(el){
+        el.addEventListener('click', function(e){ e.preventDefault(); go(+el.dataset.go); });
+      });
+      // Intuitive: translate a normal vertical wheel/trackpad gesture into horizontal movement.
+      track.addEventListener('wheel', function(e){
+        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) { track.scrollLeft += e.deltaY; e.preventDefault(); }
+      }, { passive:false });
+      // Top progress line + active nav (no bottom pager).
+      track.addEventListener('scroll', function(){
+        var max = track.scrollWidth - track.clientWidth;
+        prog.style.width = (max>0 ? (track.scrollLeft/max*100) : 0) + '%';
+        var i = Math.round(track.scrollLeft / track.clientWidth);
+        navs.forEach(function(d,di){ d.classList.toggle('is-active', di===i); });
+      });
+    })();
+  </script>
+</body>
+</html>

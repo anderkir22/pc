@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Index Wireframe · Concept 01 — Compact Authority | Peoples Company</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link href="../../shared/main.css?v=20260601" rel="stylesheet" />
+  <link href="./_wireframe.css?v=2" rel="stylesheet" />
+  <link href="./_nav.css?v=1" rel="stylesheet" />
+
+  <style>
+    /* ---- Concept 01 layout ---- */
+
+    /* Hero: full-width landscape with overlaid message (no featured item) */
+    .c-hero { position:relative; }
+    .c-hero .wf-img { min-height:520px; border:0; border-radius:0; }
+    .c-hero-scrim { position:absolute; inset:0;
+      background:linear-gradient(90deg, rgba(10,15,26,.72) 0%, rgba(10,15,26,.55) 45%, rgba(10,15,26,.25) 100%); }
+    .c-hero-in { position:absolute; inset:0; display:flex; align-items:center; }
+    .c-hero-in .container { width:100%; }
+    .c-hero-copy { max-width:620px; color:#fff; }
+    .c-hero-copy .label { color:#9FE0C5; }
+    .c-hero-copy h1 { color:#fff; margin:var(--space-3) 0 var(--space-4); }
+    .c-hero-copy .body-lg { color:#E5E7EB; max-width:48ch; margin-bottom:var(--space-5); }
+    .c-hero-actions { display:flex; gap:var(--space-3); flex-wrap:wrap; margin-bottom:var(--space-5); }
+    .btn-hero-2 { background:transparent; color:#fff; border:1px solid rgba(255,255,255,.7); }
+    .btn-hero-2:hover { border-color:#fff; background:rgba(255,255,255,.08); }
+    .c-audience { display:flex; gap:var(--space-5); flex-wrap:wrap; align-items:center;
+      font-family:var(--font-sans); font-size:14px; color:#D1D5DB; }
+    .c-audience a { color:#fff; text-decoration:underline; text-underline-offset:3px; }
+    .c-audience a:hover { color:#9FE0C5; }
+
+    /* Services: one compact horizontal strip, all 7 in reach */
+    .c-services { padding:var(--space-7) 0 var(--space-6); }
+    .c-head { display:flex; align-items:baseline; justify-content:space-between; gap:var(--space-4); margin-bottom:var(--space-5); }
+    .c-svc-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:var(--space-3); }
+    .c-svc { border:1px solid var(--color-border); border-radius:var(--radius-md);
+      padding:var(--space-4) var(--space-3); text-align:center; text-decoration:none;
+      display:flex; flex-direction:column; gap:var(--space-3); align-items:center;
+      transition:border-color .12s ease, box-shadow .12s ease; }
+    .c-svc:hover { border-color:var(--rich-green); box-shadow:0 1px 3px rgba(17,24,39,.06); }
+    .c-svc .c-ico { width:36px; height:36px; border-radius:8px; background:var(--gray-100);
+      display:flex; align-items:center; justify-content:center; color:var(--teal); font-size:11px; }
+    .c-svc span { font-family:var(--font-sans); font-size:13px; line-height:1.3; color:var(--gray-900); }
+
+    /* Stats: compact inline credibility row (replaces long history section) */
+    .c-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-5);
+      background:var(--pine); color:#fff; border-radius:var(--radius-lg);
+      padding:var(--space-6) var(--space-7); margin:var(--space-6) 0; }
+    .c-stat .c-num { font-family:var(--font-serif); font-weight:500; font-size:36px; line-height:1; }
+    .c-stat .c-lab { font-family:var(--font-sans); font-size:13px; color:#CFE3DF; margin-top:var(--space-2); }
+
+    /* Insights + Research merged into one 4-up grid */
+    .c-insights { padding:var(--space-6) 0; }
+    .c-grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-5); }
+    .c-icard h4 { font-family:var(--font-serif); font-weight:500; font-size:18px;
+      margin:var(--space-3) 0 var(--space-2); line-height:1.3; }
+    .c-icard .label { color:var(--teal); }
+
+    /* CTA + newsletter combined band */
+    .c-cta { display:grid; grid-template-columns:1fr 1fr; gap:var(--space-7);
+      align-items:center; background:var(--gray-100); border-radius:var(--radius-lg);
+      padding:var(--space-7); margin:var(--space-7) 0; }
+    .c-news-form { display:flex; gap:var(--space-3); }
+    .c-news-form .c-input { flex:1; border:1px solid var(--gray-200); background:#fff;
+      border-radius:var(--radius-pill); padding:12px 18px; color:var(--gray-500);
+      font-family:var(--font-sans); font-size:14px; }
+
+    /* Footer */
+    .c-foot { padding:var(--space-8) 0 var(--space-6); }
+    .c-foot-grid { display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:var(--space-6); }
+    .c-foot-grid ul { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:var(--space-2); font-size:14px; }
+    .c-foot-bottom { display:flex; justify-content:space-between; gap:var(--space-4); flex-wrap:wrap;
+      margin-top:var(--space-7); padding-top:var(--space-5); border-top:1px solid #2A3344; font-size:12px; color:#9CA3AF; }
+
+    @media (max-width:980px){
+      .c-hero .wf-img { min-height:460px; }
+      .c-svc-grid{grid-template-columns:repeat(4,1fr);}
+      .c-stats{grid-template-columns:repeat(2,1fr);}
+      .c-grid-4{grid-template-columns:repeat(2,1fr);}
+      .c-cta{grid-template-columns:1fr;}
+      .c-foot-grid{grid-template-columns:1fr 1fr;}
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Review chrome (not part of the page) -->
+  <div class="wf-badge"><b>Concept 01 · Compact Authority</b><a href="./index.html">All concepts ↗</a></div>
+
+  <div class="wf-canvas">
+
+    <!-- ===================== SHARED HEADER + MEGA-MENU NAV (injected) ===================== -->
+    <div id="site-header"></div>
+
+    <!-- ===================== HERO (full-width, no featured item) ===================== -->
+    <header class="c-hero">
+      <div class="wf-img is-hero">Hero image — farmland landscape</div>
+      <div class="c-hero-scrim"></div>
+      <div class="c-hero-in">
+        <div class="container">
+          <div class="c-hero-copy">
+            <span class="label">National Leader in Agricultural Real Estate</span>
+            <h1>Trusted Farmland Expertise. Institutional Insight.</h1>
+            <p class="body-lg">We help landowners, farmers, and investors make confident decisions through data-driven insight and decades of experience.</p>
+            <div class="c-hero-actions">
+              <a href="#" class="btn btn-white">Explore Our Services</a>
+              <a href="#" class="btn btn-hero-2">Talk to an Advisor</a>
+            </div>
+            <div class="c-audience">
+              <span>I'm a:</span>
+              <a href="#">Landowner</a>
+              <a href="#">Farmer / Operator</a>
+              <a href="#">Investor</a>
+              <a href="#">Family Office</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===================== SERVICES STRIP ===================== -->
+    <section class="container c-services">
+      <div class="c-head">
+        <div>
+          <span class="label">What We Do</span>
+          <h2 style="margin-top:var(--space-2);">Creating value across the land lifecycle</h2>
+        </div>
+        <a href="#" class="read-more is-static">All services</a>
+      </div>
+      <div class="c-svc-grid">
+        <a class="c-svc" href="#"><span class="c-ico">ico</span><span>Land Brokerage &amp; Auctions</span></a>
+        <a class="c-svc" href="#"><span class="c-ico">ico</span><span>Land Management</span></a>
+        <a class="c-svc" href="#"><span class="c-ico">ico</span><span>Agricultural Appraisal</span></a>
+        <a class="c-svc" href="#"><span class="c-ico">ico</span><span>Capital Markets</span></a>
+        <a class="c-svc" href="#"><span class="c-ico">ico</span><span>Energy Management</span></a>
+        <a class="c-svc" href="#"><span class="c-ico">ico</span><span>Crop Insurance</span></a>
+        <a class="c-svc" href="#"><span class="c-ico">ico</span><span>Corporate Services</span></a>
+      </div>
+    </section>
+
+    <!-- ===================== STATS (compressed history/credibility) ===================== -->
+    <section class="container wf-band" style="padding-top:var(--space-6); border:0;">
+      <div class="c-stats">
+        <div class="c-stat"><div class="c-num">50+</div><div class="c-lab">Years, rooted in Iowa since the 1960s</div></div>
+        <div class="c-stat"><div class="c-num">50</div><div class="c-lab">States licensed — national reach</div></div>
+        <div class="c-stat"><div class="c-num">$6B+</div><div class="c-lab">Farmland transacted &amp; managed</div></div>
+        <div class="c-stat"><div class="c-num">#1</div><div class="c-lab">National leader in ag real estate</div></div>
+      </div>
+    </section>
+
+    <!-- ===================== INSIGHTS + RESEARCH (merged) ===================== -->
+    <section class="container c-insights">
+      <div class="c-head">
+        <div>
+          <span class="label">Insights &amp; Research</span>
+          <h2 style="margin-top:var(--space-2);">Clarity for every land decision</h2>
+        </div>
+        <a href="#" class="read-more is-static">View all insights</a>
+      </div>
+      <div class="c-grid-4">
+        <article class="card c-icard">
+          <div class="wf-img wf-thumb">Article image</div>
+          <span class="label" style="margin-top:var(--space-3); display:block;">Land Values · May 2026</span>
+          <h4>Understanding Midwest Farmland Trends in 2026</h4>
+          <a href="#" class="read-more is-static">Read more</a>
+        </article>
+        <article class="card c-icard">
+          <div class="wf-img wf-thumb">Article image</div>
+          <span class="label" style="margin-top:var(--space-3); display:block;">Energy · May 2026</span>
+          <h4>Solar &amp; Wind Leases: What Landowners Should Ask</h4>
+          <a href="#" class="read-more is-static">Read more</a>
+        </article>
+        <article class="card c-icard">
+          <div class="wf-img wf-thumb">Report cover</div>
+          <span class="label" style="margin-top:var(--space-3); display:block;">Research Report</span>
+          <h4>2025 National Land Values Report</h4>
+          <a href="#" class="read-more is-static">Download PDF</a>
+        </article>
+        <article class="card c-icard">
+          <div class="wf-img wf-thumb">Report cover</div>
+          <span class="label" style="margin-top:var(--space-3); display:block;">Research Report</span>
+          <h4>Why Family Offices &amp; Farmland Align</h4>
+          <a href="#" class="read-more is-static">Download PDF</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===================== CTA + NEWSLETTER (combined) ===================== -->
+    <section class="container">
+      <div class="c-cta">
+        <div>
+          <h2 style="margin-bottom:var(--space-2);">Start a conversation</h2>
+          <p class="body" style="margin-bottom:var(--space-4);">Connect with our team to discuss your land goals.</p>
+          <a href="#" class="btn btn-black">Contact Us</a>
+        </div>
+        <div>
+          <span class="label">Land Matters Newsletter</span>
+          <p class="body" style="margin:var(--space-2) 0 var(--space-3);">Market trends and land values, in your inbox.</p>
+          <div class="c-news-form">
+            <span class="c-input">you@example.com</span>
+            <a href="#" class="btn btn-black">Subscribe</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="wf-footer">
+      <div class="container c-foot">
+        <div class="c-foot-grid">
+          <div>
+            <img src="../../shared/logos/pc_logo_white.webp" alt="Peoples Company" style="height:40px; width:auto;" />
+            <p style="margin-top:var(--space-4); font-size:14px; max-width:34ch;">1108 S. 44th St, Suite 102, Cumming, IA 50061 · Info@PeoplesCompany.com</p>
+            <p style="font-size:13px; color:#9CA3AF;">Social: in · X · fb · ig</p>
+          </div>
+          <div><h4>Services</h4><ul>
+            <li><a href="#">Brokerage &amp; Auctions</a></li>
+            <li><a href="#">Land Management</a></li>
+            <li><a href="#">Appraisal</a></li>
+            <li><a href="#">Capital Markets</a></li>
+          </ul></div>
+          <div><h4>Insights</h4><ul>
+            <li><a href="#">Farmland Insights</a></li>
+            <li><a href="#">Research Reports</a></li>
+            <li><a href="#">Land Investment Expo</a></li>
+          </ul></div>
+          <div><h4>Company</h4><ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Team</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul></div>
+        </div>
+        <div class="c-foot-bottom">
+          <span>© 2026 Peoples Company · Licensed in 50 states (EHO)</span>
+          <span>Privacy · Terms · Accessibility · Cookie Policy</span>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /wf-canvas -->
+
+  <script src="./_nav-data.js?v=1"></script>
+  <script src="./_nav.js?v=2"></script>
+</body>
+</html>

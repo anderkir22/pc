@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Index Wireframe · Concept 16 — Concierge | Peoples Company</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="../../shared/main.css?v=20260601" rel="stylesheet" />
+  <link href="./_wireframe.css?v=2" rel="stylesheet" />
+  <link href="./_nav.css?v=2" rel="stylesheet" />
+  <style>
+    /* Concept 16 — Concierge: a guided, conversational entry */
+    .cg-hero { padding:var(--space-9) 0 var(--space-7); text-align:center; }
+    .cg-hero .label { color:var(--teal); }
+    .cg-hero h1 { font-size:52px; max-width:18ch; margin:var(--space-3) auto var(--space-6); }
+    .cg-chips { display:flex; flex-wrap:wrap; gap:var(--space-3); justify-content:center; max-width:820px; margin:0 auto; }
+    .cg-chip { font-family:var(--font-sans); font-size:16px; font-weight:500; color:var(--gray-900);
+      background:#fff; border:1px solid var(--gray-200); border-radius:var(--radius-pill);
+      padding:12px 22px; cursor:pointer; transition:all .12s ease; }
+    .cg-chip:hover { border-color:var(--rich-green); }
+    .cg-chip[aria-pressed="true"] { background:#00744D; border-color:#00744D; color:#fff; }
+
+    /* Reveal panel */
+    .cg-panel-wrap { padding:0 0 var(--space-8); }
+    .cg-panel { display:grid; grid-template-columns:1.1fr .9fr; gap:0; border:1px solid var(--color-border);
+      border-radius:var(--radius-lg); overflow:hidden; min-height:300px; }
+    .cg-panel-copy { padding:var(--space-8); display:flex; flex-direction:column; justify-content:center; }
+    .cg-panel-copy .label { color:var(--teal); }
+    .cg-panel-copy h2 { font-size:34px; margin:var(--space-2) 0 var(--space-3); }
+    .cg-panel-copy p { font-size:17px; max-width:42ch; margin-bottom:var(--space-5); }
+    .cg-panel-copy .links { display:flex; gap:var(--space-4); flex-wrap:wrap; align-items:center; }
+    .cg-panel-copy .links a.svc { color:var(--gray-900); text-decoration:underline; text-underline-offset:3px; font-family:var(--font-sans); font-size:14px; }
+    .cg-panel-side { background:var(--pine); position:relative; }
+    .cg-panel-side .wf-img { position:absolute; inset:0; min-height:0; border:0; border-radius:0; opacity:.85; }
+
+    .cg-sec { padding:var(--space-7) 0; border-top:1px solid var(--gray-100); }
+    .cg-head { display:flex; justify-content:space-between; align-items:baseline; gap:var(--space-4); margin-bottom:var(--space-5); }
+    .cg-svc { display:grid; grid-template-columns:repeat(7,1fr); gap:var(--space-3); }
+    .cg-svc a { border:1px solid var(--color-border); border-radius:var(--radius-md); padding:var(--space-4) var(--space-3);
+      text-align:center; text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:var(--space-3); }
+    .cg-svc a:hover { border-color:var(--rich-green); }
+    .cg-svc .ico { width:34px; height:34px; border-radius:8px; background:var(--gray-100); color:var(--teal); display:flex; align-items:center; justify-content:center; font-size:10px; }
+    .cg-svc span.t { font-family:var(--font-sans); font-size:13px; color:var(--gray-900); }
+
+    .cg-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-5); background:var(--pine); color:#fff;
+      border-radius:var(--radius-lg); padding:var(--space-6) var(--space-7); }
+    .cg-stat .n { font-family:var(--font-serif); font-weight:500; font-size:38px; line-height:1; }
+    .cg-stat .l { font-size:13px; color:#CFE3DF; margin-top:var(--space-2); }
+
+    .cg-ins { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-5); }
+    .cg-ins .wf-thumb { height:150px; } .cg-ins .label { color:var(--teal); display:block; margin-top:var(--space-3); }
+    .cg-ins h4 { font-family:var(--font-serif); font-weight:500; font-size:19px; margin:var(--space-2) 0; }
+
+    @media (max-width:980px){
+      .cg-hero h1{font-size:34px;} .cg-panel{grid-template-columns:1fr;} .cg-panel-side{min-height:200px;}
+      .cg-svc{grid-template-columns:repeat(4,1fr);} .cg-stats{grid-template-columns:1fr 1fr;} .cg-ins{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+  <div class="wf-badge"><b>Concept 16 · Concierge</b><a href="./index.html">All concepts ↗</a></div>
+
+  <div class="wf-canvas">
+    <div id="site-header"></div>
+
+    <header class="container cg-hero">
+      <span class="label">Welcome to Peoples Company</span>
+      <h1>What brings you to Peoples Company today?</h1>
+      <div class="cg-chips" id="cg-chips" role="group" aria-label="Choose your goal"></div>
+    </header>
+
+    <section class="container cg-panel-wrap">
+      <div class="cg-panel">
+        <div class="cg-panel-copy" id="cg-panel" aria-live="polite"></div>
+        <div class="cg-panel-side"><div class="wf-img">Relevant imagery</div></div>
+      </div>
+    </section>
+
+    <section class="container cg-sec">
+      <div class="cg-head"><div><span class="label">What We Do</span><h2 style="margin-top:var(--space-2);">Full suite of services</h2></div><a href="#" class="read-more is-static">All services</a></div>
+      <div class="cg-svc">
+        <a href="#"><span class="ico">ico</span><span class="t">Land Brokerage &amp; Auctions</span></a>
+        <a href="#"><span class="ico">ico</span><span class="t">Land Management</span></a>
+        <a href="#"><span class="ico">ico</span><span class="t">Agricultural Appraisal</span></a>
+        <a href="#"><span class="ico">ico</span><span class="t">Capital Markets</span></a>
+        <a href="#"><span class="ico">ico</span><span class="t">Energy Management</span></a>
+        <a href="#"><span class="ico">ico</span><span class="t">Crop Insurance</span></a>
+        <a href="#"><span class="ico">ico</span><span class="t">Corporate Services</span></a>
+      </div>
+    </section>
+
+    <section class="container cg-sec" style="border:0;">
+      <div class="cg-stats">
+        <div class="cg-stat"><div class="n">$6B+</div><div class="l">Farmland Transactions</div></div>
+        <div class="cg-stat"><div class="n">170+</div><div class="l">Ag Professionals</div></div>
+        <div class="cg-stat"><div class="n">20+</div><div class="l">Regional Offices</div></div>
+        <div class="cg-stat"><div class="n">1.6K+</div><div class="l">EXPO Attendees</div></div>
+      </div>
+    </section>
+
+    <section class="container cg-sec">
+      <div class="cg-head"><div><span class="label">Insights &amp; Research</span><h2 style="margin-top:var(--space-2);">Clarity for every land decision</h2></div><a href="#" class="read-more is-static">View all</a></div>
+      <div class="cg-ins">
+        <article class="card"><div class="wf-img wf-thumb">Article</div><span class="label">Land Values · May 2026</span><h4>Understanding Midwest Farmland Trends in 2026</h4><a href="#" class="read-more is-static">Read more</a></article>
+        <article class="card"><div class="wf-img wf-thumb">Article</div><span class="label">Energy · May 2026</span><h4>Solar &amp; Wind Leases: What Landowners Should Ask</h4><a href="#" class="read-more is-static">Read more</a></article>
+        <article class="card"><div class="wf-img wf-thumb">Report</div><span class="label">Research Report</span><h4>2025 National Land Values Report</h4><a href="#" class="read-more is-static">Download</a></article>
+      </div>
+    </section>
+
+    <footer class="wf-footer"><div class="container" style="padding-top:var(--space-7);padding-bottom:var(--space-6);display:flex;justify-content:space-between;gap:var(--space-4);flex-wrap:wrap;">
+      <span style="font-size:13px;">© 2026 Peoples Company · Licensed in 50 states (EHO) · 1108 S. 44th St, Suite 102, Cumming, IA 50061 · 855.800.LAND</span>
+      <span style="font-size:13px;">Privacy · Terms · Accessibility</span>
+    </div></footer>
+  </div>
+
+  <script src="./_nav-data.js?v=1"></script>
+  <script src="./_nav.js?v=2"></script>
+  <script>
+    (function(){
+      var OPTS = [
+        { chip:"Sell my land", h:"Sell your land at maximum value", p:"Connect with a local expert to discuss your farmland, the current market, and the best path to sale — traditional listing or competitive auction.", svc:["Land Brokerage & Auctions","Agricultural Appraisal"], cta:"Contact Brokerage" },
+        { chip:"Buy farmland", h:"Find your next farmland opportunity", p:"Browse available properties and auctions, or tell us what you're looking for and we'll bring opportunities to you. (Property search coming soon.)", svc:["Land Brokerage & Auctions"], cta:"Talk to an Agent" },
+        { chip:"Invest capital", h:"Build an agricultural portfolio", p:"Partner with our capital markets team on acquisitions, equity placement, debt & structured finance, and professional management.", svc:["Capital Markets","Land Management"], cta:"Contact Capital Markets" },
+        { chip:"Manage my land", h:"Professional land management", p:"Hands-on stewardship that protects and grows your asset — operator selection, lease negotiation, and ongoing oversight.", svc:["Land Management","Crop Insurance"], cta:"Request an Assessment" },
+        { chip:"Value my asset", h:"Know what your land is worth", p:"Certified, data-driven appraisals for estates, financing, transactions, and institutional reporting — powered by FarmWorth.", svc:["Agricultural Appraisal"], cta:"Order an Appraisal" },
+        { chip:"Attend the EXPO", h:"Land Investment EXPO", p:"Join 1,600+ attendees at one of the nation's premier agricultural conferences.", svc:["The Land Expo"], cta:"Register" }
+      ];
+      var chips = document.getElementById('cg-chips'), panel = document.getElementById('cg-panel');
+      chips.innerHTML = OPTS.map(function(o,i){
+        return '<button class="cg-chip" type="button" aria-pressed="'+(i===0)+'" data-i="'+i+'">'+o.chip+'</button>';
+      }).join('');
+      function show(i){
+        var o = OPTS[i];
+        var links = o.svc.map(function(s){ return '<a class="svc" href="#">'+s+' →</a>'; }).join('');
+        panel.innerHTML = '<span class="label">You said: “'+o.chip+'”</span><h2>'+o.h+'</h2><p>'+o.p+'</p>'+
+          '<div class="links"><a href="#" class="btn btn-black" style="background:#00744D;border-color:#00744D;">'+o.cta+'</a>'+links+'</div>';
+        chips.querySelectorAll('.cg-chip').forEach(function(c){ c.setAttribute('aria-pressed', String(+c.dataset.i===i)); });
+      }
+      chips.addEventListener('click', function(e){ var b=e.target.closest('.cg-chip'); if(b) show(+b.dataset.i); });
+      show(0);
+    })();
+  </script>
+</body>
+</html>

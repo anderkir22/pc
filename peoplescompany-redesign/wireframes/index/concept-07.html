@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Index Wireframe · Concept 07 — Vertical Reveal | Peoples Company</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="../../shared/main.css?v=20260601" rel="stylesheet" />
+  <link href="./_wireframe.css?v=2" rel="stylesheet" />
+  <link href="./_nav.css?v=2" rel="stylesheet" />
+  <style>
+    html { scroll-snap-type:y proximity; scroll-behavior:smooth; }
+    .wf-canvas { max-width:none; margin:0; border:0; box-shadow:none; }
+    /* .wf-badge styling now comes from _wireframe.css (consistent across all concepts) */
+
+    .v-sec { min-height:100vh; scroll-snap-align:start; display:flex; align-items:center; position:relative; }
+    .v-sec .container { width:100%; }
+
+    /* Hero */
+    .v-hero .wf-img { position:absolute; inset:0; min-height:0; border:0; border-radius:0; }
+    .v-hero .scrim { position:absolute; inset:0; background:linear-gradient(90deg, rgba(10,15,26,.72), rgba(10,15,26,.2)); }
+    .v-hero .copy { position:relative; color:#fff; max-width:640px; }
+    .v-hero .label { color:#9FE0C5; } .v-hero h1 { color:#fff; font-size:64px; margin:var(--space-3) 0 var(--space-4); }
+    .v-hero p { color:#E5E7EB; font-size:20px; max-width:46ch; }
+    .v-hero .cta { display:flex; gap:var(--space-3); margin-top:var(--space-5); }
+    .btn-onhero { background:transparent; color:#fff; border:1px solid rgba(255,255,255,.7); }
+
+    /* Services */
+    .v-svc h2 { font-size:44px; max-width:18ch; }
+    .v-svc-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-4); margin-top:var(--space-6); }
+    .v-card { border:1px solid var(--color-border); border-radius:var(--radius-md); padding:var(--space-5); }
+    .v-card .ico { width:40px; height:40px; border-radius:8px; background:var(--gray-100); color:var(--teal);
+      display:flex; align-items:center; justify-content:center; font-size:11px; margin-bottom:var(--space-3); }
+    .v-card h4 { font-family:var(--font-serif); font-weight:500; font-size:19px; margin:0 0 4px; }
+    .v-card p { font-size:13px; margin:0; color:var(--gray-600); }
+
+    /* Stats (dark) */
+    .v-stats { background:var(--pine); color:#fff; }
+    .v-stats .label { color:#9FE0C5; } .v-stats h2 { color:#fff; font-size:44px; }
+    .v-stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-6); margin-top:var(--space-6); }
+    .v-stats .n { font-family:var(--font-serif); font-weight:500; font-size:58px; line-height:1; }
+    .v-stats .l { color:#CFE3DF; font-size:14px; margin-top:var(--space-2); }
+
+    /* Insights */
+    .v-ins h2 { font-size:44px; }
+    .v-ins-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-5); margin-top:var(--space-6); }
+    .v-ins .wf-thumb { height:170px; } .v-ins .label { color:var(--teal); display:block; margin-top:var(--space-3); }
+    .v-ins h4 { font-family:var(--font-serif); font-weight:500; font-size:20px; margin:var(--space-2) 0; }
+
+    /* CTA + footer share last screen */
+    .v-end { background:var(--gray-100); display:block; min-height:100vh; padding-top:0; }
+    .v-cta { min-height:70vh; display:flex; align-items:center; }
+    .v-cta-box { display:flex; align-items:center; justify-content:space-between; gap:var(--space-6); width:100%; flex-wrap:wrap; }
+    .v-cta h2 { font-size:48px; }
+
+    /* Right-edge dot nav */
+    .v-dots { position:fixed; right:18px; top:50%; transform:translateY(-50%); z-index:70; display:flex; flex-direction:column; gap:14px; }
+    .v-dots a { width:11px; height:11px; border-radius:50%; border:1.5px solid var(--gray-500); background:transparent; display:block; }
+    .v-dots a.is-active, .v-dots a:hover { background:var(--rich-green); border-color:var(--rich-green); }
+
+    @media (max-width:980px){
+      .v-hero h1{font-size:40px;} .v-svc h2,.v-stats h2,.v-ins h2,.v-cta h2{font-size:30px;}
+      .v-svc-grid{grid-template-columns:1fr 1fr;} .v-stats-grid{grid-template-columns:1fr 1fr;} .v-ins-grid{grid-template-columns:1fr;}
+      .v-sec{min-height:auto; padding:var(--space-8) 0;}
+    }
+  </style>
+</head>
+<body>
+  <div class="wf-badge"><b>Concept 07 · Vertical Reveal</b><a href="./index.html">All concepts ↗</a></div>
+
+  <div class="wf-canvas">
+    <div id="site-header"></div>
+
+    <!-- right dot nav -->
+    <nav class="v-dots" aria-label="Sections">
+      <a href="#s1" class="is-active" aria-label="Hero"></a>
+      <a href="#s2" aria-label="Services"></a>
+      <a href="#s3" aria-label="By the numbers"></a>
+      <a href="#s4" aria-label="Insights"></a>
+      <a href="#s5" aria-label="Contact"></a>
+    </nav>
+
+    <section id="s1" class="v-sec v-hero">
+      <div class="wf-img">Hero image — farmland landscape</div>
+      <div class="scrim"></div>
+      <div class="container"><div class="copy">
+        <span class="label">National Leader in Agricultural Real Estate</span>
+        <h1>Trusted Farmland Expertise.</h1>
+        <p>We help landowners, farmers, and investors make confident decisions through data-driven insight and decades of experience.</p>
+        <div class="cta"><a href="#" class="btn btn-white">Explore Our Services</a><a href="#" class="btn btn-onhero">Talk to an Advisor</a></div>
+      </div></div>
+    </section>
+
+    <section id="s2" class="v-sec v-svc"><div class="container">
+      <span class="label">What We Do</span>
+      <h2>Creating value across the entire land lifecycle</h2>
+      <div class="v-svc-grid">
+        <div class="v-card"><div class="ico">ico</div><h4>Land Brokerage &amp; Auctions</h4><p>Listings and competitive auctions.</p></div>
+        <div class="v-card"><div class="ico">ico</div><h4>Land Management</h4><p>Stewardship and operator oversight.</p></div>
+        <div class="v-card"><div class="ico">ico</div><h4>Agricultural Appraisal</h4><p>Certified, data-driven valuation.</p></div>
+        <div class="v-card"><div class="ico">ico</div><h4>Capital Markets</h4><p>Connecting capital with land.</p></div>
+        <div class="v-card"><div class="ico">ico</div><h4>Energy Management</h4><p>Solar, wind & lease strategy.</p></div>
+        <div class="v-card"><div class="ico">ico</div><h4>Crop Insurance</h4><p>Protection for operations.</p></div>
+        <div class="v-card"><div class="ico">ico</div><h4>Corporate Services</h4><p>Programs for institutions.</p></div>
+        <div class="v-card" style="display:flex;align-items:center;justify-content:center;"><a href="#" class="read-more is-static">All services →</a></div>
+      </div>
+    </div></section>
+
+    <section id="s3" class="v-sec v-stats"><div class="container">
+      <span class="label">By the Numbers</span>
+      <h2>Rooted in tradition. Built for scale.</h2>
+      <div class="v-stats-grid">
+        <div><div class="n">$6B+</div><div class="l">Farmland Transactions</div></div>
+        <div><div class="n">170+</div><div class="l">Ag Professionals</div></div>
+        <div><div class="n">20+</div><div class="l">Regional Offices</div></div>
+        <div><div class="n">1.6K+</div><div class="l">EXPO Attendees</div></div>
+      </div>
+    </div></section>
+
+    <section id="s4" class="v-sec v-ins"><div class="container">
+      <span class="label">Insights &amp; Research</span>
+      <h2>Clarity for every land decision</h2>
+      <div class="v-ins-grid">
+        <article class="card"><div class="wf-img wf-thumb">Article</div><span class="label">Land Values · May 2026</span><h4>Midwest Farmland Trends in 2026</h4><a href="#" class="read-more is-static">Read more</a></article>
+        <article class="card"><div class="wf-img wf-thumb">Article</div><span class="label">Energy · May 2026</span><h4>Solar &amp; Wind Leases: What to Ask</h4><a href="#" class="read-more is-static">Read more</a></article>
+        <article class="card"><div class="wf-img wf-thumb">Report</div><span class="label">Research Report</span><h4>2025 National Land Values Report</h4><a href="#" class="read-more is-static">Download</a></article>
+      </div>
+    </div></section>
+
+    <section id="s5" class="v-sec v-end">
+      <div class="v-cta"><div class="container"><div class="v-cta-box">
+        <div><span class="label">Get in touch</span><h2>Start a conversation</h2><p class="body" style="max-width:40ch;">Connect with our team to discuss your land goals.</p></div>
+        <a href="#" class="btn btn-black" style="background:#00744D;border-color:#00744D;">Contact Us</a>
+      </div></div></div>
+      <footer class="wf-footer"><div class="container" style="padding-top:var(--space-7);padding-bottom:var(--space-6);display:flex;justify-content:space-between;gap:var(--space-4);flex-wrap:wrap;">
+        <span style="font-size:13px;">© 2026 Peoples Company · Licensed in 50 states (EHO) · 1108 S. 44th St, Suite 102, Cumming, IA 50061</span>
+        <span style="font-size:13px;">Privacy · Terms · Accessibility</span>
+      </div></footer>
+    </section>
+  </div>
+
+  <script src="./_nav-data.js?v=1"></script>
+  <script src="./_nav.js?v=2"></script>
+  <script>
+    /* Active dot on scroll */
+    (function(){
+      var dots = document.querySelectorAll('.v-dots a');
+      var secs = ['s1','s2','s3','s4','s5'].map(function(id){return document.getElementById(id);});
+      window.addEventListener('scroll', function(){
+        var mid = window.scrollY + window.innerHeight/2, idx = 0;
+        secs.forEach(function(s,i){ if(s && s.offsetTop <= mid) idx = i; });
+        dots.forEach(function(d,i){ d.classList.toggle('is-active', i===idx); });
+      });
+    })();
+  </script>
+</body>
+</html>

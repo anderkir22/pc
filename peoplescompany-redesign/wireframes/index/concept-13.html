@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Index Wireframe · Concept 13 — Cinematic | Peoples Company</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="../../shared/main.css?v=20260601" rel="stylesheet" />
+  <link href="./_wireframe.css?v=2" rel="stylesheet" />
+  <style>
+    /* ── Canvas: full-browser ── */
+    .wf-canvas { max-width: none; margin: 0; border: 0; box-shadow: none; }
+    html, body { scroll-behavior: smooth; }
+
+    /* ── Review badge ── */
+    .wf-badge {
+      position: fixed; z-index: 9000; bottom: 14px; right: 14px;
+      background: #111827; color: #fff;
+      font-family: var(--font-sans); font-size: 12px;
+      padding: 8px 12px; border-radius: 999px;
+      box-shadow: 0 4px 14px rgba(0,0,0,.25);
+    }
+    .wf-badge a { color: #9FE0C5; margin-left: 8px; text-decoration: none; }
+
+    /* ================================================================
+       CUSTOM TRANSPARENT → SOLID NAV
+       Keeps the 4 top-level labels + green accents + accessibility.
+       Transparent over hero; solid after scrolling past hero height.
+       ================================================================ */
+    .cn-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      transition: background .3s ease, border-color .3s ease, box-shadow .3s ease;
+    }
+
+    /* transparent state (default) */
+    .cn-nav { background: transparent; border-bottom: 1px solid transparent; box-shadow: none; }
+
+    /* solid state (JS adds .is-solid after scrolling past hero) */
+    .cn-nav.is-solid {
+      background: #fff;
+      border-bottom-color: var(--gray-200, #E5E7EB);
+      box-shadow: 0 1px 8px rgba(17,24,39,.08);
+    }
+
+    .cn-nav-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      gap: var(--space-5);
+      height: 68px;
+    }
+
+    /* Logo */
+    .cn-logo { flex-shrink: 0; display: flex; align-items: center; }
+    .cn-logo img { height: 40px; width: auto; display: block; transition: opacity .3s; }
+    .cn-logo .logo-white { display: block; }
+    .cn-logo .logo-dark  { display: none; }
+    .cn-nav.is-solid .cn-logo .logo-white { display: none; }
+    .cn-nav.is-solid .cn-logo .logo-dark  { display: block; }
+
+    .cn-nav-spacer { flex: 1; }
+
+    /* Nav items */
+    .cn-nav-list {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      list-style: none;
+      margin: 0; padding: 0;
+    }
+    .cn-nav-list > li { position: static; }
+    .cn-nav-list > li > a {
+      display: flex; align-items: center; gap: 5px;
+      padding: 10px 16px;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 500;
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      transition: background .15s, color .15s;
+      white-space: nowrap;
+    }
+    .cn-nav-list > li > a::after { content: "▾"; font-size: 10px; }
+
+    /* Transparent state — white text */
+    .cn-nav:not(.is-solid) .cn-nav-list > li > a {
+      color: rgba(255,255,255,.92);
+    }
+    .cn-nav:not(.is-solid) .cn-nav-list > li > a::after { color: rgba(255,255,255,.6); }
+    .cn-nav:not(.is-solid) .cn-nav-list > li:hover > a,
+    .cn-nav:not(.is-solid) .cn-nav-list > li:focus-within > a {
+      background: rgba(0,116,77,.7);
+      color: #fff;
+    }
+    .cn-nav:not(.is-solid) .cn-nav-list > li:hover > a::after,
+    .cn-nav:not(.is-solid) .cn-nav-list > li:focus-within > a::after { color: #fff; }
+
+    /* Solid state — dark text, green hover */
+    .cn-nav.is-solid .cn-nav-list > li > a {
+      color: var(--gray-900, #111827);
+    }
+    .cn-nav.is-solid .cn-nav-list > li > a::after { color: var(--gray-500, #6B7280); }
+    .cn-nav.is-solid .cn-nav-list > li:hover > a,
+    .cn-nav.is-solid .cn-nav-list > li:focus-within > a {
+      background: #00744D;
+      color: #fff;
+    }
+    .cn-nav.is-solid .cn-nav-list > li:hover > a::after,
+    .cn-nav.is-solid .cn-nav-list > li:focus-within > a::after { color: #fff; }
+
+    /* Mega-menu panel */
+    .cn-mega {
+      position: fixed; /* fixed so it doesn't scroll with page */
+      top: 68px; left: 0; right: 0;
+      background: #fff;
+      border-top: 3px solid #008B5C;
+      border-bottom: 1px solid var(--gray-200, #E5E7EB);
+      box-shadow: 0 14px 28px rgba(17,24,39,.10);
+      opacity: 0; visibility: hidden;
+      transform: translateY(-6px);
+      transition: opacity .14s ease, transform .14s ease, visibility .14s;
+      z-index: 99;
+    }
+    .cn-mega::before {
+      content: "";
+      position: absolute; left: 0; right: 0; top: -24px; height: 24px;
+    }
+    .cn-nav-list > li:hover .cn-mega,
+    .cn-nav-list > li:focus-within .cn-mega {
+      opacity: 1; visibility: visible; transform: translateY(0);
+    }
+    .cn-mega-in {
+      max-width: 1400px; margin: 0 auto;
+      padding: var(--space-6) 40px;
+      display: grid; gap: var(--space-7);
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    }
+    .cn-col h4 {
+      font-family: var(--font-sans); font-weight: 600;
+      font-size: 12px; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--gray-900, #111827);
+      margin: 0 0 var(--space-3);
+      padding-bottom: var(--space-2);
+      border-bottom: 1px solid var(--gray-200, #E5E7EB);
+    }
+    .cn-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+    .cn-col a {
+      font-family: var(--font-sans); font-size: 14px;
+      color: var(--gray-600, #4B5563); text-decoration: none;
+      transition: color .12s;
+    }
+    .cn-col a:hover, .cn-col a:focus { color: #00744D; text-decoration: underline; text-underline-offset: 3px; }
+
+    /* Actions */
+    .cn-actions { display: flex; align-items: center; gap: var(--space-3); }
+    .cn-contact-btn {
+      font-family: var(--font-sans); font-size: 14px; font-weight: 500;
+      padding: 9px 18px; border-radius: var(--radius-pill);
+      text-decoration: none; transition: background .15s, color .15s, border-color .15s;
+      white-space: nowrap;
+    }
+    /* transparent state: ghost white */
+    .cn-nav:not(.is-solid) .cn-contact-btn {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,.6);
+      color: #fff;
+    }
+    .cn-nav:not(.is-solid) .cn-contact-btn:hover { background: rgba(255,255,255,.12); }
+    /* solid state: dark fill */
+    .cn-nav.is-solid .cn-contact-btn {
+      background: #111827;
+      border: 1px solid #111827;
+      color: #fff;
+    }
+    .cn-nav.is-solid .cn-contact-btn:hover { background: #00744D; border-color: #00744D; }
+
+    /* ================================================================
+       HERO — full-viewport cinematic
+       ================================================================ */
+    .cn-hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .cn-hero-img {
+      position: absolute;
+      inset: 0;
+      min-height: 0;
+      border: 0;
+      border-radius: 0;
+      /* Override wf-img pattern with a more cinematic dark-field */
+      background:
+        linear-gradient(160deg, #0A1A0F 0%, #1A3020 40%, #2D4A30 70%, #0A0F1A 100%),
+        repeating-linear-gradient(45deg, rgba(255,255,255,.015) 0 10px, transparent 10px 20px);
+    }
+    /* Cinematic scrim — bottom-weighted for text legibility */
+    .cn-scrim {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg,
+          rgba(10,15,26,.25) 0%,
+          rgba(10,15,26,.1) 35%,
+          rgba(10,15,26,.55) 70%,
+          rgba(10,15,26,.82) 100%);
+    }
+    .cn-hero-content {
+      position: relative;
+      text-align: center;
+      padding: 0 40px;
+      max-width: 900px;
+      /* push content to lower third of viewport */
+      margin-top: 30vh;
+    }
+    .cn-hero-eyebrow {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: #9FE0C5;
+      margin-bottom: var(--space-4);
+      display: block;
+    }
+    .cn-hero h1 {
+      font-family: var(--font-serif);
+      font-size: 80px;
+      font-weight: 500;
+      color: #fff;
+      line-height: 1.05;
+      letter-spacing: -.01em;
+      margin-bottom: var(--space-5);
+    }
+    .cn-hero-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-3);
+    }
+    .cn-btn-primary {
+      font-family: var(--font-sans); font-size: 15px; font-weight: 500;
+      padding: 13px 28px; border-radius: var(--radius-pill);
+      background: #00744D; border: 1px solid #00744D; color: #fff;
+      text-decoration: none; transition: background .15s;
+    }
+    .cn-btn-primary:hover, .cn-btn-primary:focus { background: #005F5B; border-color: #005F5B; outline: 2px solid #9FE0C5; outline-offset: 2px; }
+    .cn-btn-ghost-hero {
+      font-family: var(--font-sans); font-size: 15px; font-weight: 500;
+      padding: 12px 28px; border-radius: var(--radius-pill);
+      background: transparent; border: 1px solid rgba(255,255,255,.55); color: #fff;
+      text-decoration: none; transition: background .15s;
+    }
+    .cn-btn-ghost-hero:hover, .cn-btn-ghost-hero:focus { background: rgba(255,255,255,.1); outline: 2px solid rgba(255,255,255,.5); outline-offset: 2px; }
+
+    /* scroll cue */
+    .cn-scroll-cue {
+      position: absolute;
+      bottom: var(--space-6);
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255,255,255,.5);
+      font-family: var(--font-sans);
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .cn-scroll-arrow {
+      width: 24px; height: 24px;
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px;
+      animation: cn-bob 2s ease-in-out infinite;
+    }
+    @keyframes cn-bob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(4px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cn-scroll-arrow { animation: none; }
+    }
+
+    /* ================================================================
+       REVEAL ANIMATION (IntersectionObserver)
+       ================================================================ */
+    .cn-reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .65s ease, transform .65s ease;
+    }
+    .cn-reveal.is-visible { opacity: 1; transform: translateY(0); }
+    .cn-reveal-delay-1 { transition-delay: .1s; }
+    .cn-reveal-delay-2 { transition-delay: .2s; }
+    .cn-reveal-delay-3 { transition-delay: .3s; }
+    .cn-reveal-delay-4 { transition-delay: .4s; }
+    /* Respect prefers-reduced-motion */
+    @media (prefers-reduced-motion: reduce) {
+      .cn-reveal { opacity: 1; transform: none; transition: none; }
+    }
+
+    /* ================================================================
+       SECTION: ABOUT INTRO
+       ================================================================ */
+    .cn-about { padding: var(--space-9) 0; }
+    .cn-about-inner {
+      max-width: 1400px; margin: 0 auto; padding: 0 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-9);
+      align-items: center;
+    }
+    .cn-about-text .cn-eyebrow {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #00744D;
+      margin-bottom: var(--space-4);
+      display: block;
+    }
+    .cn-about-text h2 {
+      font-family: var(--font-serif);
+      font-size: 48px;
+      font-weight: 500;
+      line-height: 1.1;
+      margin-bottom: var(--space-4);
+    }
+    .cn-about-text p {
+      font-size: 17px;
+      color: var(--gray-600, #4B5563);
+      max-width: 46ch;
+      line-height: 1.7;
+      margin-bottom: var(--space-5);
+    }
+    .cn-about-img { border-radius: var(--radius-lg); overflow: hidden; }
+    .cn-about-img .wf-img { min-height: 460px; border-radius: var(--radius-lg); }
+
+    /* ================================================================
+       SECTION: SERVICES
+       ================================================================ */
+    .cn-svc { padding: var(--space-9) 0; background: var(--gray-100, #F3F4F6); }
+    .cn-svc-inner {
+      max-width: 1400px; margin: 0 auto; padding: 0 40px;
+    }
+    .cn-svc-header {
+      display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-5);
+      margin-bottom: var(--space-7);
+    }
+    .cn-svc-header h2 {
+      font-family: var(--font-serif); font-size: 48px; font-weight: 500; max-width: 22ch;
+    }
+    .cn-svc-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+    }
+    .cn-svc-card {
+      background: #fff;
+      border-radius: var(--radius-md);
+      padding: var(--space-6) var(--space-5);
+      border-bottom: 3px solid transparent;
+      transition: border-color .2s, box-shadow .2s, transform .2s;
+    }
+    .cn-svc-card:hover {
+      border-bottom-color: #008B5C;
+      box-shadow: 0 6px 24px rgba(0,0,0,.07);
+      transform: translateY(-3px);
+    }
+    .cn-svc-icon {
+      width: 44px; height: 44px;
+      border-radius: var(--radius-sm);
+      background: var(--gray-100, #F3F4F6);
+      color: #008B5C;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      margin-bottom: var(--space-4);
+    }
+    .cn-svc-card h4 {
+      font-family: var(--font-serif); font-size: 19px; font-weight: 500;
+      margin-bottom: var(--space-2);
+    }
+    .cn-svc-card p { font-size: 14px; color: var(--gray-600, #4B5563); margin: 0 0 var(--space-4); }
+    .cn-svc-card a {
+      font-family: var(--font-sans); font-size: 13px; font-weight: 500;
+      color: #00744D; text-decoration: none;
+    }
+    .cn-svc-card a:hover { text-decoration: underline; }
+
+    /* ================================================================
+       SECTION: FULL-BLEED IMAGE + STAT BAND
+       ================================================================ */
+    .cn-mid-image {
+      position: relative;
+      height: 70vh;
+      overflow: hidden;
+    }
+    .cn-mid-image .wf-img {
+      position: absolute; inset: 0; min-height: 0;
+      border: 0; border-radius: 0;
+      background:
+        linear-gradient(135deg, #0D2B1A 0%, #1C4A28 50%, #103B38 100%),
+        repeating-linear-gradient(45deg, rgba(255,255,255,.02) 0 12px, transparent 12px 24px);
+    }
+    .cn-mid-image .cn-scrim { background: rgba(10,15,26,.38); }
+    .cn-mid-image-content {
+      position: absolute;
+      bottom: var(--space-8);
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      color: #fff;
+      white-space: nowrap;
+    }
+    .cn-mid-image-content p {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 28px;
+      color: rgba(255,255,255,.9);
+      margin: 0;
+    }
+    .cn-mid-image-content cite {
+      font-family: var(--font-sans); font-style: normal;
+      font-size: 13px; color: rgba(255,255,255,.55); letter-spacing: .08em;
+      display: block; margin-top: var(--space-2);
+    }
+
+    /* ================================================================
+       SECTION: STATS BAND
+       ================================================================ */
+    .cn-stats {
+      background: var(--pine, #103B38);
+      padding: var(--space-8) 0;
+    }
+    .cn-stats-inner {
+      max-width: 1400px; margin: 0 auto; padding: 0 40px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-6);
+    }
+    .cn-stat-cell {
+      text-align: center;
+      border-right: 1px solid rgba(255,255,255,.1);
+      padding: var(--space-4) 0;
+    }
+    .cn-stat-cell:last-child { border-right: 0; }
+    .cn-stat-n {
+      font-family: var(--font-serif); font-size: 60px; font-weight: 500;
+      color: #fff; line-height: 1;
+    }
+    .cn-stat-l {
+      font-family: var(--font-sans); font-size: 14px;
+      color: #9FE0C5; margin-top: var(--space-2);
+    }
+
+    /* ================================================================
+       SECTION: AUDIENCES — dark imagery cards
+       ================================================================ */
+    .cn-aud { padding: var(--space-9) 0; }
+    .cn-aud-inner { max-width: 1400px; margin: 0 auto; padding: 0 40px; }
+    .cn-aud-header { margin-bottom: var(--space-7); }
+    .cn-aud-header h2 { font-family: var(--font-serif); font-size: 48px; font-weight: 500; }
+    .cn-aud-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+    }
+    .cn-aud-card {
+      position: relative;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      text-decoration: none;
+      color: #fff;
+    }
+    .cn-aud-card .cn-aud-bg {
+      position: absolute; inset: 0;
+      border: 0; border-radius: 0; min-height: 0;
+      transition: transform .4s ease;
+    }
+    .cn-aud-card:hover .cn-aud-bg { transform: scale(1.04); }
+    .cn-aud-card-1 .cn-aud-bg { background: linear-gradient(145deg, #1A3020, #2D4A30); }
+    .cn-aud-card-2 .cn-aud-bg { background: linear-gradient(145deg, #0D2B3E, #1A4A5A); }
+    .cn-aud-card-3 .cn-aud-bg { background: linear-gradient(145deg, #1C2A0D, #3A4A20); }
+    .cn-aud-card-4 .cn-aud-bg { background: linear-gradient(145deg, #0A1A3A, #1A2D5A); }
+    .cn-aud-card .cn-aud-scrim {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,.75) 100%);
+    }
+    .cn-aud-body {
+      position: relative;
+      padding: var(--space-5);
+    }
+    .cn-aud-tag {
+      font-family: var(--font-sans); font-size: 11px; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase; color: #9FE0C5;
+      margin-bottom: var(--space-2);
+      display: block;
+    }
+    .cn-aud-card h4 {
+      font-family: var(--font-serif); font-size: 22px; font-weight: 500;
+      color: #fff; margin-bottom: var(--space-2);
+    }
+    .cn-aud-card p { font-size: 14px; color: rgba(255,255,255,.75); margin: 0; }
+    .cn-aud-card .cn-aud-arrow {
+      margin-top: var(--space-3);
+      font-family: var(--font-sans); font-size: 13px; font-weight: 500;
+      color: #9FE0C5;
+    }
+    .cn-aud-card:hover .cn-aud-arrow { text-decoration: underline; }
+    .cn-aud-card:focus {
+      outline: 3px solid #9FE0C5;
+      outline-offset: 3px;
+    }
+
+    /* ================================================================
+       SECTION: INSIGHTS — generous whitespace editorial layout
+       ================================================================ */
+    .cn-insights { padding: var(--space-9) 0; background: var(--gray-100, #F3F4F6); }
+    .cn-insights-inner { max-width: 1400px; margin: 0 auto; padding: 0 40px; }
+    .cn-insights-header {
+      display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-5);
+      margin-bottom: var(--space-7);
+    }
+    .cn-insights-header h2 { font-family: var(--font-serif); font-size: 48px; font-weight: 500; }
+    .cn-ins-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto;
+      gap: var(--space-5);
+    }
+    .cn-ins-featured {
+      grid-row: span 2;
+      background: #fff;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .cn-ins-featured .wf-img { height: 320px; border-radius: 0; }
+    .cn-ins-featured-body { padding: var(--space-6); flex: 1; }
+    .cn-ins-tag {
+      font-family: var(--font-sans); font-size: 11px; font-weight: 600;
+      letter-spacing: .08em; text-transform: uppercase; color: #00744D;
+      margin-bottom: var(--space-3); display: block;
+    }
+    .cn-ins-featured h3 {
+      font-family: var(--font-serif); font-size: 26px; font-weight: 500;
+      margin-bottom: var(--space-3); line-height: 1.3;
+    }
+    .cn-ins-featured p { font-size: 15px; color: var(--gray-600, #4B5563); margin-bottom: var(--space-4); }
+    .cn-ins-featured a {
+      font-family: var(--font-sans); font-size: 14px; font-weight: 500;
+      color: #00744D; text-decoration: none;
+    }
+    .cn-ins-featured a:hover { text-decoration: underline; }
+
+    .cn-ins-small {
+      background: #fff;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: flex;
+      gap: var(--space-4);
+      padding: var(--space-4);
+      align-items: flex-start;
+    }
+    .cn-ins-small .wf-img { width: 120px; height: 90px; flex-shrink: 0; border-radius: var(--radius-sm); }
+    .cn-ins-small-body { flex: 1; }
+    .cn-ins-small h4 {
+      font-family: var(--font-serif); font-size: 18px; font-weight: 500;
+      margin-bottom: var(--space-2); line-height: 1.35;
+    }
+    .cn-ins-small a {
+      font-family: var(--font-sans); font-size: 13px; font-weight: 500;
+      color: #00744D; text-decoration: none;
+    }
+    .cn-ins-small a:hover { text-decoration: underline; }
+
+    /* ================================================================
+       SECTION: CTA — full-bleed dark with image background
+       ================================================================ */
+    .cn-cta-section {
+      position: relative;
+      padding: var(--space-9) 0;
+      overflow: hidden;
+    }
+    .cn-cta-bg {
+      position: absolute; inset: 0; min-height: 0; border: 0; border-radius: 0;
+      background: linear-gradient(110deg, #0A1A0F 0%, #103B38 60%, #044D48 100%),
+        repeating-linear-gradient(60deg, rgba(255,255,255,.015) 0 8px, transparent 8px 16px);
+    }
+    .cn-cta-scrim { position: absolute; inset: 0; background: rgba(10,15,26,.3); }
+    .cn-cta-inner {
+      position: relative;
+      max-width: 1400px; margin: 0 auto; padding: 0 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-9);
+      align-items: center;
+    }
+    .cn-cta-text h2 {
+      font-family: var(--font-serif); font-size: 52px; font-weight: 500;
+      color: #fff; line-height: 1.1; margin-bottom: var(--space-4);
+    }
+    .cn-cta-text p {
+      font-size: 17px; color: rgba(255,255,255,.75);
+      max-width: 44ch; line-height: 1.7; margin-bottom: var(--space-6);
+    }
+    .cn-cta-btns { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+    .cn-cta-contact {
+      background: #fff;
+      border-radius: var(--radius-md);
+      padding: var(--space-6);
+    }
+    .cn-cta-contact h4 {
+      font-family: var(--font-serif); font-size: 22px; font-weight: 500;
+      margin-bottom: var(--space-4);
+    }
+    .cn-contact-detail {
+      display: flex; flex-direction: column; gap: var(--space-3);
+      font-size: 15px; color: var(--gray-600, #4B5563);
+    }
+    .cn-contact-detail a {
+      color: #00744D; text-decoration: none; font-weight: 500;
+    }
+    .cn-contact-detail a:hover { text-decoration: underline; }
+
+    /* ================================================================
+       FOOTER
+       ================================================================ */
+    .cn-footer {
+      background: #111827;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: #C7CBD1;
+    }
+    .cn-footer-top {
+      max-width: 1400px; margin: 0 auto;
+      padding: var(--space-8) 40px var(--space-7);
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: var(--space-8);
+    }
+    .cn-footer-brand img { height: 40px; width: auto; margin-bottom: var(--space-4); }
+    .cn-footer-brand p { font-size: 13px; color: #9CA3AF; max-width: 28ch; line-height: 1.6; }
+    .cn-footer-brand .contact-block { margin-top: var(--space-4); font-size: 13px; line-height: 1.8; }
+    .cn-footer-brand .contact-block a { color: #9FE0C5; text-decoration: none; }
+    .cn-footer-brand .contact-block a:hover { color: #fff; }
+    .cn-footer-cols {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-5);
+    }
+    .cn-footer-col h4 {
+      color: #fff; font-family: var(--font-sans); font-size: 12px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .08em; margin-bottom: var(--space-3);
+    }
+    .cn-footer-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 9px; }
+    .cn-footer-col a { color: #9CA3AF; text-decoration: none; font-size: 13px; }
+    .cn-footer-col a:hover { color: #fff; }
+    .cn-footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.07);
+      max-width: 1400px; margin: 0 auto;
+      padding: var(--space-4) 40px;
+      display: flex; justify-content: space-between; align-items: center;
+      gap: var(--space-4); font-size: 12px; color: #6B7280; flex-wrap: wrap;
+    }
+    .cn-footer-bottom a { color: #6B7280; text-decoration: none; }
+    .cn-footer-bottom a:hover { color: #9CA3AF; }
+
+    /* ================================================================
+       RESPONSIVE
+       ================================================================ */
+    @media (max-width: 1100px) {
+      .cn-hero h1 { font-size: 56px; }
+      .cn-about-inner { grid-template-columns: 1fr; }
+      .cn-svc-grid { grid-template-columns: 1fr 1fr; }
+      .cn-aud-grid { grid-template-columns: 1fr 1fr; }
+      .cn-cta-inner { grid-template-columns: 1fr; }
+      .cn-footer-top { grid-template-columns: 1fr; }
+      .cn-footer-cols { grid-template-columns: 1fr 1fr; }
+      .cn-stats-inner { grid-template-columns: 1fr 1fr; }
+      .cn-stat-cell { border-right: 0; border-bottom: 1px solid rgba(255,255,255,.1); }
+      .cn-stat-cell:last-child { border-bottom: 0; }
+    }
+    @media (max-width: 760px) {
+      .cn-hero h1 { font-size: 40px; }
+      .cn-nav-list { display: none; }
+      .cn-svc-grid, .cn-aud-grid { grid-template-columns: 1fr; }
+      .cn-ins-grid { grid-template-columns: 1fr; }
+      .cn-ins-featured { grid-row: span 1; }
+      .cn-stats-inner { grid-template-columns: 1fr 1fr; }
+      .cn-footer-cols { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wf-badge"><b>Concept 13 · Cinematic</b><a href="./index.html">All concepts ↗</a></div>
+
+  <div class="wf-canvas">
+
+    <!-- ================================================
+         CUSTOM TRANSPARENT → SOLID NAV
+         ================================================ -->
+    <nav class="cn-nav" id="cn-nav" aria-label="Primary navigation">
+      <div class="cn-nav-inner">
+
+        <a class="cn-logo" href="../../version-a/index.html" aria-label="Peoples Company home">
+          <!-- White logo (over hero) -->
+          <img class="logo-white" src="../../shared/logos/pc_logo_white.webp" alt="Peoples Company — Integrated Land Solutions" />
+          <!-- Dark logo (after scroll) -->
+          <img class="logo-dark" src="../../shared/logos/peoples-company-logo.png" alt="Peoples Company — Integrated Land Solutions" />
+        </a>
+
+        <ul class="cn-nav-list" role="list">
+
+          <li>
+            <a href="#" aria-haspopup="true">Real Estate</a>
+            <div class="cn-mega" role="menu" aria-label="Real Estate">
+              <div class="cn-mega-in">
+                <div class="cn-col">
+                  <h4>For Sale</h4>
+                  <ul><li><a href="#">Farmland</a></li><li><a href="#">Development Land</a></li><li><a href="#">Commercial</a></li><li><a href="#">Residential</a></li><li><a href="#">Interactive Map</a></li></ul>
+                </div>
+                <div class="cn-col">
+                  <h4>Auctions</h4>
+                  <ul><li><a href="#">Upcoming Auctions</a></li><li><a href="#">Prior Auctions</a></li><li><a href="#">Auction Results</a></li></ul>
+                </div>
+                <div class="cn-col">
+                  <h4>Sold Properties</h4>
+                  <ul><li><a href="#">View Sold</a></li></ul>
+                  <p style="font-size:12px;color:#9CA3AF;margin-top:8px;">Listings are out of scope — links are placeholders.</p>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <a href="#" aria-haspopup="true">The Company</a>
+            <div class="cn-mega" role="menu" aria-label="The Company">
+              <div class="cn-mega-in">
+                <div class="cn-col">
+                  <h4>The Company</h4>
+                  <ul><li><a href="#">Overview</a></li><li><a href="#">Sustainability</a></li><li><a href="#">Our Team</a></li><li><a href="#">Culture</a></li><li><a href="#">Careers</a></li></ul>
+                </div>
+                <div class="cn-col">
+                  <h4>Events &amp; Regions</h4>
+                  <ul><li><a href="#">The Land Expo</a></li><li><a href="#">Regions</a></li><li><a href="#">Offices</a></li></ul>
+                </div>
+                <div class="cn-col">
+                  <h4>Our Clients</h4>
+                  <ul><li><a href="#">Institutional Investors</a></li><li><a href="#">Financial Advisors</a></li><li><a href="#">Family Offices / HNW</a></li><li><a href="#">Landowners</a></li><li><a href="#">Operators</a></li></ul>
+                </div>
+                <div class="cn-col">
+                  <h4>Industry Collaboration</h4>
+                  <ul><li><a href="#">FarmWorth™</a></li></ul>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <a href="#" aria-haspopup="true">What We Do</a>
+            <div class="cn-mega" role="menu" aria-label="What We Do">
+              <div class="cn-mega-in">
+                <div class="cn-col">
+                  <h4>Land Brokerage &amp; Auctions</h4>
+                  <ul><li><a href="#">Marketing Approach</a></li><li><a href="#">Sale Methods</a></li><li><a href="#">Auction Platform</a></li><li><a href="#">Find an Agent</a></li></ul>
+                </div>
+                <div class="cn-col">
+                  <h4>Land Management</h4>
+                  <ul><li><a href="#">Management Approach</a></li><li><a href="#">Consulting</a></li><li><a href="#">Operators</a></li><li><a href="#">Request an Assessment</a></li></ul>
+                </div>
+                <div class="cn-col">
+                  <h4>More Services</h4>
+                  <ul><li><a href="#">Agricultural Appraisal</a></li><li><a href="#">Capital Markets</a></li><li><a href="#">Energy Management</a></li><li><a href="#">Crop Insurance</a></li><li><a href="#">Corporate Services</a></li></ul>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <a href="#" aria-haspopup="true">Insights &amp; News</a>
+            <div class="cn-mega" role="menu" aria-label="Insights and News">
+              <div class="cn-mega-in">
+                <div class="cn-col">
+                  <h4>Insights</h4>
+                  <ul><li><a href="#">FarmWorth™</a></li><li><a href="#">Data &amp; Tools</a></li><li><a href="#">National Land Values</a></li><li><a href="#">Industry Research</a></li><li><a href="#">Newsletters</a></li><li><a href="#">Blog</a></li></ul>
+                </div>
+                <div class="cn-col">
+                  <h4>News</h4>
+                  <ul><li><a href="#">In the News</a></li><li><a href="#">Press Releases</a></li><li><a href="#">Industry Recognition</a></li><li><a href="#">View All</a></li></ul>
+                </div>
+              </div>
+            </div>
+          </li>
+
+        </ul>
+
+        <span class="cn-nav-spacer"></span>
+
+        <div class="cn-actions">
+          <a href="#" class="cn-contact-btn">Contact Us</a>
+        </div>
+
+      </div>
+    </nav>
+
+    <!-- ================================================
+         HERO — Full-viewport cinematic
+         ================================================ -->
+    <section class="cn-hero" id="cn-hero" aria-label="Peoples Company farmland expertise">
+      <div class="wf-img cn-hero-img">Full-viewport cinematic farmland landscape photograph</div>
+      <div class="cn-scrim" aria-hidden="true"></div>
+      <div class="cn-hero-content">
+        <span class="cn-hero-eyebrow">The Largest Farmland Brokerage in the United States</span>
+        <h1>Rooted in land.<br />Built for what's next.</h1>
+        <div class="cn-hero-cta">
+          <a href="#" class="cn-btn-primary">Explore Our Services</a>
+          <a href="#" class="cn-btn-ghost-hero">Talk to an Advisor</a>
+        </div>
+      </div>
+      <div class="cn-scroll-cue" aria-hidden="true">
+        <span>Scroll</span>
+        <div class="cn-scroll-arrow">↓</div>
+      </div>
+    </section>
+
+    <!-- ================================================
+         ABOUT / INTRO
+         ================================================ -->
+    <section class="cn-about" aria-label="About Peoples Company">
+      <div class="cn-about-inner">
+        <div class="cn-about-text cn-reveal">
+          <span class="cn-eyebrow">Who We Are</span>
+          <h2>50 years of farmland mastery. 170+ professionals strong.</h2>
+          <p>Peoples Company is a nationally recognized leader in farmland brokerage, management, and investment services — combining deep agricultural expertise with proprietary data tools to create maximum value for landowners, farmers, and investors alike.</p>
+          <a href="#" class="cn-btn-primary" style="display:inline-flex;align-items:center;gap:8px;">Meet Our Team</a>
+        </div>
+        <div class="cn-about-img cn-reveal cn-reveal-delay-2">
+          <div class="wf-img" style="min-height:460px;border-radius:var(--radius-lg);">Portrait — farmland professionals in field</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================
+         SERVICES
+         ================================================ -->
+    <section class="cn-svc" aria-label="Our services">
+      <div class="cn-svc-inner">
+        <div class="cn-svc-header cn-reveal">
+          <div>
+            <span style="font-family:var(--font-sans);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#00744D;display:block;margin-bottom:var(--space-3);">Integrated Land Solutions</span>
+            <h2>Seven disciplines.<br />One trusted partner.</h2>
+          </div>
+          <a href="#" style="font-family:var(--font-sans);font-size:14px;font-weight:500;color:#00744D;text-decoration:none;white-space:nowrap;">View All Services →</a>
+        </div>
+        <div class="cn-svc-grid">
+          <div class="cn-svc-card cn-reveal cn-reveal-delay-1">
+            <div class="cn-svc-icon" aria-hidden="true">🌾</div>
+            <h4>Land Brokerage &amp; Auctions</h4>
+            <p>Competitive listings and auction programs delivering maximum price discovery.</p>
+            <a href="#">Learn more →</a>
+          </div>
+          <div class="cn-svc-card cn-reveal cn-reveal-delay-2">
+            <div class="cn-svc-icon" aria-hidden="true">🗺️</div>
+            <h4>Land Management</h4>
+            <p>Day-to-day stewardship, operator oversight, and long-term land strategy.</p>
+            <a href="#">Learn more →</a>
+          </div>
+          <div class="cn-svc-card cn-reveal cn-reveal-delay-3">
+            <div class="cn-svc-icon" aria-hidden="true">📋</div>
+            <h4>Agricultural Appraisal</h4>
+            <p>Certified, data-driven valuations for financing, estate planning, and sale.</p>
+            <a href="#">Learn more →</a>
+          </div>
+          <div class="cn-svc-card cn-reveal cn-reveal-delay-4">
+            <div class="cn-svc-icon" aria-hidden="true">📈</div>
+            <h4>Capital Markets</h4>
+            <p>Connecting institutional capital with high-quality farmland opportunities.</p>
+            <a href="#">Learn more →</a>
+          </div>
+          <div class="cn-svc-card cn-reveal cn-reveal-delay-1">
+            <div class="cn-svc-icon" aria-hidden="true">⚡</div>
+            <h4>Energy Management</h4>
+            <p>Solar and wind lease advisory, negotiation, and ongoing portfolio oversight.</p>
+            <a href="#">Learn more →</a>
+          </div>
+          <div class="cn-svc-card cn-reveal cn-reveal-delay-2">
+            <div class="cn-svc-icon" aria-hidden="true">🛡️</div>
+            <h4>Crop Insurance</h4>
+            <p>Risk management programs protecting farm revenue and operations.</p>
+            <a href="#">Learn more →</a>
+          </div>
+          <div class="cn-svc-card cn-reveal cn-reveal-delay-3">
+            <div class="cn-svc-icon" aria-hidden="true">🏛️</div>
+            <h4>Corporate Services</h4>
+            <p>Tailored programs for institutional landowners and ag corporations.</p>
+            <a href="#">Learn more →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================
+         FULL-BLEED MID-PAGE IMAGE
+         ================================================ -->
+    <div class="cn-mid-image cn-reveal" aria-label="Aerial farmland photography" role="img">
+      <div class="wf-img">Full-bleed aerial farmland photograph — rows of crops at dusk</div>
+      <div class="cn-scrim" aria-hidden="true"></div>
+      <div class="cn-mid-image-content">
+        <p>"Where agricultural capital meets opportunity."</p>
+        <cite>Peoples Company · Est. 1970s · 20+ Regional Offices</cite>
+      </div>
+    </div>
+
+    <!-- ================================================
+         STATS BAND
+         ================================================ -->
+    <section class="cn-stats" aria-label="By the numbers">
+      <div class="cn-stats-inner">
+        <div class="cn-stat-cell cn-reveal">
+          <div class="cn-stat-n">$6B+</div>
+          <div class="cn-stat-l">Farmland Transactions</div>
+        </div>
+        <div class="cn-stat-cell cn-reveal cn-reveal-delay-1">
+          <div class="cn-stat-n">170+</div>
+          <div class="cn-stat-l">Ag Professionals</div>
+        </div>
+        <div class="cn-stat-cell cn-reveal cn-reveal-delay-2">
+          <div class="cn-stat-n">20+</div>
+          <div class="cn-stat-l">Regional Offices</div>
+        </div>
+        <div class="cn-stat-cell cn-reveal cn-reveal-delay-3">
+          <div class="cn-stat-n">1.6K+</div>
+          <div class="cn-stat-l">EXPO Attendees</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================
+         AUDIENCES
+         ================================================ -->
+    <section class="cn-aud" aria-label="Who we serve">
+      <div class="cn-aud-inner">
+        <div class="cn-aud-header cn-reveal">
+          <span style="font-family:var(--font-sans);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#00744D;display:block;margin-bottom:var(--space-3);">Who We Serve</span>
+          <h2>Built for every relationship in the land lifecycle</h2>
+        </div>
+        <div class="cn-aud-grid">
+          <a href="#" class="cn-aud-card cn-aud-card-1 cn-reveal" aria-label="Landowners — services for land ownership and sale">
+            <div class="wf-img cn-aud-bg">Aerial farmland photograph — ownership perspective</div>
+            <div class="cn-aud-scrim" aria-hidden="true"></div>
+            <div class="cn-aud-body">
+              <span class="cn-aud-tag">Landowners</span>
+              <h4>Sell or manage your farmland with confidence</h4>
+              <p>Brokerage, appraisal, and management expertise for landowners nationwide.</p>
+              <div class="cn-aud-arrow">Explore →</div>
+            </div>
+          </a>
+          <a href="#" class="cn-aud-card cn-aud-card-2 cn-reveal cn-reveal-delay-1" aria-label="Farmers and Operators — services for farm operators">
+            <div class="wf-img cn-aud-bg">Field-level farmland photograph — working agriculture</div>
+            <div class="cn-aud-scrim" aria-hidden="true"></div>
+            <div class="cn-aud-body">
+              <span class="cn-aud-tag">Farmers &amp; Operators</span>
+              <h4>Access land, insurance, and management tools</h4>
+              <p>Crop insurance, lease options, and management services for working farms.</p>
+              <div class="cn-aud-arrow">Explore →</div>
+            </div>
+          </a>
+          <a href="#" class="cn-aud-card cn-aud-card-3 cn-reveal cn-reveal-delay-2" aria-label="Investors — farmland investment services">
+            <div class="wf-img cn-aud-bg">Overhead cropland grid — investment perspective</div>
+            <div class="cn-aud-scrim" aria-hidden="true"></div>
+            <div class="cn-aud-body">
+              <span class="cn-aud-tag">Investors</span>
+              <h4>Deploy capital into durable land assets</h4>
+              <p>Capital markets, portfolio advisory, and institutional-grade farmland access.</p>
+              <div class="cn-aud-arrow">Explore →</div>
+            </div>
+          </a>
+          <a href="#" class="cn-aud-card cn-aud-card-4 cn-reveal cn-reveal-delay-3" aria-label="Family Offices — farmland as a wealth asset">
+            <div class="wf-img cn-aud-bg">Long farmland horizon — generational wealth</div>
+            <div class="cn-aud-scrim" aria-hidden="true"></div>
+            <div class="cn-aud-body">
+              <span class="cn-aud-tag">Family Offices</span>
+              <h4>Preserve wealth through farmland allocation</h4>
+              <p>Generational land strategy, estate planning, and long-term portfolio management.</p>
+              <div class="cn-aud-arrow">Explore →</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================
+         INSIGHTS — editorial layout
+         ================================================ -->
+    <section class="cn-insights" aria-label="Insights and research">
+      <div class="cn-insights-inner">
+        <div class="cn-insights-header cn-reveal">
+          <div>
+            <span style="font-family:var(--font-sans);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#00744D;display:block;margin-bottom:var(--space-3);">Insights &amp; Research</span>
+            <h2>Clarity for every land decision</h2>
+          </div>
+          <a href="#" style="font-family:var(--font-sans);font-size:14px;font-weight:500;color:#00744D;text-decoration:none;white-space:nowrap;">All Insights →</a>
+        </div>
+        <div class="cn-ins-grid">
+          <!-- Featured -->
+          <article class="cn-ins-featured cn-reveal">
+            <div class="wf-img" style="height:320px;border-radius:0;">Featured article photograph</div>
+            <div class="cn-ins-featured-body">
+              <span class="cn-ins-tag">Land Values · May 2026</span>
+              <h3>Understanding Midwest Farmland Trends in 2026</h3>
+              <p>Values continue to appreciate across the Corn Belt as demand from institutional investors and family offices drives competition for prime ground.</p>
+              <a href="#">Read the full article →</a>
+            </div>
+          </article>
+          <!-- Small cards -->
+          <article class="cn-ins-small cn-reveal cn-reveal-delay-1">
+            <div class="wf-img" style="width:120px;height:90px;flex-shrink:0;border-radius:var(--radius-sm);">Thumbnail</div>
+            <div class="cn-ins-small-body">
+              <span class="cn-ins-tag">Energy · 2026</span>
+              <h4>Solar &amp; Wind Leases: What Landowners Should Ask</h4>
+              <a href="#">Read article →</a>
+            </div>
+          </article>
+          <article class="cn-ins-small cn-reveal cn-reveal-delay-2">
+            <div class="wf-img" style="width:120px;height:90px;flex-shrink:0;border-radius:var(--radius-sm);">Report cover</div>
+            <div class="cn-ins-small-body">
+              <span class="cn-ins-tag">Research Report</span>
+              <h4>2025 National Land Values Report</h4>
+              <a href="#">Download the report →</a>
+            </div>
+          </article>
+          <article class="cn-ins-small cn-reveal cn-reveal-delay-3">
+            <div class="wf-img" style="width:120px;height:90px;flex-shrink:0;border-radius:var(--radius-sm);">Thumbnail</div>
+            <div class="cn-ins-small-body">
+              <span class="cn-ins-tag">Investment · 2026</span>
+              <h4>Why Family Offices &amp; Farmland Align</h4>
+              <a href="#">Read article →</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================
+         CTA — full-bleed dark
+         ================================================ -->
+    <section class="cn-cta-section" aria-label="Get in touch">
+      <div class="wf-img cn-cta-bg">Dark farmland evening photograph — CTA background</div>
+      <div class="cn-cta-scrim" aria-hidden="true"></div>
+      <div class="cn-cta-inner">
+        <div class="cn-cta-text cn-reveal">
+          <h2>Start a conversation with our team</h2>
+          <p>170+ ag professionals across 20+ regional offices — ready to help you buy, sell, manage, or invest in farmland.</p>
+          <div class="cn-cta-btns">
+            <a href="#" class="cn-btn-primary">Talk to a Broker</a>
+            <a href="#" class="cn-btn-ghost-hero">Request an Appraisal</a>
+          </div>
+        </div>
+        <div class="cn-cta-contact cn-reveal cn-reveal-delay-2">
+          <h4>Contact Peoples Company</h4>
+          <div class="cn-contact-detail">
+            <div><strong>Phone:</strong> <a href="tel:8558005263">855.800.LAND</a></div>
+            <div><strong>Email:</strong> <a href="mailto:Info@PeoplesCompany.com">Info@PeoplesCompany.com</a></div>
+            <div style="color:#6B7280;">1108 S. 44th St, Suite 102<br />Cumming, IA 50061</div>
+            <a href="#" class="cn-btn-primary" style="display:inline-block;margin-top:var(--space-3);">Contact Form →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================
+         FOOTER
+         ================================================ -->
+    <footer class="cn-footer">
+      <div class="cn-footer-top">
+        <div class="cn-footer-brand">
+          <img src="../../shared/logos/pc_logo_white.webp" alt="Peoples Company — Integrated Land Solutions" />
+          <p>Integrated Land Solutions. The largest farmland brokerage and management firm in the United States.</p>
+          <div class="contact-block">
+            <div><a href="tel:8558005263">855.800.LAND</a></div>
+            <div><a href="mailto:Info@PeoplesCompany.com">Info@PeoplesCompany.com</a></div>
+            <div style="color:#9CA3AF;margin-top:var(--space-2);">1108 S. 44th St, Suite 102<br />Cumming, IA 50061</div>
+          </div>
+        </div>
+        <div class="cn-footer-cols">
+          <div class="cn-footer-col">
+            <h4>Real Estate</h4>
+            <ul>
+              <li><a href="#">Farmland For Sale</a></li>
+              <li><a href="#">Upcoming Auctions</a></li>
+              <li><a href="#">Sold Properties</a></li>
+              <li><a href="#">Interactive Map</a></li>
+            </ul>
+          </div>
+          <div class="cn-footer-col">
+            <h4>What We Do</h4>
+            <ul>
+              <li><a href="#">Land Brokerage &amp; Auctions</a></li>
+              <li><a href="#">Land Management</a></li>
+              <li><a href="#">Agricultural Appraisal</a></li>
+              <li><a href="#">Capital Markets</a></li>
+              <li><a href="#">Energy Management</a></li>
+              <li><a href="#">Crop Insurance</a></li>
+              <li><a href="#">Corporate Services</a></li>
+            </ul>
+          </div>
+          <div class="cn-footer-col">
+            <h4>The Company</h4>
+            <ul>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Our Team</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Land Investment EXPO</a></li>
+              <li><a href="#">FarmWorth™</a></li>
+              <li><a href="#">Regions &amp; Offices</a></li>
+            </ul>
+          </div>
+          <div class="cn-footer-col">
+            <h4>Insights</h4>
+            <ul>
+              <li><a href="#">National Land Values</a></li>
+              <li><a href="#">Industry Research</a></li>
+              <li><a href="#">Data &amp; Tools</a></li>
+              <li><a href="#">Newsletters</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Press Releases</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="cn-footer-bottom">
+        <span>© 2026 Peoples Company · Licensed in 50 states · Equal Housing Opportunity</span>
+        <div style="display:flex;gap:var(--space-5);">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Use</a>
+          <a href="#">Accessibility</a>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /wf-canvas -->
+
+  <!-- NO _nav.js / _nav-data.js — this concept has its own custom nav rendered in HTML above -->
+
+  <script>
+    (function () {
+      /* ── Scroll-solidify nav ── */
+      var nav = document.getElementById('cn-nav');
+      var hero = document.getElementById('cn-hero');
+      function checkScroll() {
+        if (!nav || !hero) return;
+        var threshold = hero.offsetHeight - 20;
+        if (window.scrollY > threshold) {
+          nav.classList.add('is-solid');
+        } else {
+          nav.classList.remove('is-solid');
+        }
+      }
+      window.addEventListener('scroll', checkScroll, { passive: true });
+      checkScroll(); // run once on load
+
+      /* ── IntersectionObserver reveal (respects prefers-reduced-motion) ── */
+      var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!prefersReduced && 'IntersectionObserver' in window) {
+        var reveals = document.querySelectorAll('.cn-reveal');
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        reveals.forEach(function (el) { observer.observe(el); });
+      } else {
+        /* If reduced-motion or no IntersectionObserver support, make everything visible immediately */
+        document.querySelectorAll('.cn-reveal').forEach(function (el) {
+          el.classList.add('is-visible');
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

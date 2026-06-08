@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Index Wireframe · Concept 18 — Command | Peoples Company</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="../../shared/main.css?v=20260601" rel="stylesheet" />
+  <link href="./_wireframe.css?v=2" rel="stylesheet" />
+  <link href="./_nav.css?v=2" rel="stylesheet" />
+  <style>
+    /* Concept 18 — Command: a search / command-bar-first homepage (the site as a tool) */
+    .c18-hero { padding:var(--space-9) 0 var(--space-7); text-align:center; }
+    .c18-hero .label { color:var(--teal); }
+    .c18-hero h1 { font-size:52px; max-width:16ch; margin:var(--space-3) auto var(--space-6); }
+
+    .c18-cmd { max-width:680px; margin:0 auto; text-align:left;
+      border:1px solid var(--gray-200); border-radius:var(--radius-md); background:#fff;
+      box-shadow:0 10px 30px rgba(17,24,39,.08); overflow:hidden; }
+    .c18-field { display:flex; align-items:center; gap:var(--space-3); padding:18px 20px; border-bottom:1px solid var(--gray-100); }
+    .c18-field .mag { color:var(--gray-500); font-size:18px; }
+    .c18-field .q { flex:1; font-family:var(--font-sans); font-size:18px; color:var(--gray-900); }
+    .c18-field .q .ph { color:var(--gray-500); }
+    .c18-field .caret { display:inline-block; width:2px; height:20px; background:var(--rich-green); margin-left:1px; vertical-align:middle; animation:c18blink 1s steps(1) infinite; }
+    @keyframes c18blink { 50% { opacity:0; } }
+    .c18-field .kbd { font-family:var(--font-sans); font-size:12px; color:var(--gray-500); border:1px solid var(--gray-200); border-radius:6px; padding:3px 8px; }
+    .c18-sugg { padding:8px; }
+    .c18-sugg .grp { font-family:var(--font-sans); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-500); padding:10px 12px 4px; }
+    .c18-sugg button { width:100%; text-align:left; display:flex; align-items:center; gap:12px; padding:10px 12px;
+      background:none; border:0; border-radius:8px; cursor:pointer; font-family:var(--font-sans); font-size:15px; color:var(--gray-900); }
+    .c18-sugg button:hover, .c18-sugg button:focus { background:var(--gray-100); }
+    .c18-sugg .ic { width:24px; height:24px; border-radius:6px; background:var(--gray-100); color:var(--teal); display:flex; align-items:center; justify-content:center; font-size:10px; }
+    .c18-sugg .tag { margin-left:auto; font-size:12px; color:var(--gray-500); }
+
+    .c18-quick { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-4); max-width:760px; margin:var(--space-7) auto 0; }
+    .c18-quick a { border:1px solid var(--color-border); border-radius:var(--radius-md); padding:var(--space-4); text-decoration:none;
+      text-align:center; color:var(--gray-900); font-family:var(--font-sans); font-weight:500; font-size:15px; }
+    .c18-quick a:hover { border-color:var(--rich-green); }
+
+    .c18-sec { padding:var(--space-7) 0; border-top:1px solid var(--gray-100); }
+    .c18-head { display:flex; justify-content:space-between; align-items:baseline; gap:var(--space-4); margin-bottom:var(--space-5); }
+    .c18-svc { display:grid; grid-template-columns:repeat(7,1fr); gap:var(--space-3); }
+    .c18-svc a { border:1px solid var(--color-border); border-radius:var(--radius-md); padding:var(--space-4) var(--space-3); text-align:center;
+      text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:var(--space-3); }
+    .c18-svc a:hover { border-color:var(--rich-green); }
+    .c18-svc .ico { width:34px; height:34px; border-radius:8px; background:var(--gray-100); color:var(--teal); display:flex; align-items:center; justify-content:center; font-size:10px; }
+    .c18-svc span.t { font-family:var(--font-sans); font-size:13px; color:var(--gray-900); }
+
+    .c18-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-5); background:var(--pine); color:#fff; border-radius:var(--radius-lg); padding:var(--space-6) var(--space-7); }
+    .c18-stat .n { font-family:var(--font-serif); font-weight:500; font-size:38px; line-height:1; } .c18-stat .l { font-size:13px; color:#CFE3DF; margin-top:var(--space-2); }
+
+    .c18-ins { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-5); }
+    .c18-ins .wf-thumb { height:150px; } .c18-ins .label { color:var(--teal); display:block; margin-top:var(--space-3); }
+    .c18-ins h4 { font-family:var(--font-serif); font-weight:500; font-size:19px; margin:var(--space-2) 0; }
+
+    @media (max-width:980px){
+      .c18-hero h1{font-size:34px;} .c18-quick{grid-template-columns:1fr 1fr;}
+      .c18-svc{grid-template-columns:repeat(4,1fr);} .c18-stats{grid-template-columns:1fr 1fr;} .c18-ins{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+  <div class="wf-badge"><b>Concept 18 · Command</b><a href="./index.html">All concepts ↗</a></div>
+
+  <div class="wf-canvas">
+    <div id="site-header"></div>
+
+    <header class="container c18-hero">
+      <span class="label">Search-first</span>
+      <h1>Everything about your land, in one place.</h1>
+
+      <div class="c18-cmd" role="search">
+        <label class="c18-field" for="c18q">
+          <span class="mag">🔍</span>
+          <span class="q" id="c18qtext"><span class="ph">Search land, services, insights, or your address…</span></span>
+          <span class="caret" aria-hidden="true"></span>
+          <span class="kbd">⌘K</span>
+          <input id="c18q" type="text" hidden aria-label="Search the site" />
+        </label>
+        <div class="c18-sugg" role="listbox" aria-label="Suggested searches">
+          <div class="grp">Try</div>
+          <button type="button" data-q="Sell my farm in Story County, IA"><span class="ic">⌖</span>Sell my farm in Story County, IA<span class="tag">Brokerage</span></button>
+          <button type="button" data-q="2025 National Land Values Report"><span class="ic">▤</span>2025 National Land Values Report<span class="tag">Research</span></button>
+          <button type="button" data-q="Book an agricultural appraisal"><span class="ic">▣</span>Book an agricultural appraisal<span class="tag">Appraisal</span></button>
+          <button type="button" data-q="Invest in a farmland fund"><span class="ic">$</span>Invest in a farmland fund<span class="tag">Capital Markets</span></button>
+        </div>
+      </div>
+
+      <div class="c18-quick">
+        <a href="#">Sell my land</a>
+        <a href="#">Buy farmland</a>
+        <a href="#">Value my asset</a>
+        <a href="#">Invest capital</a>
+      </div>
+    </header>
+
+    <section class="container c18-sec">
+      <div class="c18-head"><div><span class="label">What We Do</span><h2 style="margin-top:var(--space-2);">Or browse the full suite</h2></div><a href="#" class="read-more is-static">All services</a></div>
+      <div class="c18-svc">
+        <a href="#"><span class="ico">ico</span><span class="t">Land Brokerage &amp; Auctions</span></a>
+        <a href="#"><span class="ico">ico</span><span class="t">Land Management</span></a>
+        <a href="#"><span class="ico">ico</span><span class="t">Agricultural Appraisal</span></a>
+        <a href="#"><span class="ico">ico</span><span class="t">Capital Markets</span></a>
+        <a href="#"><span class="ico">ico</span><span class="t">Energy Management</span></a>
+        <a href="#"><span class="ico">ico</span><span class="t">Crop Insurance</span></a>
+        <a href="#"><span class="ico">ico</span><span class="t">Corporate Services</span></a>
+      </div>
+    </section>
+
+    <section class="container c18-sec" style="border:0;">
+      <div class="c18-stats">
+        <div class="c18-stat"><div class="n">$6B+</div><div class="l">Farmland Transactions</div></div>
+        <div class="c18-stat"><div class="n">170+</div><div class="l">Ag Professionals</div></div>
+        <div class="c18-stat"><div class="n">20+</div><div class="l">Regional Offices</div></div>
+        <div class="c18-stat"><div class="n">1.6K+</div><div class="l">EXPO Attendees</div></div>
+      </div>
+    </section>
+
+    <section class="container c18-sec">
+      <div class="c18-head"><div><span class="label">Insights &amp; Research</span><h2 style="margin-top:var(--space-2);">Clarity for every land decision</h2></div><a href="#" class="read-more is-static">View all</a></div>
+      <div class="c18-ins">
+        <article class="card"><div class="wf-img wf-thumb">Article</div><span class="label">Land Values · May 2026</span><h4>Understanding Midwest Farmland Trends in 2026</h4><a href="#" class="read-more is-static">Read more</a></article>
+        <article class="card"><div class="wf-img wf-thumb">Article</div><span class="label">Energy · May 2026</span><h4>Solar &amp; Wind Leases: What Landowners Should Ask</h4><a href="#" class="read-more is-static">Read more</a></article>
+        <article class="card"><div class="wf-img wf-thumb">Report</div><span class="label">Research Report</span><h4>Why Family Offices &amp; Farmland Align</h4><a href="#" class="read-more is-static">Download</a></article>
+      </div>
+    </section>
+
+    <footer class="wf-footer"><div class="container" style="padding-top:var(--space-7);padding-bottom:var(--space-6);display:flex;justify-content:space-between;gap:var(--space-4);flex-wrap:wrap;">
+      <span style="font-size:13px;">© 2026 Peoples Company · Licensed in 50 states (EHO) · 1108 S. 44th St, Suite 102, Cumming, IA 50061 · 855.800.LAND</span>
+      <span style="font-size:13px;">Privacy · Terms · Accessibility</span>
+    </div></footer>
+  </div>
+
+  <script src="./_nav-data.js?v=1"></script>
+  <script src="./_nav.js?v=2"></script>
+  <script>
+    /* Clicking a suggestion fills the (mock) query line. */
+    (function(){
+      var qtext = document.getElementById('c18qtext');
+      document.querySelectorAll('.c18-sugg button').forEach(function(b){
+        b.addEventListener('click', function(){ qtext.innerHTML = b.dataset.q.replace(/&/g,'&amp;').replace(/</g,'&lt;'); });
+      });
+    })();
+  </script>
+</body>
+</html>

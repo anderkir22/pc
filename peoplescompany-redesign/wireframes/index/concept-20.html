@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Index Wireframe · Concept 20 — Scrollytelling | Peoples Company</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="../../shared/main.css?v=20260601" rel="stylesheet" />
+  <link href="./_wireframe.css?v=2" rel="stylesheet" />
+  <link href="./_nav.css?v=2" rel="stylesheet" />
+  <style>
+    /* Concept 20 — Scrollytelling: a pinned visual; narrative steps reveal on scroll */
+    .sy-hero { padding:var(--space-8) 0 var(--space-6); }
+    .sy-hero .label { color:var(--teal); }
+    .sy-hero h1 { font-size:54px; max-width:18ch; margin:var(--space-3) 0 var(--space-3); }
+    .sy-hero p { font-size:19px; max-width:50ch; }
+
+    .sy-scrolly { display:grid; grid-template-columns:1fr 1fr; gap:var(--space-8); align-items:start; }
+    /* Pinned graphic */
+    .sy-stick { position:sticky; top:130px; height:calc(100vh - 170px); min-height:440px; }
+    .sy-graphic { width:100%; height:100%; background:#0d1411; border:1px solid #1f2a25; border-radius:14px;
+      position:relative; overflow:hidden; color:#CFE3DF; font-family:var(--font-sans); }
+    .sy-graphic .top { position:absolute; top:14px; left:16px; right:16px; display:flex; justify-content:space-between; font-size:11px; letter-spacing:.1em; color:#9FB3AC; }
+    .sy-graphic .live { color:#39d98a; }
+    .sy-parcel { position:absolute; border:2px solid #2f4a40; border-radius:6px; transition:border-color .3s ease, background .3s ease; }
+    .sy-p1 { left:18%; top:30%; width:30%; height:34%; }
+    .sy-p2 { left:50%; top:24%; width:30%; height:30%; }
+    .sy-p3 { left:40%; top:56%; width:26%; height:26%; }
+    /* step-driven highlight */
+    .sy-graphic[data-step="0"] .sy-parcel { border-color:#39c2e0; }
+    .sy-graphic[data-step="1"] .sy-parcel { border-color:#5fae6a; background:rgba(95,174,106,.14); } /* soil */
+    .sy-graphic[data-step="2"] .sy-parcel { border-color:#c9a24b; background:rgba(201,162,75,.12); } /* comps */
+    .sy-graphic[data-step="3"] .sy-p1 { border-color:#5FD3A3; background:rgba(95,211,163,.20); }
+    .sy-cap { position:absolute; left:18px; bottom:18px; right:18px; background:#0a0f0d; border:1px solid #243; border-radius:10px; padding:14px 16px; }
+    .sy-cap .k { font-size:11px; letter-spacing:.1em; color:#9FB3AC; text-transform:uppercase; }
+    .sy-cap .v { color:#fff; font-family:var(--font-serif); font-size:22px; margin-top:4px; }
+    .sy-chips { position:absolute; top:44px; right:16px; display:flex; flex-direction:column; gap:8px; }
+    .sy-chip { font-size:12px; color:#6b7c75; border:1px solid #243; border-radius:6px; padding:4px 9px; transition:all .3s ease; }
+    .sy-chip.on { color:#fff; border-color:#39c2e0; background:rgba(57,194,224,.12); }
+
+    /* Steps */
+    .sy-steps { display:flex; flex-direction:column; }
+    .sy-step { min-height:74vh; display:flex; flex-direction:column; justify-content:center; opacity:.5; transition:opacity .3s ease; }
+    .sy-step.active { opacity:1; }
+    .sy-step .n { font-family:var(--font-serif); font-weight:500; font-size:18px; color:var(--rich-green); }
+    .sy-step h2 { font-size:38px; margin:var(--space-2) 0 var(--space-3); }
+    .sy-step p { font-size:17px; max-width:44ch; }
+
+    .sy-sec { padding:var(--space-8) 0; border-top:1px solid var(--gray-100); }
+    .sy-head { display:flex; justify-content:space-between; align-items:baseline; gap:var(--space-4); margin-bottom:var(--space-5); }
+    .sy-svc { display:grid; grid-template-columns:repeat(7,1fr); gap:var(--space-3); }
+    .sy-svc a { border:1px solid var(--color-border); border-radius:var(--radius-md); padding:var(--space-4) var(--space-3); text-align:center;
+      text-decoration:none; display:flex; flex-direction:column; align-items:center; gap:var(--space-3); }
+    .sy-svc a:hover { border-color:var(--rich-green); }
+    .sy-svc .ico { width:34px; height:34px; border-radius:8px; background:var(--gray-100); color:var(--teal); display:flex; align-items:center; justify-content:center; font-size:10px; }
+    .sy-svc span.t { font-family:var(--font-sans); font-size:13px; color:var(--gray-900); }
+    .sy-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-5); background:var(--pine); color:#fff; border-radius:var(--radius-lg); padding:var(--space-6) var(--space-7); }
+    .sy-stat .n { font-family:var(--font-serif); font-weight:500; font-size:38px; line-height:1; } .sy-stat .l { font-size:13px; color:#CFE3DF; margin-top:var(--space-2); }
+
+    @media (max-width:980px){
+      .sy-hero h1{font-size:36px;}
+      .sy-scrolly{grid-template-columns:1fr;}
+      .sy-stick{position:relative; top:0; height:300px; min-height:0; margin-bottom:var(--space-5);}
+      .sy-step{min-height:auto; padding:var(--space-5) 0; opacity:1;}
+      .sy-svc{grid-template-columns:repeat(4,1fr);} .sy-stats{grid-template-columns:1fr 1fr;}
+    }
+    @media (prefers-reduced-motion: reduce){ .sy-step{opacity:1;} }
+  </style>
+</head>
+<body>
+  <div class="wf-badge"><b>Concept 20 · Scrollytelling</b><a href="./index.html">All concepts ↗</a></div>
+
+  <div class="wf-canvas">
+    <div id="site-header"></div>
+
+    <header class="container sy-hero">
+      <span class="label">How We Prove Value</span>
+      <h1>Watch a farm's value come into focus.</h1>
+      <p>Scroll to see how FarmWorth turns thousands of data points into a defensible number — the kind of rigor behind every deal we do.</p>
+    </header>
+
+    <section class="container">
+      <div class="sy-scrolly">
+        <!-- Pinned visual -->
+        <div class="sy-stick">
+          <div class="sy-graphic" id="sy-graphic" data-step="0" aria-hidden="true">
+            <div class="top"><span>▦ FARMWORTH™</span><span class="live">● LIVE</span></div>
+            <div class="sy-chips">
+              <span class="sy-chip" data-c="0">Parcels</span>
+              <span class="sy-chip" data-c="1">Soils</span>
+              <span class="sy-chip" data-c="2">Comps</span>
+              <span class="sy-chip" data-c="3">Value</span>
+            </div>
+            <div class="sy-parcel sy-p1"></div>
+            <div class="sy-parcel sy-p2"></div>
+            <div class="sy-parcel sy-p3"></div>
+            <div class="sy-cap"><div class="k" id="sy-cap-k">Parcel</div><div class="v" id="sy-cap-v">240 ac — Wapello County, IA</div></div>
+          </div>
+        </div>
+        <!-- Steps -->
+        <div class="sy-steps" id="sy-steps">
+          <div class="sy-step" data-step="0"><div class="n">01</div><h2>Map the parcel</h2><p>We start with precise boundaries — parcels, CLUs, and acreage pulled from authoritative public data.</p></div>
+          <div class="sy-step" data-step="1"><div class="n">02</div><h2>Read the soil</h2><p>High-resolution soil capability analysis grades productivity across every acre, not just the tract average.</p></div>
+          <div class="sy-step" data-step="2"><div class="n">03</div><h2>Find the comps</h2><p>Our proprietary comparable-sales database surfaces real, recent transactions nearby — the market's actual behavior.</p></div>
+          <div class="sy-step" data-step="3"><div class="n">04</div><h2>Prove the value</h2><p>Automated appraisal modeling resolves it to a defensible figure: <b>$9,800/ac</b>. We don't guess value — we prove it.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container sy-sec">
+      <div class="sy-head"><div><span class="label">What We Do</span><h2 style="margin-top:var(--space-2);">The full suite of services</h2></div><a href="#" class="read-more is-static">All services</a></div>
+      <div class="sy-svc">
+        <a href="#"><span class="ico">ico</span><span class="t">Land Brokerage &amp; Auctions</span></a>
+        <a href="#"><span class="ico">ico</span><span class="t">Land Management</span></a>
+        <a href="#"><span class="ico">ico</span><span class="t">Agricultural Appraisal</span></a>
+        <a href="#"><span class="ico">ico</span><span class="t">Capital Markets</span></a>
+        <a href="#"><span class="ico">ico</span><span class="t">Energy Management</span></a>
+        <a href="#"><span class="ico">ico</span><span class="t">Crop Insurance</span></a>
+        <a href="#"><span class="ico">ico</span><span class="t">Corporate Services</span></a>
+      </div>
+    </section>
+
+    <section class="container sy-sec" style="border:0;">
+      <div class="sy-stats">
+        <div class="sy-stat"><div class="n">$6B+</div><div class="l">Farmland Transactions</div></div>
+        <div class="sy-stat"><div class="n">170+</div><div class="l">Ag Professionals</div></div>
+        <div class="sy-stat"><div class="n">20+</div><div class="l">Regional Offices</div></div>
+        <div class="sy-stat"><div class="n">1.6K+</div><div class="l">EXPO Attendees</div></div>
+      </div>
+    </section>
+
+    <footer class="wf-footer"><div class="container" style="padding-top:var(--space-7);padding-bottom:var(--space-6);display:flex;justify-content:space-between;gap:var(--space-4);flex-wrap:wrap;">
+      <span style="font-size:13px;">© 2026 Peoples Company · Licensed in 50 states (EHO) · 1108 S. 44th St, Suite 102, Cumming, IA 50061 · 855.800.LAND</span>
+      <span style="font-size:13px;">Privacy · Terms · Accessibility</span>
+    </div></footer>
+  </div>
+
+  <script src="./_nav-data.js?v=1"></script>
+  <script src="./_nav.js?v=2"></script>
+  <script>
+    (function(){
+      var graphic = document.getElementById('sy-graphic');
+      var capK = document.getElementById('sy-cap-k'), capV = document.getElementById('sy-cap-v');
+      var chips = graphic.querySelectorAll('.sy-chip');
+      var steps = document.querySelectorAll('#sy-steps .sy-step');
+      var CAP = [
+        ["Parcel","240 ac — Wapello County, IA"],
+        ["Soil capability","CSR2 78.4 — high productivity"],
+        ["Comparable sales","6 nearby · $9,100–$10,400/ac"],
+        ["Appraised value","$9,800 / ac · $2.35M"]
+      ];
+      function setStep(i){
+        graphic.setAttribute('data-step', i);
+        capK.textContent = CAP[i][0]; capV.textContent = CAP[i][1];
+        chips.forEach(function(c,ci){ c.classList.toggle('on', ci<=i); });
+        steps.forEach(function(s){ s.classList.toggle('active', +s.dataset.step===i); });
+      }
+      var io = new IntersectionObserver(function(ents){
+        ents.forEach(function(e){ if(e.isIntersecting) setStep(+e.target.dataset.step); });
+      }, { rootMargin:"-45% 0px -45% 0px", threshold:0 });
+      steps.forEach(function(s){ io.observe(s); });
+      setStep(0);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Index Wireframe · Concept 05 — Editorial Bento | Peoples Company</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="../../shared/main.css?v=20260601" rel="stylesheet" />
+  <link href="./_wireframe.css?v=2" rel="stylesheet" />
+  <link href="./_nav.css?v=2" rel="stylesheet" />
+
+  <style>
+    /* Bento grid — a dense "front page". Tiles of varying span. */
+    .c5-wrap { padding:var(--space-6) 40px var(--space-8); }
+    .c5-bento { display:grid; grid-template-columns:repeat(12,1fr); gap:var(--space-4); grid-auto-rows:minmax(96px,auto); }
+    .tile { border:1px solid var(--color-border); border-radius:var(--radius-md); padding:var(--space-5);
+      display:flex; flex-direction:column; justify-content:space-between; min-width:0; }
+    .tile .label { display:block; margin-bottom:var(--space-2); }
+
+    /* Hero tile — big, dark, with image */
+    .t-hero { grid-column:span 7; grid-row:span 4; position:relative; padding:0; overflow:hidden; border:0; }
+    .t-hero .wf-img { position:absolute; inset:0; min-height:0; border:0; border-radius:0; }
+    .t-hero .scrim { position:absolute; inset:0; background:linear-gradient(0deg, rgba(10,15,26,.82), rgba(10,15,26,.25)); }
+    .t-hero .c5-hero-copy { position:relative; margin-top:auto; padding:var(--space-7); color:#fff; }
+    .t-hero .label { color:#9FE0C5; } .t-hero h1 { color:#fff; font-size:44px; margin:var(--space-2) 0 var(--space-4); max-width:16ch; }
+    .t-hero p { color:#E5E7EB; max-width:42ch; }
+    .t-hero .cta { display:flex; gap:var(--space-3); margin-top:var(--space-5); }
+    .btn-onhero { background:transparent; color:#fff; border:1px solid rgba(255,255,255,.7); }
+
+    /* Audience router tile */
+    .t-aud { grid-column:span 5; grid-row:span 2; background:var(--pine); color:#fff; border:0; }
+    .t-aud h3 { color:#fff; font-family:var(--font-sans); font-size:16px; }
+    .t-aud .rows { display:flex; flex-direction:column; gap:0; }
+    .t-aud a { display:flex; justify-content:space-between; align-items:center; color:#fff; text-decoration:none;
+      padding:11px 0; border-top:1px solid rgba(255,255,255,.16); font-family:var(--font-sans); font-size:15px; }
+    .t-aud a:first-child { border-top:0; } .t-aud a:hover { color:#9FE0C5; }
+    .t-aud a::after { content:"→"; color:#9FE0C5; }
+
+    /* Featured stat tile */
+    .t-stat { grid-column:span 5; grid-row:span 2; background:var(--gray-100); border:0;
+      display:grid; grid-template-columns:1fr 1fr; gap:var(--space-4); }
+    .t-stat .s .n { font-family:var(--font-serif); font-weight:500; font-size:34px; color:var(--gray-900); line-height:1; }
+    .t-stat .s .l { font-size:12px; color:var(--gray-600); margin-top:4px; }
+
+    /* Services tile (list) */
+    .t-svc { grid-column:span 4; grid-row:span 3; }
+    .t-svc ul { list-style:none; margin:var(--space-2) 0 0; padding:0; display:flex; flex-direction:column; }
+    .t-svc li a { display:flex; justify-content:space-between; padding:9px 0; border-top:1px solid var(--gray-100);
+      font-family:var(--font-sans); font-size:14px; color:var(--gray-900); text-decoration:none; }
+    .t-svc li:first-child a { border-top:0; } .t-svc li a:hover { color:#00744D; }
+    .t-svc li a::after { content:"→"; color:var(--gray-400,#9CA3AF); }
+
+    /* Insight tiles */
+    .t-ins { grid-column:span 4; grid-row:span 3; padding:0; overflow:hidden; }
+    .t-ins .wf-img { min-height:150px; border:0; border-radius:0; }
+    .t-ins .pad { padding:var(--space-5); }
+    .t-ins .label { color:var(--teal); }
+    .t-ins h4 { font-family:var(--font-serif); font-weight:500; font-size:19px; margin:var(--space-2) 0; }
+    .t-ins-sm { grid-column:span 4; grid-row:span 2; }
+    .t-ins-sm h4 { font-family:var(--font-serif); font-weight:500; font-size:17px; margin:var(--space-2) 0; }
+
+    /* Research / report tile */
+    .t-report { grid-column:span 4; grid-row:span 2; background:var(--deep-teal); color:#fff; border:0; }
+    .t-report .label { color:#9FE0C5; } .t-report h4 { color:#fff; font-family:var(--font-serif); font-weight:500; font-size:20px; margin:var(--space-2) 0; }
+    .t-report a { color:#fff; text-decoration:underline; font-family:var(--font-sans); font-size:14px; }
+
+    /* CTA tile */
+    .t-cta { grid-column:span 4; grid-row:span 2; background:#0A0F1A; color:#fff; border:0; }
+    .t-cta h3 { color:#fff; } .t-cta p { color:#C7CBD1; margin:0 0 var(--space-4); }
+
+    /* Newsletter tile */
+    .t-news { grid-column:span 8; grid-row:span 1; display:flex; align-items:center; justify-content:space-between; gap:var(--space-5); }
+    .t-news .f { display:flex; gap:var(--space-3); flex:1; max-width:480px; }
+    .t-news .inp { flex:1; border:1px solid var(--gray-200); border-radius:var(--radius-pill); padding:11px 18px; color:var(--gray-500); font-family:var(--font-sans); font-size:14px; }
+
+    .c5-foot { background:#0A0F1A; color:#9CA3AF; padding:var(--space-6) 40px; font-size:13px;
+      display:flex; justify-content:space-between; gap:var(--space-4); flex-wrap:wrap; }
+
+    @media (max-width:1000px){
+      .c5-bento { grid-template-columns:repeat(6,1fr); }
+      .t-hero{grid-column:span 6;} .t-aud,.t-stat,.t-svc,.t-ins,.t-ins-sm,.t-report,.t-cta{grid-column:span 6;}
+      .t-news{grid-column:span 6;}
+    }
+  </style>
+</head>
+<body>
+  <div class="wf-badge"><b>Concept 05 · Editorial Bento</b><a href="./index.html">All concepts ↗</a></div>
+
+  <div class="wf-canvas">
+    <div id="site-header"></div>
+
+    <div class="c5-wrap">
+      <div class="c5-bento">
+
+        <!-- HERO -->
+        <section class="tile t-hero">
+          <div class="wf-img">Hero image — farmland landscape</div>
+          <div class="scrim"></div>
+          <div class="c5-hero-copy">
+            <span class="label">National Leader in Agricultural Real Estate</span>
+            <h1>Trusted Farmland Expertise. Institutional Insight.</h1>
+            <p>Helping landowners, farmers, and investors make confident decisions through data-driven insight and decades of experience.</p>
+            <div class="cta"><a href="#" class="btn btn-white">Explore Services</a><a href="#" class="btn btn-onhero">Talk to an Advisor</a></div>
+          </div>
+        </section>
+
+        <!-- AUDIENCE ROUTER -->
+        <section class="tile t-aud">
+          <h3>Find your path</h3>
+          <div class="rows">
+            <a href="#">Landowners</a>
+            <a href="#">Farmers / Operators</a>
+            <a href="#">Investors</a>
+            <a href="#">Family Offices / HNW</a>
+          </div>
+        </section>
+
+        <!-- STATS -->
+        <section class="tile t-stat">
+          <div class="s"><div class="n">50+</div><div class="l">Years since the 1960s</div></div>
+          <div class="s"><div class="n">50</div><div class="l">States licensed</div></div>
+          <div class="s"><div class="n">$6B+</div><div class="l">Transacted &amp; managed</div></div>
+          <div class="s"><div class="n">#1</div><div class="l">In ag real estate</div></div>
+        </section>
+
+        <!-- SERVICES LIST -->
+        <section class="tile t-svc">
+          <span class="label">What We Do</span>
+          <ul>
+            <li><a href="#">Land Brokerage &amp; Auctions</a></li>
+            <li><a href="#">Land Management</a></li>
+            <li><a href="#">Agricultural Appraisal</a></li>
+            <li><a href="#">Capital Markets</a></li>
+            <li><a href="#">Energy Management</a></li>
+            <li><a href="#">Crop Insurance</a></li>
+            <li><a href="#">Corporate Services</a></li>
+          </ul>
+        </section>
+
+        <!-- FEATURE INSIGHT -->
+        <section class="tile t-ins">
+          <div class="wf-img">Article image</div>
+          <div class="pad"><span class="label">Land Values · May 2026</span><h4>Understanding Midwest Farmland Trends in 2026</h4><a href="#" class="read-more is-static">Read more</a></div>
+        </section>
+
+        <!-- REPORT -->
+        <section class="tile t-report">
+          <span class="label">Research Report</span>
+          <h4>2025 National Land Values Report</h4>
+          <a href="#">Download PDF →</a>
+        </section>
+
+        <!-- SMALL INSIGHTS -->
+        <section class="tile t-ins-sm"><span class="label" style="color:var(--teal);">Energy · May 2026</span><h4>Solar &amp; Wind Leases: What Landowners Should Ask</h4><a href="#" class="read-more is-static">Read more</a></section>
+        <section class="tile t-ins-sm"><span class="label" style="color:var(--teal);">Insight</span><h4>Why Family Offices &amp; Farmland Naturally Align</h4><a href="#" class="read-more is-static">Read more</a></section>
+
+        <!-- CTA -->
+        <section class="tile t-cta">
+          <div><span class="label" style="color:#9FE0C5;">Get in touch</span><h3>Start a conversation</h3><p>Connect with our team to discuss your land goals.</p></div>
+          <a href="#" class="btn btn-white">Contact Us</a>
+        </section>
+
+        <!-- NEWSLETTER -->
+        <section class="tile t-news">
+          <div><span class="label">Land Matters Newsletter</span><div style="font-family:var(--font-sans);color:var(--gray-600);">Market trends and land values, in your inbox.</div></div>
+          <div class="f"><span class="inp">you@example.com</span><a href="#" class="btn btn-black" style="background:#00744D;border-color:#00744D;">Subscribe</a></div>
+        </section>
+
+      </div>
+    </div>
+
+    <footer class="c5-foot">
+      <span>© 2026 Peoples Company · Licensed in 50 states (EHO) · 1108 S. 44th St, Suite 102, Cumming, IA 50061</span>
+      <span>Privacy · Terms · Accessibility</span>
+    </footer>
+  </div>
+
+  <script src="./_nav-data.js?v=1"></script>
+  <script src="./_nav.js?v=2"></script>
+</body>
+</html>

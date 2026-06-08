@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Index Wireframe · Concept 02 — Left Rail | Peoples Company</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="../../shared/main.css?v=20260601" rel="stylesheet" />
+  <link href="./_wireframe.css?v=2" rel="stylesheet" />
+
+  <style>
+    /* Full-bleed: nav locks to the real browser edge (no centered sheet) */
+    .wf-canvas { max-width:none; margin:0; border:0; box-shadow:none; }
+    .wf-badge { position:fixed; z-index:80; bottom:14px; right:14px; background:#111827; color:#fff;
+      font-family:var(--font-sans); font-size:12px; padding:8px 12px; border-radius:999px; box-shadow:0 4px 14px rgba(0,0,0,.25); }
+    .wf-badge a { color:#9FE0C5; margin-left:8px; text-decoration:none; }
+    .c2-shell { display:block; }
+
+    /* ---- Left rail: FIXED to the browser's left edge ---- */
+    .c2-side { position:fixed; top:0; left:0; bottom:0; width:272px; overflow:auto;
+      background:#0A0F1A; color:#C7CBD1; display:flex; flex-direction:column;
+      padding:var(--space-6) var(--space-5); gap:var(--space-5); }
+    .c2-side .c2-logo img { width:170px; height:auto; }
+    .c2-nav { display:flex; flex-direction:column; gap:2px; }
+    details.c2-acc { border-bottom:1px solid #1E2737; }
+    details.c2-acc > summary { list-style:none; cursor:pointer; display:flex; align-items:center;
+      justify-content:space-between; gap:10px; padding:13px 8px;
+      font-family:var(--font-sans); font-weight:500; font-size:16px; color:#fff; }
+    details.c2-acc > summary::-webkit-details-marker { display:none; }
+    details.c2-acc > summary::after { content:"+"; color:#7B8494; font-size:18px; }
+    details.c2-acc[open] > summary::after { content:"–"; }
+    details.c2-acc[open] > summary,
+    details.c2-acc > summary:hover { color:#5FD3A3; }   /* green accent */
+    .c2-sub { padding:2px 8px 14px; display:flex; flex-direction:column; gap:9px; }
+    .c2-grp { font-family:var(--font-sans); font-size:11px; letter-spacing:.1em;
+      text-transform:uppercase; color:#7B8494; margin:8px 0 2px; }
+    .c2-sub a { color:#C7CBD1; text-decoration:none; font-size:14px; }
+    .c2-sub a:hover { color:#5FD3A3; }
+    .c2-side-foot { margin-top:auto; display:flex; flex-direction:column; gap:var(--space-3); }
+    .c2-side-foot .c2-search { border:1px solid #2A3344; border-radius:var(--radius-pill);
+      padding:9px 14px; color:#7B8494; font-family:var(--font-sans); font-size:13px; }
+    .c2-side-foot .btn { width:100%; }
+
+    /* ---- Main column (offset by the fixed rail) ---- */
+    .c2-main { margin-left:272px; min-width:0; }
+    .c2-hero { position:relative; }
+    .c2-hero .wf-img { min-height:440px; border:0; border-radius:0; }
+    .c2-hero-scrim { position:absolute; inset:0;
+      background:linear-gradient(0deg, rgba(10,15,26,.78) 0%, rgba(10,15,26,.30) 70%); }
+    .c2-hero-in { position:absolute; inset:0; display:flex; align-items:flex-end; }
+    .c2-hero-copy { color:#fff; padding:var(--space-7) 0; max-width:620px; }
+    .c2-hero-copy .label { color:#9FE0C5; }
+    .c2-hero-copy h1 { color:#fff; margin:var(--space-3) 0 var(--space-4); }
+    .c2-hero-copy .body-lg { color:#E5E7EB; }
+    .c2-hero-actions { display:flex; gap:var(--space-3); margin-top:var(--space-5); }
+    .btn-onhero { background:transparent; color:#fff; border:1px solid rgba(255,255,255,.7); }
+
+    .c2-sec { padding:var(--space-7) 0; border-top:1px solid var(--gray-100); }
+    .c2-h { margin-bottom:var(--space-5); }
+    .c2-svc-grid { display:grid; grid-template-columns:1fr 1fr; gap:var(--space-4) var(--space-6); }
+    .c2-svc { display:flex; gap:var(--space-4); padding:var(--space-4) 0; border-bottom:1px solid var(--gray-100); }
+    .c2-svc .c2-ico { flex:0 0 40px; height:40px; border-radius:8px; background:var(--gray-100);
+      display:flex; align-items:center; justify-content:center; color:var(--teal); font-size:11px; }
+    .c2-svc h4 { font-family:var(--font-sans); font-size:16px; margin:0 0 3px; color:var(--gray-900); }
+    .c2-svc p { font-size:14px; margin:0; color:var(--gray-600); }
+
+    .c2-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-5); }
+    .c2-stat .c2-num { font-family:var(--font-serif); font-weight:500; font-size:40px; color:var(--gray-900); line-height:1; }
+    .c2-stat .c2-lab { font-size:13px; color:var(--gray-600); margin-top:var(--space-2); }
+
+    .c2-ins { display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-5); }
+    .c2-icard .wf-thumb { height:150px; }
+    .c2-icard .label { color:var(--teal); display:block; margin-top:var(--space-3); }
+    .c2-icard h4 { font-family:var(--font-serif); font-weight:500; font-size:18px; margin:var(--space-2) 0; }
+
+    .c2-cta { background:var(--pine); color:#fff; border-radius:var(--radius-lg);
+      padding:var(--space-7); display:flex; align-items:center; justify-content:space-between; gap:var(--space-6); flex-wrap:wrap; }
+    .c2-cta h2 { color:#fff; margin:0 0 var(--space-2); }
+    .c2-cta p { color:#CFE3DF; margin:0; }
+
+    .c2-foot { background:#0A0F1A; color:#9CA3AF; padding:var(--space-6) 0; font-size:13px;
+      display:flex; justify-content:space-between; gap:var(--space-4); flex-wrap:wrap; }
+
+    @media (max-width:900px){
+      .c2-side { position:static; width:100%; height:auto; }
+      .c2-main { margin-left:0; }
+      .c2-svc-grid,.c2-stats,.c2-ins { grid-template-columns:1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wf-badge"><b>Concept 02 · Left Rail</b><a href="./index.html">All concepts ↗</a></div>
+
+  <div class="wf-canvas">
+    <div class="c2-shell">
+
+      <!-- ===================== LEFT RAIL NAV ===================== -->
+      <aside class="c2-side">
+        <a class="c2-logo" href="../../version-a/index.html"><img src="../../shared/logos/pc_logo_white.webp" alt="Peoples Company" /></a>
+        <nav class="c2-nav" id="c2-nav" aria-label="Primary"></nav>
+        <div class="c2-side-foot">
+          <div class="c2-search" role="search">🔍 Search land &amp; auctions</div>
+          <a href="#" class="btn btn-black" style="background:#00744D;border-color:#00744D;">Contact Us</a>
+          <span style="font-size:12px;color:#7B8494;">(855) 800-LAND</span>
+        </div>
+      </aside>
+
+      <!-- ===================== MAIN ===================== -->
+      <main class="c2-main">
+        <header class="c2-hero">
+          <div class="wf-img is-hero">Hero image — farmland landscape</div>
+          <div class="c2-hero-scrim"></div>
+          <div class="c2-hero-in"><div class="container">
+            <div class="c2-hero-copy">
+              <span class="label">National Leader in Agricultural Real Estate</span>
+              <h1>Trusted Farmland Expertise. Institutional Insight.</h1>
+              <p class="body-lg">Helping landowners, farmers, and investors make confident decisions through data-driven insight and decades of experience.</p>
+              <div class="c2-hero-actions">
+                <a href="#" class="btn btn-white">Explore Our Services</a>
+                <a href="#" class="btn btn-onhero">Talk to an Advisor</a>
+              </div>
+            </div>
+          </div></div>
+        </header>
+
+        <section class="container c2-sec">
+          <div class="c2-h"><span class="label">What We Do</span><h2 style="margin-top:var(--space-2);">Creating value across the land lifecycle</h2></div>
+          <div class="c2-svc-grid">
+            <div class="c2-svc"><span class="c2-ico">ico</span><div><h4>Land Brokerage &amp; Auctions</h4><p>Marketing, sale methods, and our auction platform.</p></div></div>
+            <div class="c2-svc"><span class="c2-ico">ico</span><div><h4>Land Management</h4><p>Hands-on management and operator consulting.</p></div></div>
+            <div class="c2-svc"><span class="c2-ico">ico</span><div><h4>Agricultural Appraisal</h4><p>Accredited valuation and advisory.</p></div></div>
+            <div class="c2-svc"><span class="c2-ico">ico</span><div><h4>Capital Markets</h4><p>Farmland investment and acquisition.</p></div></div>
+            <div class="c2-svc"><span class="c2-ico">ico</span><div><h4>Energy Management</h4><p>Solar, wind, and lease negotiation.</p></div></div>
+            <div class="c2-svc"><span class="c2-ico">ico</span><div><h4>Crop Insurance</h4><p>Risk protection for operations.</p></div></div>
+          </div>
+        </section>
+
+        <section class="container c2-sec">
+          <div class="c2-stats">
+            <div class="c2-stat"><div class="c2-num">50+</div><div class="c2-lab">Years, rooted in Iowa since the 1960s</div></div>
+            <div class="c2-stat"><div class="c2-num">50</div><div class="c2-lab">States licensed — national reach</div></div>
+            <div class="c2-stat"><div class="c2-num">$6B+</div><div class="c2-lab">Farmland transacted &amp; managed</div></div>
+            <div class="c2-stat"><div class="c2-num">#1</div><div class="c2-lab">National leader in ag real estate</div></div>
+          </div>
+        </section>
+
+        <section class="container c2-sec">
+          <div class="c2-h" style="display:flex;justify-content:space-between;align-items:baseline;">
+            <div><span class="label">Insights &amp; Research</span><h2 style="margin-top:var(--space-2);">Clarity for every land decision</h2></div>
+            <a href="#" class="read-more is-static">View all</a>
+          </div>
+          <div class="c2-ins">
+            <article class="card c2-icard"><div class="wf-img wf-thumb">Article</div><span class="label">Land Values · May 2026</span><h4>Midwest Farmland Trends in 2026</h4><a href="#" class="read-more is-static">Read more</a></article>
+            <article class="card c2-icard"><div class="wf-img wf-thumb">Article</div><span class="label">Energy · May 2026</span><h4>Solar &amp; Wind Leases: What to Ask</h4><a href="#" class="read-more is-static">Read more</a></article>
+            <article class="card c2-icard"><div class="wf-img wf-thumb">Report</div><span class="label">Research Report</span><h4>2025 National Land Values Report</h4><a href="#" class="read-more is-static">Download</a></article>
+          </div>
+        </section>
+
+        <section class="container c2-sec">
+          <div class="c2-cta">
+            <div><h2>Start a conversation</h2><p>Connect with our team to discuss your land goals.</p></div>
+            <a href="#" class="btn btn-white">Contact Us</a>
+          </div>
+        </section>
+
+        <footer class="c2-foot"><div class="container" style="display:flex;justify-content:space-between;gap:var(--space-4);flex-wrap:wrap;width:100%;">
+          <span>© 2026 Peoples Company · Licensed in 50 states (EHO) · 1108 S. 44th St, Suite 102, Cumming, IA 50061</span>
+          <span>Privacy · Terms · Accessibility</span>
+        </div></footer>
+      </main>
+
+    </div>
+  </div>
+
+  <script src="./_nav-data.js?v=1"></script>
+  <script>
+    /* Build the left-rail accordion from the shared IA. */
+    (function(){
+      var N = window.PC_NAV; if(!N) return;
+      var esc = function(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;"); };
+      var html = N.items.map(function(it){
+        var sub = it.cols.map(function(c){
+          if (c.note) return '';
+          if (c.h && (!c.items || !c.items.length)) return '<a href="#">'+esc(c.h)+'</a>';
+          var grp = c.h ? '<p class="c2-grp">'+esc(c.h)+'</p>' : '';
+          var links = (c.items||[]).map(function(i){ return '<a href="#">'+esc(i)+'</a>'; }).join('');
+          return grp+links;
+        }).join('');
+        return '<details class="c2-acc"><summary>'+esc(it.label)+'</summary><div class="c2-sub">'+sub+'</div></details>';
+      }).join('');
+      document.getElementById('c2-nav').innerHTML = html;
+    })();
+  </script>
+</body>
+</html>
