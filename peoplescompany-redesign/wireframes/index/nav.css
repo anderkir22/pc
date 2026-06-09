@@ -1,0 +1,107 @@
+/* =============================================================================
+   Shared site header + mega-menu navigation (all index concepts)
+   Spec: Kiron's "Proposed Navigation" — 4 top-level items, each with a
+   mega-menu dropdown, blue hover/active state. Real PC logo in the header.
+
+   Accent: GREEN (per Kiron). Accessibility — the bright brand green #008B5C is
+   borderline for white text (4.3:1), so fills use the deeper #00744D (white text
+   = 5.8:1, passes AA), with #008B5C as the thin accent line. Dropdown link hover
+   uses #00744D (≈5.8:1 on white). Menus open on hover AND keyboard focus.
+   ============================================================================= */
+
+:root {
+  --pc-accent:      #00744D; /* deep green — fills with white text (AA) */
+  --pc-accent-line: #008B5C; /* brand rich-green — decorative accent line */
+  --pc-accent-ink:  #ffffff; /* text on the green fill */
+  --pc-accent-link: #00744D; /* accessible green for link text on white */
+}
+
+.site-header { position: sticky; top: 0; z-index: 40; background: #fff;
+  border-bottom: 1px solid var(--color-border); }
+
+/* ---- Utility strip ---- */
+.sh-util { background: var(--gray-100); border-bottom: 1px solid var(--gray-200); }
+.sh-util-in { display:flex; align-items:center; gap:var(--space-5);
+  font-family:var(--font-sans); font-size:13px; color:var(--gray-600); padding:7px 0; }
+.sh-util .sh-right { margin-left:auto; display:flex; gap:var(--space-5); align-items:center; }
+.sh-util a { color:var(--gray-600); text-decoration:none; }
+.sh-util a:hover { color:var(--pc-accent-link); }
+
+/* ---- Main bar ---- */
+.sh-bar { display:flex; align-items:center; gap:var(--space-6); padding:var(--space-4) 0; }
+.sh-logo img { height:46px; width:auto; display:block; }
+.sh-spacer { flex:1; }
+
+/* ---- Top-level nav ---- */
+.sh-nav { display:flex; align-items:stretch; gap:var(--space-2); }
+.sh-nav > li { list-style:none; position:static; } /* static so mega-menu can span full width */
+.sh-nav > li > a {
+  display:flex; align-items:center; gap:6px; height:100%;
+  padding:10px 16px; border-radius:var(--radius-sm);
+  font-family:var(--font-sans); font-weight:500; font-size:15px;
+  color:var(--gray-900); text-decoration:none; white-space:nowrap;
+  transition:background-color .12s ease, color .12s ease;
+}
+.sh-nav > li > a::after { content:"▾"; font-size:10px; color:var(--gray-500); }
+.sh-nav > li:hover > a,
+.sh-nav > li:focus-within > a {
+  background:var(--pc-accent); color:var(--pc-accent-ink);
+}
+.sh-nav > li:hover > a::after,
+.sh-nav > li:focus-within > a::after { color:var(--pc-accent-ink); }
+
+/* ---- Header actions ---- */
+.sh-actions { display:flex; align-items:center; gap:var(--space-3); }
+.sh-search { display:flex; align-items:center; gap:8px;
+  border:1px solid var(--gray-200); border-radius:var(--radius-pill);
+  padding:8px 14px; font-family:var(--font-sans); font-size:13px; color:var(--gray-500);
+  cursor:text; white-space:nowrap; }
+.sh-search:hover { border-color:var(--gray-500); }
+
+/* ---- Mega-menu panel ---- */
+.sh-mega {
+  position:absolute; left:0; right:0; top:100%;
+  background:#fff; border-top:3px solid var(--pc-accent-line);
+  border-bottom:1px solid var(--color-border);
+  box-shadow:0 14px 28px rgba(17,24,39,.10);
+  opacity:0; visibility:hidden; transform:translateY(-6px);
+  transition:opacity .14s ease, transform .14s ease, visibility .14s;
+  z-index:39;
+}
+.sh-nav > li:hover .sh-mega,
+.sh-nav > li:focus-within .sh-mega {
+  opacity:1; visibility:visible; transform:translateY(0);
+}
+/* Invisible bridge across the gap between the nav item and the panel,
+   so the pointer can travel down without the menu closing. */
+.sh-mega::before { content:""; position:absolute; left:0; right:0; top:-26px; height:26px; }
+.sh-mega-in {
+  max-width:var(--container); margin:0 auto; padding:var(--space-6) 40px;
+  display:grid; gap:var(--space-7);
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+}
+.sh-col h4 {
+  font-family:var(--font-sans); font-weight:600; font-size:12px;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--gray-900);
+  margin:0 0 var(--space-3); padding-bottom:var(--space-2);
+  border-bottom:1px solid var(--gray-200);
+}
+.sh-col ul { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+.sh-col a {
+  font-family:var(--font-sans); font-size:14px; color:var(--gray-600); text-decoration:none;
+  display:inline-block; transition:color .12s ease;
+}
+.sh-col a:hover, .sh-col a:focus {
+  color:var(--pc-accent-link);
+  text-decoration:underline; text-underline-offset:3px;
+}
+.sh-col .sh-soft { color:var(--gray-500); font-size:12px; } /* e.g. listings placeholder note */
+
+/* ---- Responsive: collapse to a simple stacked menu note ---- */
+@media (max-width:980px){
+  .sh-nav { display:none; }            /* full mega-menu is desktop; mobile = hamburger (TBD) */
+  .sh-mobile { display:inline-flex !important; }
+}
+.sh-mobile { display:none; align-items:center; gap:8px; border:1px solid var(--gray-200);
+  border-radius:var(--radius-sm); padding:8px 12px; font-family:var(--font-sans);
+  font-size:14px; color:var(--gray-900); background:#fff; cursor:pointer; }

@@ -1,0 +1,106 @@
+/* =============================================================================
+   Wireframe overlay — PeoplesCompany.com index concepts
+   Loaded AFTER shared/main.css. Keeps the design-system type scale + spacing,
+   but strips brand color so reviewers judge layout/hierarchy, not palette.
+   Grayscale only — also keeps things safe re: red-green colorblindness.
+   ============================================================================= */
+
+:root {
+  /* Match the current peoplescompany.com content width (Tailwind container
+     tops out at 1400px). Applied here so every concept inherits it. */
+  --container:   1400px;
+}
+
+/* Brand color is now IN PLAY (per Kiron) — main.css tokens pass through.
+   These concepts are still structural (image placeholders, no real photos),
+   but use the style-guide palette. */
+html, body { background: #FAFAFA; color: var(--gray-600); }
+
+/* Comfortable side gutters so text/logos aren't against the canvas edges.
+   Full-bleed bands (hero image, footer bg) still reach the edge; only their
+   inner .container content is inset. */
+.wf-canvas .container { padding-left: 40px; padding-right: 40px; }
+
+/* Concept identity bar (not part of the page — a review chrome strip) */
+.wf-bar {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: baseline; gap: var(--space-4);
+  padding: 10px var(--space-5);
+  background: #111827; color: #fff;
+  font-family: var(--font-sans); font-size: 13px;
+  letter-spacing: 0.04em;
+}
+.wf-bar b { font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+.wf-bar .wf-tag { color: #9CA3AF; }
+.wf-bar a { margin-left: auto; color: #D1D5DB; text-decoration: underline; font-size: 12px; }
+
+/* Review badge — consistent across ALL concepts: "Concept NN · Name" + link back
+   to the gallery. Small fixed pill; default bottom-right (a concept may override
+   the corner if its nav occupies that edge). */
+.wf-badge { position: fixed; z-index: 80; bottom: 14px; right: 14px;
+  display: inline-flex; align-items: baseline;
+  background: #111827; color: #fff; font-family: var(--font-sans); font-size: 12px;
+  padding: 8px 14px; border-radius: 999px; box-shadow: 0 4px 14px rgba(0,0,0,.28); }
+.wf-badge b { font-weight: 600; letter-spacing: .04em; }
+.wf-badge a { color: #9FE0C5; margin-left: 10px; text-decoration: none; }
+.wf-badge a:hover { text-decoration: underline; }
+
+/* The "page" canvas — a centered sheet so the concept reads like a real page */
+.wf-canvas {
+  max-width: 1400px; /* matches current peoplescompany.com content width */
+  margin: var(--space-6) auto var(--space-8);
+  background: #fff;
+  border: 1px solid var(--gray-200);
+  box-shadow: 0 1px 3px rgba(17,24,39,0.06);
+}
+
+/* Image / media placeholders: dashed box with crossed lines + label */
+.wf-img {
+  position: relative;
+  background:
+    repeating-linear-gradient(45deg, #F3F4F6 0 10px, #ECEEF1 10px 20px);
+  border: 1px dashed #B6BBC2;
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  color: #9CA3AF; font-family: var(--font-sans); font-size: 12px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  min-height: 120px;
+}
+.wf-img.is-tall  { min-height: 340px; }
+.wf-img.is-hero  { min-height: 420px; }
+.wf-img.is-wide  { min-height: 200px; }
+
+/* Generic block placeholder (thumbnails inside cards etc.) */
+.wf-thumb { width: 100%; height: 140px; }
+
+/* Outline/ghost button variant (complements the design-system .btn-* set) */
+.btn-ghost {
+  background: transparent; color: var(--gray-900); border: 1px solid var(--gray-500);
+}
+.btn-ghost:hover { border-color: var(--gray-900); }
+
+/* Annotation pill — call out intent of a region for reviewers */
+.wf-note {
+  display: inline-block;
+  font-family: var(--font-sans); font-size: 11px; letter-spacing: 0.06em;
+  text-transform: uppercase; color: #6B7280;
+  background: #F3F4F6; border: 1px solid #E5E7EB; border-radius: 999px;
+  padding: 2px 10px;
+}
+
+/* Faint dividers between bands so density is readable */
+.wf-band { border-top: 1px solid var(--gray-100); }
+.wf-band:first-of-type { border-top: 0; }
+
+/* Make placeholder body text read as lines, optional helper */
+.wf-lines > * { color: var(--gray-500); }
+
+/* Footer block in wireframe */
+.wf-footer {
+  background: #111827; color: #C7CBD1;
+  font-family: var(--font-sans); font-size: 14px;
+}
+.wf-footer h4 { color: #fff; font-family: var(--font-sans); font-size: 13px;
+  text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: var(--space-3); }
+.wf-footer a { color: #C7CBD1; text-decoration: none; }
+.wf-footer a:hover { color: #fff; }

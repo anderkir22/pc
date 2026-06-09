@@ -9,12 +9,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link href="../../shared/main.css?v=20260601" rel="stylesheet" />
-  <link href="./_wireframe.css?v=2" rel="stylesheet" />
+  <link href="./wireframe.css?v=2" rel="stylesheet" />
 
   <style>
     /* Full-bleed: dock locks to the real browser bottom edge (no centered sheet) */
     .wf-canvas { max-width:none; margin:0; border:0; box-shadow:none; }
-    .wf-badge { position:fixed; z-index:80; top:10px; left:50%; transform:translateX(-50%);
+    .wf-badge { position:fixed; z-index:80; top:10px; bottom:auto; left:50%; right:auto;
+      transform:translateX(-50%); width:max-content;
       background:#111827; color:#fff; font-family:var(--font-sans); font-size:12px; padding:7px 12px;
       border-radius:999px; box-shadow:0 4px 14px rgba(0,0,0,.25); }
     .wf-badge a { color:#9FE0C5; margin-left:8px; text-decoration:none; }
@@ -72,7 +73,10 @@
     .c4-dock > .item:hover > a, .c4-dock > .item:focus-within > a { background:#00744D; }
     .c4-dock .c4-contact { background:#00744D; color:#fff; padding:11px 20px; border-radius:var(--radius-pill);
       font-family:var(--font-sans); font-weight:500; font-size:15px; text-decoration:none; }
-    .c4-dock .c4-search { color:#7B8494; padding:0 12px; font-size:18px; }
+    .c4-dock .c4-search { display:inline-flex; align-items:center; justify-content:center;
+      color:#9CA3AF; padding:0 12px; background:none; border:0; cursor:pointer; }
+    .c4-dock .c4-search:hover { color:#fff; }
+    .c4-dock .c4-search svg { width:18px; height:18px; display:block; }
 
     /* Upward flyout mega-menu */
     .c4-mega { position:absolute; bottom:100%; left:50%; transform:translateX(-50%) translateY(8px);
@@ -172,7 +176,7 @@
   <!-- Bottom dock (built from shared IA) -->
   <nav class="c4-dock" id="c4-dock" aria-label="Primary"></nav>
 
-  <script src="./_nav-data.js?v=1"></script>
+  <script src="./nav-data.js?v=1"></script>
   <script>
     (function(){
       var N = window.PC_NAV; if(!N) return;
@@ -187,8 +191,11 @@
         return '<div class="item"><a href="#" aria-haspopup="true">'+esc(it.label)+'</a>'+
                '<div class="c4-mega" role="menu" aria-label="'+esc(it.label)+'"><div class="c4-mega-in">'+cols+'</div></div></div>';
       }).join('');
+      var searchIco = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '+
+        'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+
+        '<circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>';
       document.getElementById('c4-dock').innerHTML =
-        '<span class="c4-search" role="search" title="Search">🔍</span>' + items +
+        '<button type="button" class="c4-search" aria-label="Search">'+searchIco+'</button>' + items +
         '<a class="c4-contact" href="#">Contact</a>';
     })();
   </script>
