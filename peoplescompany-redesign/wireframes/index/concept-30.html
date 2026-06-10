@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Index · Concept 30 — Photographic Authority | Peoples Company</title>
+  <!-- Photos are Unsplash placeholders standing in for PC's own photography.
+       Each <img> degrades to a brand gradient if it fails to load. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="../../shared/main.css?v=20260601" rel="stylesheet" />
+  <link href="./wireframe.css?v=2" rel="stylesheet" />
+  <link href="./nav.css?v=2" rel="stylesheet" />
+  <style>
+    /* ── full-bleed canvas ── */
+    .wf-canvas { max-width: none; margin: 0; border: 0; box-shadow: none; background: #fff; }
+    body { color: var(--gray-900); }
+
+    /* Palette: blue #00AEEF primary; green #005F5B single accent.
+       Bright blue only on dark/photos; on light use #0077A8 or #005F5B. */
+    :root {
+      --c-blue:     #00AEEF;
+      --c-blue-ink: #0077A8;  /* accessible blue on white, 5:1 */
+      --c-green:    #005F5B;  /* single accent, ~7:1 on white */
+      --c-green-dk: #044D48;
+      --c-ink:      #0E1B1A;
+    }
+
+    /* graceful photo fallback */
+    .img-fallback { background: linear-gradient(135deg, #0D2B22 0%, #103B38 55%, #0A1F1C 100%) !important; }
+
+    /* ── scroll reveal ── */
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.is-in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+    }
+
+    /* ── shared buttons ── */
+    .btn-pill { display: inline-flex; align-items: center; gap: 8px; border-radius: var(--radius-pill);
+      font-family: var(--font-sans); font-weight: 600; font-size: 15px; text-decoration: none;
+      padding: 13px 28px; transition: background .15s, border-color .15s, color .15s; border: 2px solid transparent; }
+    .btn-green { background: var(--c-green); color: #fff; border-color: var(--c-green); }
+    .btn-green:hover, .btn-green:focus { background: var(--c-green-dk); border-color: var(--c-green-dk); }
+    .btn-green:focus-visible { outline: 2px solid var(--c-blue); outline-offset: 3px; }
+    .btn-blue-ink { background: var(--c-blue-ink); color: #fff; border-color: var(--c-blue-ink); }
+    .btn-blue-ink:hover, .btn-blue-ink:focus { background: #005F87; border-color: #005F87; }
+    .btn-blue-ink:focus-visible { outline: 2px solid var(--c-green); outline-offset: 3px; }
+    .btn-outline { background: transparent; color: var(--c-ink); border-color: var(--gray-500); }
+    .btn-outline:hover, .btn-outline:focus { border-color: var(--c-ink); }
+    .btn-ghost-light { background: transparent; color: #fff; border-color: rgba(255,255,255,.55); }
+    .btn-ghost-light:hover, .btn-ghost-light:focus { border-color: #fff; outline: 2px solid var(--c-blue); outline-offset: 2px; }
+
+    .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-sans);
+      font-size: 12px; font-weight: 600; letter-spacing: .13em; text-transform: uppercase; color: var(--c-green); }
+    .eyebrow::before { content: ""; width: 26px; height: 2px; background: var(--c-green); display: block; }
+    .eyebrow.on-dark { color: var(--c-blue); }
+    .eyebrow.on-dark::before { background: var(--c-blue); }
+
+    /* ═══════════════════════════════════════════
+       CONCEPT 30 — PHOTOGRAPHIC AUTHORITY
+       Signature: Full-bleed editorial photography
+       paired with oversized confident EB Garamond
+       in a compact, dense, purposeful section rhythm.
+       Unique prefix: pa-
+    ═══════════════════════════════════════════ */
+
+    /* ── HERO — double-height, editorial magazine cover ── */
+    .pa-hero { position: relative; min-height: 680px; display: flex; align-items: flex-end; overflow: hidden; }
+    .pa-hero-bg { position: absolute; inset: 0; z-index: 0; }
+    .pa-hero-bg img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    /* Left-heavy scrim keeps text readable, right stays photographic */
+    .pa-hero-bg::after { content: ""; position: absolute; inset: 0;
+      background: linear-gradient(100deg, rgba(8,22,20,.90) 0%, rgba(8,22,20,.60) 42%, rgba(8,22,20,.15) 100%); }
+    .pa-hero-inner { position: relative; z-index: 1; padding: var(--space-9) 0 var(--space-8); width: 100%; }
+    /* Oversized serif: the concept's signature */
+    .pa-hero h1 { font-family: var(--font-serif); font-weight: 500; font-size: 76px; line-height: 1.04;
+      color: #fff; margin: var(--space-4) 0 var(--space-4); max-width: 16ch; }
+    .pa-hero h1 em { font-style: italic; color: #7fd6f5; }
+    .pa-hero p { font-family: var(--font-sans); font-size: 18px; color: #D7E4E1; max-width: 46ch;
+      line-height: 1.6; margin: 0 0 var(--space-6); }
+    .pa-hero-cta { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+
+    /* ── EDITORIAL TICKER ROW — thin stat band pinned to bottom of hero ── */
+    .pa-ticker { background: var(--c-blue-ink); }
+    .pa-ticker .container { display: flex; gap: 0; }
+    .pa-ticker-item { flex: 1; padding: var(--space-4) var(--space-5); border-right: 1px solid rgba(255,255,255,.18);
+      display: flex; flex-direction: column; gap: 4px; }
+    .pa-ticker-item:last-child { border-right: none; }
+    .pa-ticker-item .n { font-family: var(--font-serif); font-size: 38px; line-height: 1; color: #fff; }
+    .pa-ticker-item .l { font-family: var(--font-sans); font-size: 11px; color: rgba(255,255,255,.7);
+      text-transform: uppercase; letter-spacing: .07em; }
+
+    /* ── 4-PATH AUDIENCE ROUTER ── photo-card style ── */
+    .pa-paths { background: #fff; padding: var(--space-8) 0; }
+    .pa-paths-head { display: flex; justify-content: space-between; align-items: flex-end;
+      flex-wrap: wrap; gap: var(--space-4); margin-bottom: var(--space-6); }
+    .pa-paths-head h2 { font-family: var(--font-serif); font-weight: 500; font-size: 44px;
+      color: var(--c-ink); margin: var(--space-3) 0 0; max-width: 22ch; line-height: 1.1; }
+    .pa-paths-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-3); }
+    /* Each path card: photo with overlay + text — like magazine feature columns */
+    .pa-path { position: relative; border-radius: var(--radius-md); overflow: hidden;
+      min-height: 320px; display: flex; flex-direction: column; justify-content: flex-end;
+      text-decoration: none; }
+    .pa-path-bg { position: absolute; inset: 0; z-index: 0; }
+    .pa-path-bg img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    /* Dark gradient scrim for legibility — all text passes AA on this background */
+    .pa-path-bg::after { content: ""; position: absolute; inset: 0;
+      background: linear-gradient(0deg, rgba(6,18,17,.90) 0%, rgba(6,18,17,.50) 50%, rgba(6,18,17,.15) 100%); }
+    .pa-path-body { position: relative; z-index: 1; padding: var(--space-4); }
+    .pa-path .tag { display: block; font-family: var(--font-sans); font-size: 11px; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--c-blue); margin-bottom: 6px; }
+    .pa-path h3 { font-family: var(--font-serif); font-weight: 500; font-size: 22px; color: #fff;
+      margin: 0 0 8px; line-height: 1.2; }
+    .pa-path p { font-family: var(--font-sans); font-size: 13px; color: rgba(255,255,255,.80);
+      margin: 0 0 var(--space-3); line-height: 1.5; }
+    .pa-path .arrow { display: inline-block; color: var(--c-blue); font-family: var(--font-sans);
+      font-size: 14px; font-weight: 600; text-decoration: none; }
+    .pa-path:hover .pa-path-bg img { transform: scale(1.04); transition: transform .45s ease; }
+    .pa-path:focus-visible { outline: 3px solid var(--c-blue); outline-offset: 2px; }
+
+    /* ── WHAT WE DO 2×4 — editorial card grid ── */
+    .pa-svc { background: var(--gray-100); padding: var(--space-8) 0; }
+    .pa-svc-head { display: flex; justify-content: space-between; align-items: flex-end;
+      flex-wrap: wrap; gap: var(--space-4); margin-bottom: var(--space-6); }
+    .pa-svc-head h2 { font-family: var(--font-serif); font-weight: 500; font-size: 44px;
+      color: var(--c-ink); margin: var(--space-3) 0 0; max-width: 24ch; line-height: 1.1; }
+    .pa-svc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4); }
+    .pa-card { background: #fff; border: 1px solid var(--gray-200); border-top: 3px solid transparent;
+      border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column;
+      transition: box-shadow .15s, border-top-color .15s; }
+    .pa-card:hover { border-top-color: var(--c-green); box-shadow: 0 6px 20px rgba(0,0,0,.08); }
+    /* Photo strip at top of each service card */
+    .pa-card-img { height: 120px; overflow: hidden; position: relative; }
+    .pa-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .pa-card-body { padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-2); flex: 1; }
+    .pa-card h4 { font-family: var(--font-serif); font-weight: 500; font-size: 19px; color: var(--c-ink); margin: 0; }
+    .pa-card p { font-family: var(--font-sans); font-size: 13px; color: var(--gray-600); margin: 0; line-height: 1.5; }
+    /* CTA card — the 8th tile */
+    .pa-card.cta { background: var(--c-green); border-color: var(--c-green); justify-content: center;
+      align-items: flex-start; min-height: 220px; }
+    .pa-card.cta .pa-card-body { gap: var(--space-3); }
+    .pa-card.cta h4 { color: #fff; font-size: 22px; }
+    .pa-card.cta p { color: rgba(255,255,255,.85); }
+    .pa-card.cta a { display: inline-flex; align-items: center; gap: 8px; color: #fff;
+      font-family: var(--font-sans); font-weight: 600; font-size: 15px; text-decoration: none; margin-top: auto; }
+    .pa-card.cta a:hover, .pa-card.cta a:focus { text-decoration: underline; }
+
+    /* ── PHOTO FEATURE BAND — full-bleed editorial interlude ── */
+    /* Mimics a GS-style "editorial break": one large photo, oversized serif quote over it */
+    .pa-feature { position: relative; min-height: 420px; overflow: hidden; display: flex;
+      align-items: center; }
+    .pa-feature-bg { position: absolute; inset: 0; z-index: 0; }
+    .pa-feature-bg img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    /* Gradient: more coverage on the left where text lives */
+    .pa-feature-bg::after { content: ""; position: absolute; inset: 0;
+      background: linear-gradient(90deg, rgba(4,77,72,.92) 0%, rgba(4,77,72,.65) 48%, rgba(4,77,72,.18) 100%); }
+    .pa-feature-inner { position: relative; z-index: 1; padding: var(--space-9) 0; width: 100%; }
+    .pa-feature-inner blockquote { font-family: var(--font-serif); font-weight: 500;
+      font-size: 52px; line-height: 1.1; color: #fff; max-width: 18ch; margin: 0 0 var(--space-5); font-style: italic; }
+    .pa-feature-inner cite { font-family: var(--font-sans); font-size: 14px; color: rgba(255,255,255,.70);
+      font-style: normal; letter-spacing: .06em; text-transform: uppercase; display: block; }
+
+    /* ── FARMWORTH SECTION ── */
+    .pa-fw { background: linear-gradient(135deg, #0A1F1C 0%, #103B38 100%); color: #fff; padding: var(--space-9) 0; }
+    .pa-fw .container { display: grid; grid-template-columns: 1fr 1.1fr; gap: var(--space-8); align-items: center; }
+    .pa-fw h2 { font-family: var(--font-serif); font-weight: 500; font-size: 50px; color: #fff;
+      margin: var(--space-3) 0 var(--space-4); line-height: 1.06; }
+    .pa-fw h2 em { font-style: italic; color: #7fd6f5; }
+    .pa-fw p { font-family: var(--font-sans); font-size: 16px; color: #CFE3DF; line-height: 1.65;
+      margin: 0 0 var(--space-5); max-width: 46ch; }
+    .pa-fw-feat { list-style: none; padding: 0; margin: 0 0 var(--space-6); display: grid; gap: 10px; }
+    .pa-fw-feat li { font-family: var(--font-sans); font-size: 14px; color: #E3EFEC;
+      display: flex; gap: 10px; align-items: flex-start; }
+    .pa-fw-feat li::before { content: "◆"; color: var(--c-blue); font-size: 9px; margin-top: 5px; }
+    /* Photo panel with badge overlay */
+    .pa-fw-shot { position: relative; border-radius: var(--radius-md); overflow: hidden;
+      min-height: 380px; border: 1px solid rgba(255,255,255,.14); }
+    .pa-fw-shot img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; display: block; }
+    .pa-fw-badge { position: absolute; left: 14px; bottom: 14px; z-index: 2;
+      background: rgba(8,22,20,.82); border: 1px solid rgba(255,255,255,.2);
+      border-radius: var(--radius-sm); padding: 8px 12px; font-family: var(--font-sans); font-size: 12px; color: #fff; }
+    .pa-fw-badge b { color: var(--c-blue); }
+
+    /* ── STATS BAND — bold photo background ── */
+    .pa-stats { position: relative; overflow: hidden; padding: var(--space-9) 0; }
+    .pa-stats-bg { position: absolute; inset: 0; z-index: 0; }
+    .pa-stats-bg img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    /* Deep overlay — ensures WCAG AA for all text */
+    .pa-stats-bg::after { content: ""; position: absolute; inset: 0;
+      background: rgba(8, 30, 28, 0.88); }
+    .pa-stats-inner { position: relative; z-index: 1; }
+    .pa-stats-head { text-align: center; margin-bottom: var(--space-7); }
+    .pa-stats-head h2 { font-family: var(--font-serif); font-weight: 500; font-size: 46px;
+      color: #fff; margin: var(--space-3) 0 0; max-width: 30ch; margin-left: auto; margin-right: auto; }
+    .pa-stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,255,255,.1); }
+    .pa-stat-cell { background: transparent; padding: var(--space-6) var(--space-5); text-align: center; }
+    .pa-stat-cell .n { font-family: var(--font-serif); font-size: 64px; line-height: 1; color: #fff; }
+    .pa-stat-cell .l { font-family: var(--font-sans); font-size: 12px; color: rgba(255,255,255,.65);
+      text-transform: uppercase; letter-spacing: .08em; margin-top: var(--space-2); }
+    .pa-stat-cell .bar { width: 24px; height: 3px; background: var(--c-blue); margin: 0 auto var(--space-3); }
+
+    /* ── INSIGHTS — mixed-size editorial tiles ── */
+    .pa-ins { background: #fff; padding: var(--space-8) 0; }
+    .pa-ins-head { display: flex; justify-content: space-between; align-items: flex-end;
+      flex-wrap: wrap; gap: var(--space-4); margin-bottom: var(--space-6); }
+    .pa-ins-head h2 { font-family: var(--font-serif); font-weight: 500; font-size: 44px;
+      color: var(--c-ink); margin: var(--space-3) 0 0; }
+    /* Three-column: lead spans full height at left, two smaller tiles right */
+    .pa-ins-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; grid-auto-rows: 1fr; gap: var(--space-4); }
+    .pa-ins-tile { border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--gray-200);
+      text-decoration: none; color: inherit; display: flex; flex-direction: column;
+      transition: box-shadow .15s; }
+    .pa-ins-tile:hover { box-shadow: 0 6px 20px rgba(0,0,0,.09); }
+    .pa-ins-tile .ph { position: relative; overflow: hidden; }
+    .pa-ins-tile .ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .pa-ins-tile.lead .ph { height: 280px; }
+    .pa-ins-tile:not(.lead) .ph { height: 160px; }
+    .pa-ins-tile.lead { grid-row: span 2; }
+    .pa-ins-tile .body { padding: var(--space-4); display: flex; flex-direction: column; gap: 8px; flex: 1; }
+    .pa-ins-tile .tag { font-family: var(--font-sans); font-size: 11px; font-weight: 600;
+      letter-spacing: .08em; text-transform: uppercase; color: var(--c-green); }
+    .pa-ins-tile h4 { font-family: var(--font-serif); font-weight: 500; font-size: 22px;
+      color: var(--c-ink); margin: 0; line-height: 1.25; }
+    .pa-ins-tile.lead h4 { font-size: 30px; }
+    .pa-ins-tile .more { font-family: var(--font-sans); font-size: 13px; font-weight: 600;
+      color: var(--c-green-dk); margin-top: auto; }
+
+    /* ── GET IN TOUCH + dual path ── */
+    .pa-touch { background: var(--c-ink); color: #fff; padding: var(--space-9) 0; }
+    .pa-touch .container { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8); align-items: center; }
+    .pa-touch h2 { font-family: var(--font-serif); font-weight: 500; font-size: 50px; color: #fff;
+      margin: var(--space-3) 0 var(--space-4); line-height: 1.1; }
+    .pa-touch p { font-family: var(--font-sans); font-size: 16px; color: #CFE3DF; line-height: 1.6;
+      margin: 0 0 var(--space-6); max-width: 42ch; }
+    .pa-touch-cta { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+    .pa-dual { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+    .pa-dual a { display: flex; flex-direction: column; gap: 6px; padding: var(--space-5);
+      border: 1px solid rgba(255,255,255,.18); border-radius: var(--radius-md); text-decoration: none;
+      background: rgba(255,255,255,.04); transition: border-color .15s, background .15s; }
+    .pa-dual a:hover, .pa-dual a:focus { border-color: var(--c-blue); background: rgba(255,255,255,.09); outline: none; }
+    .pa-dual a:focus-visible { outline: 2px solid var(--c-blue); outline-offset: 2px; }
+    .pa-dual .lab { font-family: var(--font-sans); font-size: 12px; color: #9FD9CF;
+      text-transform: uppercase; letter-spacing: .08em; }
+    .pa-dual .big { font-family: var(--font-serif); font-size: 24px; color: #fff; }
+    .pa-dual .arrow { color: var(--c-blue); }
+
+    /* ── FOOTER (bigger logo, no light-green text, dual-path above) ── */
+    .pa-foot { background: #0B1413; color: #C7CBD1; font-family: var(--font-sans); font-size: 14px; }
+    .pa-foot-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: var(--space-7);
+      padding: var(--space-8) 0 var(--space-7); }
+    .pa-foot h4 { color: #fff; font-size: 12px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: .1em; margin: 0 0 var(--space-4); }
+    .pa-foot ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+    .pa-foot a { color: #C7CBD1; text-decoration: none; }
+    .pa-foot a:hover, .pa-foot a:focus { color: #fff; text-decoration: underline; }
+    .pa-foot-logo { height: 60px; width: auto; display: block; margin-bottom: var(--space-4); } /* bigger logo */
+    .pa-foot-brand p { font-size: 13px; color: #AEB6B4; line-height: 1.6; margin: 0 0 var(--space-3); max-width: 40ch; }
+    .pa-foot-contact { font-size: 13px; color: #AEB6B4; line-height: 1.8; }
+    .pa-foot-contact a { color: #fff; }
+    .pa-foot-bottom { border-top: 1px solid rgba(255,255,255,.1); padding: var(--space-5) 0;
+      display: flex; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap;
+      font-size: 12px; color: #8A938F; }
+    .pa-foot-bottom a { color: #8A938F; text-decoration: none; }
+    .pa-foot-bottom a:hover { color: #C7CBD1; }
+
+    /* ===== Find Properties pull-down map layer ===== */
+    :root { --navH: 132px; }
+    .md-tabwrap { position:sticky; top:var(--navH); z-index:39; height:0; text-align:center; pointer-events:none; }
+    /* Concept-30 tab: 320px wide, hard corners, flush to nav, fixed 46px height */
+    .md-tab {
+      pointer-events:auto; position:relative; cursor:pointer; border:0;
+      display:inline-flex; align-items:center; justify-content:center;
+      box-sizing:border-box;
+      font-family:var(--font-serif); font-size:16px; font-weight:600;
+      letter-spacing:0.08em; color:#fff;
+      background:rgba(14,27,26,.90);
+      height:46px; padding:0 26px;
+      border-radius:0;
+      width:320px;
+      box-shadow:0 8px 24px rgba(0,0,0,.28);
+      backdrop-filter:blur(6px);
+      /* no bold animation — underline handles the motion */
+    }
+    .md-tab:hover { background:rgba(14,27,26,1); }
+    .md-tab:focus-visible { outline:3px solid #0077A8; outline-offset:2px; }
+    /* Animated underline: thin line draws left→right on a 2.2s loop */
+    .md-tab::after {
+      content:"";
+      position:absolute;
+      bottom:7px; left:26px; right:26px;
+      height:1px;
+      background:rgba(127,214,245,.75); /* muted cyan, not distracting */
+      transform-origin:left center;
+      animation:md-underline 2.2s ease-in-out infinite;
+    }
+    .md-tab[aria-expanded="true"]::after { animation:none; transform:scaleX(1); background:var(--c-blue); }
+    @keyframes md-underline {
+      0%   { transform:scaleX(0); opacity:0; }
+      15%  { opacity:1; }
+      55%  { transform:scaleX(1); opacity:1; }
+      80%  { transform:scaleX(1); opacity:0; }
+      100% { transform:scaleX(0); opacity:0; }
+    }
+    .md-backdrop { position:fixed; inset:var(--navH) 0 0 0; z-index:30; background:rgba(8,22,20,.55); opacity:0; visibility:hidden; transition:opacity .3s ease, visibility .3s ease; }
+    .md-backdrop.is-open { opacity:1; visibility:visible; }
+    .md-layer { position:fixed; top:var(--navH); left:0; right:0; margin-inline:auto; max-width:var(--container,1400px); height:calc(100vh - var(--navH)); z-index:31; background:#fff; box-shadow:0 18px 40px rgba(0,0,0,.25); transform:translateY(-100%); transition:transform .38s cubic-bezier(.16,.84,.44,1); overflow-y:auto; overscroll-behavior:contain; }
+    .md-layer.is-open { transform:translateY(0); }
+    .md-layer-bar { position:sticky; top:0; z-index:2; display:flex; justify-content:flex-end; align-items:center; padding:14px 40px; background:#fff; border-bottom:1px solid var(--gray-100); }
+    /* Close button themed to match the dark tab — keeps the serif family */
+    .md-close { display:inline-flex; align-items:center; justify-content:center; cursor:pointer; font-family:var(--font-sans); font-size:18px; line-height:1; color:var(--c-ink); background:#fff; border:1px solid var(--gray-300); border-radius:50%; width:40px; height:40px; }
+    .md-close:hover { border-color:var(--c-ink); background:var(--gray-100); }
+    .md-close:focus-visible { outline:2px solid #0077A8; outline-offset:2px; }
+    .md-layer-body { display:flex; align-items:center; justify-content:center; min-height:calc(100vh - var(--navH) - 68px); }
+    /* Placeholder styled to match Concept 30's serif editorial voice */
+    .md-placeholder { font-family:var(--font-serif); font-size:40px; font-style:italic; color:var(--gray-400); margin:0; letter-spacing:0.02em; }
+    @media (prefers-reduced-motion: reduce){
+      .md-tab, .md-tab::before, .md-tab::after { animation:none !important; }
+      .md-tab { height:46px !important; }
+      .md-tab::after { transform:scaleX(1); opacity:.5; }
+      .md-layer, .md-backdrop { transition:none; }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1100px) {
+      .pa-hero h1 { font-size: 54px; }
+      .pa-paths-grid { grid-template-columns: repeat(2, 1fr); }
+      .pa-svc-grid { grid-template-columns: repeat(2, 1fr); }
+      .pa-fw .container, .pa-touch .container { grid-template-columns: 1fr; }
+      .pa-stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .pa-ins-grid { grid-template-columns: repeat(2, 1fr); }
+      .pa-ins-tile.lead { grid-row: auto; }
+      .pa-ins-tile.lead .ph { height: 220px; }
+      .pa-feature-inner blockquote { font-size: 38px; }
+      .pa-fw h2 { font-size: 38px; }
+      .pa-foot-top { grid-template-columns: 1fr 1fr; }
+      .pa-ticker .container { flex-wrap: wrap; }
+      .pa-ticker-item { flex: 0 0 50%; border-right: none; border-bottom: 1px solid rgba(255,255,255,.1); }
+    }
+    @media (max-width: 640px) {
+      .pa-hero h1 { font-size: 38px; }
+      .pa-paths-grid, .pa-svc-grid, .pa-stats-grid, .pa-ins-grid, .pa-dual, .pa-foot-top { grid-template-columns: 1fr; }
+      .pa-path { min-height: 240px; }
+      .pa-ticker-item { flex: 0 0 100%; }
+      .pa-feature-inner blockquote { font-size: 30px; }
+      .pa-stat-cell .n { font-size: 48px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wf-badge"><b>Concept 30 · Photographic Authority</b><a href="./index.html">All concepts ↗</a></div>
+
+  <div class="wf-canvas">
+    <div id="site-header" data-search="off"></div>
+
+    <!-- FIND PROPERTIES pull-down tab + layer -->
+    <div class="md-tabwrap"><button class="md-tab" type="button" aria-expanded="false" aria-controls="md-layer">Find Properties</button></div>
+    <div class="md-backdrop" hidden></div>
+    <div class="md-layer" id="md-layer" role="region" aria-label="Integrated map" aria-hidden="true" hidden>
+      <div class="md-layer-bar"><button class="md-close" type="button" aria-label="Close">✕</button></div>
+      <div class="md-layer-body"><p class="md-placeholder">Integrated Map</p></div>
+    </div>
+
+    <!-- HERO — full-bleed editorial cover photo + oversized EB Garamond -->
+    <section class="pa-hero" aria-label="Hero">
+      <div class="pa-hero-bg">
+        <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1900&q=75"
+             alt="Aerial view of vast cultivated farmland at golden hour"
+             onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+      </div>
+      <div class="pa-hero-inner">
+        <div class="container">
+          <span class="eyebrow on-dark">National Agricultural Real Estate</span>
+          <h1>Clarity for every <em>land decision.</em></h1>
+          <p>The largest farmland brokerage and management firm in the United States — pairing local expertise with national reach and proprietary land data.</p>
+          <div class="pa-hero-cta">
+            <a href="#contact" class="btn-pill btn-green">Talk to an Advisor</a>
+            <a href="#contact" class="btn-pill btn-ghost-light">Find an Office</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS TICKER — pinned below hero, blue band -->
+    <div class="pa-ticker" role="region" aria-label="At a glance">
+      <div class="container">
+        <div class="pa-ticker-item reveal">
+          <span class="n">$6B+</span><span class="l">Farmland Transactions</span>
+        </div>
+        <div class="pa-ticker-item reveal">
+          <span class="n">170+</span><span class="l">Ag Professionals</span>
+        </div>
+        <div class="pa-ticker-item reveal">
+          <span class="n">20+</span><span class="l">Regional Offices</span>
+        </div>
+        <div class="pa-ticker-item reveal">
+          <span class="n">1.6K+</span><span class="l">EXPO Attendees</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4-PATH AUDIENCE ROUTER — photographic card columns -->
+    <section class="pa-paths" aria-label="Choose your path">
+      <div class="container">
+        <div class="pa-paths-head reveal">
+          <div>
+            <span class="eyebrow">Who We Serve</span>
+            <h2>Start where you stand</h2>
+          </div>
+          <p style="font-family:var(--font-sans);font-size:15px;color:var(--gray-600);max-width:36ch;line-height:1.55;">
+            Tailored guidance for every relationship to the land — from the family farm to the institutional portfolio.
+          </p>
+        </div>
+        <div class="pa-paths-grid">
+          <!-- Each card: photo background with dark scrim + text overlay -->
+          <a class="pa-path reveal" href="#" aria-label="Landowners — Sell or manage your land">
+            <div class="pa-path-bg">
+              <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=700&q=70"
+                   alt="Farmland landscape with rolling fields"
+                   onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+            </div>
+            <div class="pa-path-body">
+              <span class="tag">Landowners</span>
+              <h3>Sell or manage your land</h3>
+              <p>Maximize the value of your agricultural asset with a local advisor and a national buyer network.</p>
+              <span class="arrow" aria-hidden="true">Explore →</span>
+            </div>
+          </a>
+          <a class="pa-path reveal" href="#" aria-label="Investors — Access farmland markets">
+            <div class="pa-path-bg">
+              <img src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=700&q=70"
+                   alt="Wheat field under blue sky"
+                   onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+            </div>
+            <div class="pa-path-body">
+              <span class="tag">Investors</span>
+              <h3>Access farmland markets</h3>
+              <p>Direct land investment strategy backed by proprietary data and decades of market scale.</p>
+              <span class="arrow" aria-hidden="true">Explore →</span>
+            </div>
+          </a>
+          <a class="pa-path reveal" href="#" aria-label="Farmer-Operators — Management and crop insurance">
+            <div class="pa-path-bg">
+              <img src="https://images.unsplash.com/photo-1530267981375-f0de937f5f13?auto=format&fit=crop&w=700&q=70"
+                   alt="Green crop rows stretching to the horizon"
+                   onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+            </div>
+            <div class="pa-path-body">
+              <span class="tag">Farmer-Operators</span>
+              <h3>Management &amp; crop insurance</h3>
+              <p>Farm leases, stewardship programs, and tailored coverage for the people who work the land.</p>
+              <span class="arrow" aria-hidden="true">Explore →</span>
+            </div>
+          </a>
+          <a class="pa-path reveal" href="#" aria-label="Family Offices — Portfolio advisory">
+            <div class="pa-path-bg">
+              <img src="https://images.unsplash.com/photo-1757170889478-e6768a4e36c1?auto=format&fit=crop&w=700&q=70"
+                   alt="Aerial view of farmland with geometric field patterns"
+                   onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+            </div>
+            <div class="pa-path-body">
+              <span class="tag">Family Offices</span>
+              <h3>Portfolio advisory</h3>
+              <p>Long-horizon capital strategies built around farmland's stability and income potential.</p>
+              <span class="arrow" aria-hidden="true">Explore →</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT WE DO — 2×4 with photo thumbnails on each card -->
+    <section class="pa-svc" id="services" aria-label="What we do">
+      <div class="container">
+        <div class="pa-svc-head reveal">
+          <div>
+            <span class="eyebrow">What We Do</span>
+            <h2>Seven disciplines. <br>One integrated platform.</h2>
+          </div>
+          <a href="#" class="btn-pill btn-green">View All Services</a>
+        </div>
+        <div class="pa-svc-grid">
+          <!-- Service 1 -->
+          <div class="pa-card reveal">
+            <div class="pa-card-img">
+              <img src="https://images.unsplash.com/photo-1560493676-04071c5f467b?auto=format&fit=crop&w=600&q=65"
+                   alt="Farmland auction and brokerage"
+                   onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+            </div>
+            <div class="pa-card-body">
+              <h4>Land Brokerage &amp; Auctions</h4>
+              <p>Listings and competitive auctions with a national buyer network of 40,000+ active buyers.</p>
+            </div>
+          </div>
+          <!-- Service 2 -->
+          <div class="pa-card reveal">
+            <div class="pa-card-img">
+              <img src="https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=600&q=65"
+                   alt="Farm field management operations"
+                   onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+            </div>
+            <div class="pa-card-body">
+              <h4>Land Management</h4>
+              <p>Full-service stewardship, operator oversight, cash rent leases, and long-term land care.</p>
+            </div>
+          </div>
+          <!-- Service 3 -->
+          <div class="pa-card reveal">
+            <div class="pa-card-img">
+              <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=600&q=65"
+                   alt="Aerial farmland data and appraisal"
+                   onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+            </div>
+            <div class="pa-card-body">
+              <h4>Agricultural Appraisal</h4>
+              <p>Certified, data-driven land valuation supported by proprietary FarmWorth technology.</p>
+            </div>
+          </div>
+          <!-- Service 4 -->
+          <div class="pa-card reveal">
+            <div class="pa-card-img">
+              <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=600&q=65"
+                   alt="Capital markets and institutional land investment"
+                   onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+            </div>
+            <div class="pa-card-body">
+              <h4>Capital Markets</h4>
+              <p>Connecting institutional capital with agricultural real estate — equity, debt, and portfolio advisory.</p>
+            </div>
+          </div>
+          <!-- Service 5 -->
+          <div class="pa-card reveal">
+            <div class="pa-card-img">
+              <img src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=600&q=65"
+                   alt="Solar and wind energy management on farmland"
+                   onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+            </div>
+            <div class="pa-card-body">
+              <h4>Energy Management</h4>
+              <p>Solar, wind, and energy lease strategy — maximizing income from every acre of land.</p>
+            </div>
+          </div>
+          <!-- Service 6 -->
+          <div class="pa-card reveal">
+            <div class="pa-card-img">
+              <img src="https://images.unsplash.com/photo-1530267981375-f0de937f5f13?auto=format&fit=crop&w=600&q=65"
+                   alt="Crop insurance and farm coverage"
+                   onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+            </div>
+            <div class="pa-card-body">
+              <h4>Crop Insurance</h4>
+              <p>Tailored coverage protecting farm operations, yield revenue, and long-term land income.</p>
+            </div>
+          </div>
+          <!-- Service 7 -->
+          <div class="pa-card reveal">
+            <div class="pa-card-img">
+              <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=600&q=65"
+                   alt="Corporate and institutional farmland services"
+                   onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+            </div>
+            <div class="pa-card-body">
+              <h4>Corporate Services</h4>
+              <p>Institutional programs for ag lenders, large portfolios, and corporate farmland ownership.</p>
+            </div>
+          </div>
+          <!-- CTA tile — 8th -->
+          <div class="pa-card cta reveal">
+            <div class="pa-card-body">
+              <span class="eyebrow" style="color:rgba(255,255,255,.65);">Explore</span>
+              <h4>All seven services</h4>
+              <p>One integrated platform, built end to end for every land decision.</p>
+              <a href="#">View All Services →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EDITORIAL PHOTO BREAK — full-bleed, oversized italic serif quote -->
+    <div class="pa-feature" role="region" aria-label="About Peoples Company">
+      <div class="pa-feature-bg">
+        <img src="https://images.unsplash.com/photo-1759174469221-71382a2b5bce?auto=format&fit=crop&w=1900&q=75"
+             alt="Golden wheat field at harvest"
+             onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+      </div>
+      <div class="pa-feature-inner">
+        <div class="container">
+          <div class="reveal">
+            <span class="eyebrow on-dark" style="margin-bottom:var(--space-4);display:inline-flex;">Integrated Land Solutions</span>
+            <blockquote>"Rooted in land. <br>Built for scale."</blockquote>
+            <cite>Peoples Company — Integrated Land Solutions · Est. 1974</cite>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FARMWORTH SECTION -->
+    <section class="pa-fw" aria-label="FarmWorth platform">
+      <div class="container">
+        <div class="reveal">
+          <span class="eyebrow on-dark">Proprietary Technology</span>
+          <h2>The FarmWorth™ <em>Advantage</em></h2>
+          <p>Soil capability analysis, automated appraisal modeling, and a comparable-sales database — the data layer powering every Peoples Company decision.</p>
+          <ul class="pa-fw-feat">
+            <li>Parcel-level soil &amp; productivity scoring</li>
+            <li>Automated valuation modeling on comparable sales</li>
+            <li>Public + proprietary data layers in a single view</li>
+            <li>40,000+ buyer database with direct reach</li>
+          </ul>
+          <a href="#" class="btn-pill btn-green">Request a Demo</a>
+        </div>
+        <div class="pa-fw-shot reveal">
+          <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=1100&q=70"
+               alt="Aerial farmland parcels representing FarmWorth data platform view"
+               onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+          <div class="pa-fw-badge">Example Farm · 240 ac · Wapello County, IA · <b>$9,800/ac</b></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS BAND — photo background with deep overlay -->
+    <section class="pa-stats" aria-label="By the numbers">
+      <div class="pa-stats-bg">
+        <img src="https://images.unsplash.com/photo-1560493676-04071c5f467b?auto=format&fit=crop&w=1900&q=65"
+             alt="Expansive farmland, background imagery"
+             onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+      </div>
+      <div class="container pa-stats-inner">
+        <div class="pa-stats-head reveal">
+          <span class="eyebrow on-dark">Track Record</span>
+          <h2>A half-century of land expertise, proven by the numbers.</h2>
+        </div>
+        <div class="pa-stats-grid reveal">
+          <div class="pa-stat-cell">
+            <div class="bar"></div>
+            <div class="n">$6B+</div>
+            <div class="l">Farmland Transactions</div>
+          </div>
+          <div class="pa-stat-cell">
+            <div class="bar"></div>
+            <div class="n">170+</div>
+            <div class="l">Ag Professionals</div>
+          </div>
+          <div class="pa-stat-cell">
+            <div class="bar"></div>
+            <div class="n">20+</div>
+            <div class="l">Regional Offices</div>
+          </div>
+          <div class="pa-stat-cell">
+            <div class="bar"></div>
+            <div class="n">1.6K+</div>
+            <div class="l">EXPO Attendees</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INSIGHTS — mixed-size editorial tiles with photos -->
+    <section class="pa-ins" aria-label="Insights and research">
+      <div class="container">
+        <div class="pa-ins-head reveal">
+          <div>
+            <span class="eyebrow">Insights &amp; Research</span>
+            <h2>Land intelligence, made readable</h2>
+          </div>
+          <a href="#"
+             style="font-family:var(--font-sans);font-size:14px;color:var(--c-green-dk);font-weight:600;text-decoration:none;">
+            View all insights →
+          </a>
+        </div>
+        <div class="pa-ins-grid">
+          <!-- Lead feature — tall left tile -->
+          <a class="pa-ins-tile lead reveal" href="#">
+            <div class="ph">
+              <img src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=900&q=70"
+                   alt="Wheat field at golden hour, farmland landscape"
+                   onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+            </div>
+            <div class="body">
+              <span class="tag">Land Values · May 2026</span>
+              <h4>Understanding Midwest Farmland Trends in 2026</h4>
+              <span class="more">Read more →</span>
+            </div>
+          </a>
+          <!-- Secondary tiles -->
+          <a class="pa-ins-tile reveal" href="#">
+            <div class="ph">
+              <img src="https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=600&q=70"
+                   alt="Solar panels and wind on farmland"
+                   onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+            </div>
+            <div class="body">
+              <span class="tag">Energy</span>
+              <h4>Solar &amp; Wind Leases: What Landowners Should Ask</h4>
+              <span class="more">Read more →</span>
+            </div>
+          </a>
+          <a class="pa-ins-tile reveal" href="#">
+            <div class="ph">
+              <img src="https://images.unsplash.com/photo-1530267981375-f0de937f5f13?auto=format&fit=crop&w=600&q=70"
+                   alt="Green crop rows in spring"
+                   onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+            </div>
+            <div class="body">
+              <span class="tag">Research Report</span>
+              <h4>2025 National Land Values Report</h4>
+              <span class="more">Download →</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- GET IN TOUCH + dual path CTAs -->
+    <section class="pa-touch" id="contact" aria-label="Get in touch">
+      <div class="container">
+        <div class="reveal">
+          <span class="eyebrow on-dark">Get in Touch</span>
+          <h2>Start a conversation with a local advisor</h2>
+          <p>Whether you're selling, managing, or investing in farmland, our regional experts are ready to help across 20+ offices nationwide.</p>
+          <div class="pa-touch-cta">
+            <a href="#" class="btn-pill btn-green">Talk to an Advisor</a>
+            <a href="#" class="btn-pill btn-ghost-light">Find an Office</a>
+          </div>
+        </div>
+        <div class="pa-dual reveal">
+          <a href="#"><span class="lab">Landowners</span><span class="big">Ready to sell?</span><span class="arrow" aria-hidden="true">→</span></a>
+          <a href="#"><span class="lab">Investors</span><span class="big">Ready to invest?</span><span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER — bigger logo, no light-green text, dual-path CTAs above -->
+    <footer class="pa-foot" role="contentinfo">
+      <div class="container">
+        <div class="pa-foot-top">
+          <div class="pa-foot-brand">
+            <img src="../../shared/logos/pc_logo_white.webp"
+                 alt="Peoples Company — Integrated Land Solutions"
+                 class="pa-foot-logo" />
+            <p>Integrated Land Solutions. The largest farmland brokerage and management firm in the United States.</p>
+            <div class="pa-foot-contact">
+              1108 S. 44th St, Suite 102, Cumming, IA 50061<br>
+              <a href="tel:8558005263">855.800.LAND</a> · <a href="mailto:Info@PeoplesCompany.com">Info@PeoplesCompany.com</a>
+            </div>
+          </div>
+          <div>
+            <h4>Real Estate</h4>
+            <ul>
+              <li><a href="#">Farmland For Sale</a></li>
+              <li><a href="#">Upcoming Auctions</a></li>
+              <li><a href="#">Sold Properties</a></li>
+              <li><a href="#">Interactive Map</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>What We Do</h4>
+            <ul>
+              <li><a href="#">Land Brokerage &amp; Auctions</a></li>
+              <li><a href="#">Land Management</a></li>
+              <li><a href="#">Agricultural Appraisal</a></li>
+              <li><a href="#">Capital Markets</a></li>
+              <li><a href="#">Energy Management</a></li>
+              <li><a href="#">Crop Insurance</a></li>
+              <li><a href="#">Corporate Services</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>The Company</h4>
+            <ul>
+              <li><a href="#">Overview</a></li>
+              <li><a href="#">Our Team</a></li>
+              <li><a href="#">Regions &amp; Offices</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Land Investment EXPO</a></li>
+              <li><a href="#">FarmWorth</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Insights</h4>
+            <ul>
+              <li><a href="#">National Land Values</a></li>
+              <li><a href="#">Industry Research</a></li>
+              <li><a href="#">Newsletters</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">In the News</a></li>
+              <li><a href="#">Press Releases</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="pa-foot-bottom">
+          <span>© 2026 Peoples Company · Licensed in 50 states (EHO)</span>
+          <span><a href="#">Privacy Policy</a> · <a href="#">Terms of Use</a> · <a href="#">Accessibility</a></span>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /wf-canvas -->
+
+  <script src="./nav-data.js?v=1"></script>
+  <script src="./nav.js?v=2"></script>
+  <script>
+  (function () {
+    var tab=document.querySelector(".md-tab"), layer=document.getElementById("md-layer"), backdrop=document.querySelector(".md-backdrop"), closeBtn=document.querySelector(".md-close"), header=document.querySelector(".site-header");
+    function syncNavH(){ if(header) document.documentElement.style.setProperty("--navH", header.offsetHeight+"px"); }
+    syncNavH(); window.addEventListener("resize",syncNavH); window.addEventListener("load",syncNavH);
+    var logoImg=header&&header.querySelector("img"); if(logoImg&&!logoImg.complete) logoImg.addEventListener("load",syncNavH);
+    function onKey(e){ if(e.key==="Escape") close(); }
+    function open(){ syncNavH(); backdrop.hidden=false; layer.hidden=false; requestAnimationFrame(function(){ backdrop.classList.add("is-open"); layer.classList.add("is-open"); }); tab.setAttribute("aria-expanded","true"); layer.setAttribute("aria-hidden","false"); closeBtn.focus(); document.addEventListener("keydown",onKey); }
+    function close(){ backdrop.classList.remove("is-open"); layer.classList.remove("is-open"); tab.setAttribute("aria-expanded","false"); layer.setAttribute("aria-hidden","true"); document.removeEventListener("keydown",onKey); var reduce=matchMedia("(prefers-reduced-motion: reduce)").matches; var after=function(){ backdrop.hidden=true; layer.hidden=true; }; if(reduce) after(); else layer.addEventListener("transitionend",function te(e){ if(e.propertyName==="transform"){ layer.removeEventListener("transitionend",te); after(); } }); tab.focus(); }
+    tab.addEventListener("click",function(){ if(tab.getAttribute("aria-expanded")==="true") close(); else open(); });
+    closeBtn.addEventListener("click",close); backdrop.addEventListener("click",close);
+  })();
+  </script>
+  <script>
+    /* Scroll-reveal — reduced-motion safe (CSS already no-ops the transition). */
+    (function () {
+      var els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        els.forEach(function (el) { el.classList.add('is-in'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.10, rootMargin: '0px 0px -6% 0px' });
+      els.forEach(function (el) { io.observe(el); });
+    })();
+  </script>
+</body>
+</html>

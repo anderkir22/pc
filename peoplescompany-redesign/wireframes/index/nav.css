@@ -3,17 +3,17 @@
    Spec: Kiron's "Proposed Navigation" — 4 top-level items, each with a
    mega-menu dropdown, blue hover/active state. Real PC logo in the header.
 
-   Accent: GREEN (per Kiron). Accessibility — the bright brand green #008B5C is
-   borderline for white text (4.3:1), so fills use the deeper #00744D (white text
-   = 5.8:1, passes AA), with #008B5C as the thin accent line. Dropdown link hover
-   uses #00744D (≈5.8:1 on white). Menus open on hover AND keyboard focus.
+   Accent: ONE brand green = #005F5B (standardized 2026-06-09, Kiron). ~7:1 on
+   white, so it carries white text (fills) AND works as link/accent on white.
+   Hover deepens to #044D48. Old #008B5C / #00744D retired. Menus open on hover
+   AND keyboard focus.
    ============================================================================= */
 
 :root {
-  --pc-accent:      #00744D; /* deep green — fills with white text (AA) */
-  --pc-accent-line: #008B5C; /* brand rich-green — decorative accent line */
+  --pc-accent:      #005F5B; /* the one brand green — fills with white text (AA) */
+  --pc-accent-line: #005F5B; /* same green for the decorative accent line */
   --pc-accent-ink:  #ffffff; /* text on the green fill */
-  --pc-accent-link: #00744D; /* accessible green for link text on white */
+  --pc-accent-link: #005F5B; /* accessible green for link text on white */
 }
 
 .site-header { position: sticky; top: 0; z-index: 40; background: #fff;

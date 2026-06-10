@@ -19,8 +19,10 @@
   --white:    #FFFFFF;
   --blue:     #00AEEF;
 
-  /* Accent */
-  --rich-green: #008B5C;
+  /* Accent — single brand green standardized on #005F5B (Kiron, 2026-06-09).
+     deep-teal/pine are darker shades of the SAME hue for dark backgrounds, not
+     separate accents. Old #008B5C / #00744D retired. */
+  --rich-green: #005F5B; /* alias kept so existing references resolve to the one green */
   --teal:       #005F5B;
   --deep-teal:  #044D48;
   --pine:       #103B38;
@@ -267,7 +269,7 @@ a.inline-link:hover {
 }
 
 .btn-accent:hover {
-  background: #00744D;
+  background: var(--deep-teal);
 }
 
 /* ----------------------------------------------------------------------------

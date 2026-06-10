@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Index · Concept 31 — Nav Only | Peoples Company</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="../../shared/main.css?v=20260601" rel="stylesheet" />
+  <link href="./wireframe.css?v=2" rel="stylesheet" />
+  <link href="./nav.css?v=2" rel="stylesheet" />
+  <style>
+    /* full-bleed canvas — nothing but the shared top nav lives here */
+    .wf-canvas { max-width:none; margin:0; border:0; box-shadow:none; background:#fff; }
+
+    :root { --navH: 132px; }   /* measured from the header by JS on load/resize */
+
+    /* ── PULL-DOWN TAB (hangs below the yellow line) ───────────────────── */
+    .md-tabwrap { position:sticky; top:var(--navH); z-index:39; height:0; text-align:center; pointer-events:none; }
+    .md-tab {
+      pointer-events:auto; position:relative; transform:translateY(0);
+      display:inline-flex; align-items:center; gap:10px; cursor:pointer;
+      font-family:var(--font-sans); font-size:15px; font-weight:600; color:#0E1B1A;
+      background:#ffe600; border:0; border-radius:0 0 14px 14px;
+      padding:11px 26px 12px; box-shadow:0 6px 16px rgba(0,0,0,.18);
+    }
+    .md-tab:hover { background:#ffd900; }
+    .md-tab:focus-visible { outline:3px solid #0077A8; outline-offset:2px; }
+    .md-tab .chev { display:inline-block; transition:transform .25s ease; animation:md-bounce 1.5s ease-in-out infinite; }
+    .md-tab[aria-expanded="true"] .chev { transform:rotate(180deg); animation:none; }
+    @keyframes md-bounce { 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(4px);} }
+
+    /* ── BACKDROP ──────────────────────────────────────────────────────── */
+    .md-backdrop { position:fixed; inset:var(--navH) 0 0 0; z-index:30; background:rgba(8,22,20,.55);
+      opacity:0; visibility:hidden; transition:opacity .3s ease, visibility .3s ease; }
+    .md-backdrop.is-open { opacity:1; visibility:visible; }
+
+    /* ── SLIDE-DOWN LAYER ──────────────────────────────────────────────── */
+    .md-layer { position:fixed; top:var(--navH); left:0; right:0; margin-inline:auto;
+      max-width:var(--container, 1400px); height:calc(100vh - var(--navH));
+      z-index:31; background:#fff; box-shadow:0 18px 40px rgba(0,0,0,.25);
+      transform:translateY(-100%); transition:transform .38s cubic-bezier(.16,.84,.44,1);
+      overflow-y:auto; overscroll-behavior:contain; }
+    .md-layer.is-open { transform:translateY(0); }
+    .md-layer-bar { position:sticky; top:0; z-index:2; display:flex; justify-content:flex-end; align-items:center;
+      gap:16px; padding:14px 40px; background:#fff; }
+    .md-close { display:inline-flex; align-items:center; justify-content:center; cursor:pointer; font-family:var(--font-sans);
+      font-size:18px; line-height:1; color:#0E1B1A; background:#fff; border:1px solid var(--gray-300);
+      border-radius:50%; width:40px; height:40px; }
+    .md-close:hover { border-color:#0E1B1A; }
+    .md-close:focus-visible { outline:2px solid #0077A8; outline-offset:2px; }
+    .md-layer-body { display:flex; align-items:center; justify-content:center; min-height:calc(100vh - var(--navH) - 68px); }
+    .md-placeholder { font-family:var(--font-serif); font-size:40px; color:var(--gray-500); margin:0; }
+
+    @media (prefers-reduced-motion: reduce){
+      .md-tab .chev { animation:none; }
+      .md-layer, .md-backdrop { transition:none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wf-badge"><b>Concept 31 · Nav Only</b><a href="./index.html">All concepts ↗</a></div>
+
+  <div class="wf-canvas">
+
+    <!-- ============================================================= -->
+    <!-- TOP NAVIGATION — inlined static markup (was rendered by nav.js -->
+    <!-- from nav-data.js). Edit freely here. Styling lives in nav.css. -->
+    <!-- ============================================================= -->
+    <header class="site-header">
+
+      <!-- utility strip: phone + Expo + Client Login -->
+      <div class="sh-util">
+        <div class="container sh-util-in">
+          <span>(855) 800-LAND</span>
+          <span class="sh-right">
+            <a href="#">Land Investment Expo</a>
+            <a href="#">Client Login</a>
+          </span>
+        </div>
+      </div>
+
+      <!-- main bar: logo + primary nav + actions -->
+      <div class="container sh-bar">
+        <a class="sh-logo" href="../../version-a/index.html" aria-label="Peoples Company home">
+          <img src="../../shared/logos/peoples-company-logo.png" alt="Peoples Company — Integrated Land Solutions" />
+        </a>
+
+        <nav aria-label="Primary">
+          <ul class="sh-nav">
+
+            <!-- ───────────── Real Estate ───────────── -->
+            <li>
+              <a href="#" aria-haspopup="true">Real Estate</a>
+              <div class="sh-mega" role="menu" aria-label="Real Estate">
+                <div class="sh-mega-in">
+                  <div class="sh-col">
+                    <h4>For Sale</h4>
+                    <ul>
+                      <li><a href="#">Farmland</a></li>
+                      <li><a href="#">Development Land</a></li>
+                      <li><a href="#">Commercial</a></li>
+                      <li><a href="#">Residential</a></li>
+                      <li><a href="#">Interactive Map</a></li>
+                    </ul>
+                  </div>
+                  <div class="sh-col">
+                    <h4>Auctions</h4>
+                    <ul>
+                      <li><a href="#">Upcoming Auctions</a></li>
+                      <li><a href="#">Prior Auctions</a></li>
+                      <li><a href="#">Auction Results</a></li>
+                    </ul>
+                  </div>
+                  <div class="sh-col">
+                    <h4 style="border:0;margin-bottom:0;"><a href="#" style="color:inherit;text-decoration:none;">Sold Properties</a></h4>
+                  </div>
+                  <div class="sh-col">
+                    <p class="sh-soft" style="margin:0;">Listings are out of scope — links are placeholders.</p>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <!-- ───────────── The Company ───────────── -->
+            <li>
+              <a href="#" aria-haspopup="true">The Company</a>
+              <div class="sh-mega" role="menu" aria-label="The Company">
+                <div class="sh-mega-in">
+                  <div class="sh-col">
+                    <h4>The Company</h4>
+                    <ul>
+                      <li><a href="#">Overview</a></li>
+                      <li><a href="#">Sustainability</a></li>
+                      <li><a href="#">Our Team</a></li>
+                      <li><a href="#">Culture</a></li>
+                      <li><a href="#">Careers</a></li>
+                    </ul>
+                  </div>
+                  <div class="sh-col">
+                    <h4 style="border:0;margin-bottom:0;"><a href="#" style="color:inherit;text-decoration:none;">The Land Expo</a></h4>
+                  </div>
+                  <div class="sh-col">
+                    <h4 style="border:0;margin-bottom:0;"><a href="#" style="color:inherit;text-decoration:none;">Regions</a></h4>
+                  </div>
+                  <div class="sh-col">
+                    <h4 style="border:0;margin-bottom:0;"><a href="#" style="color:inherit;text-decoration:none;">Offices</a></h4>
+                  </div>
+                  <div class="sh-col">
+                    <h4>Our Clients</h4>
+                    <ul>
+                      <li><a href="#">Institutional Investors</a></li>
+                      <li><a href="#">Financial Advisors</a></li>
+                      <li><a href="#">Family Offices / HNW</a></li>
+                      <li><a href="#">Landowners</a></li>
+                      <li><a href="#">Operators</a></li>
+                    </ul>
+                  </div>
+                  <div class="sh-col">
+                    <h4>Industry Collaboration</h4>
+                    <ul>
+                      <li><a href="#">FarmWorth</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <!-- ───────────── What We Do ───────────── -->
+            <li>
+              <a href="#" aria-haspopup="true">What We Do</a>
+              <div class="sh-mega" role="menu" aria-label="What We Do">
+                <div class="sh-mega-in">
+                  <div class="sh-col">
+                    <h4>Land Brokerage &amp; Auctions</h4>
+                    <ul>
+                      <li><a href="#">Marketing Approach</a></li>
+                      <li><a href="#">Sale Methods</a></li>
+                      <li><a href="#">Auction Platform</a></li>
+                      <li><a href="#">Find an Agent</a></li>
+                    </ul>
+                  </div>
+                  <div class="sh-col">
+                    <h4>Land Management</h4>
+                    <ul>
+                      <li><a href="#">Management Approach</a></li>
+                      <li><a href="#">Consulting</a></li>
+                      <li><a href="#">Operators</a></li>
+                      <li><a href="#">Request an Assessment</a></li>
+                    </ul>
+                  </div>
+                  <div class="sh-col">
+                    <h4>Agricultural Appraisal</h4>
+                    <ul>
+                      <li><a href="#">Order an Appraisal</a></li>
+                    </ul>
+                  </div>
+                  <div class="sh-col">
+                    <h4 style="border:0;margin-bottom:0;"><a href="#" style="color:inherit;text-decoration:none;">Capital Markets</a></h4>
+                  </div>
+                  <div class="sh-col">
+                    <h4 style="border:0;margin-bottom:0;"><a href="#" style="color:inherit;text-decoration:none;">Corporate Services</a></h4>
+                  </div>
+                  <div class="sh-col">
+                    <h4 style="border:0;margin-bottom:0;"><a href="#" style="color:inherit;text-decoration:none;">Energy Management</a></h4>
+                  </div>
+                  <div class="sh-col">
+                    <h4 style="border:0;margin-bottom:0;"><a href="#" style="color:inherit;text-decoration:none;">Crop Insurance</a></h4>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <!-- ───────────── Insights & News ───────────── -->
+            <li>
+              <a href="#" aria-haspopup="true">Insights &amp; News</a>
+              <div class="sh-mega" role="menu" aria-label="Insights &amp; News">
+                <div class="sh-mega-in">
+                  <div class="sh-col">
+                    <h4>Insights</h4>
+                    <ul>
+                      <li><a href="#">FarmWorth</a></li>
+                      <li><a href="#">Data &amp; Tools</a></li>
+                      <li><a href="#">National Land Values</a></li>
+                      <li><a href="#">Industry Research</a></li>
+                      <li><a href="#">Newsletters</a></li>
+                      <li><a href="#">Blog</a></li>
+                    </ul>
+                  </div>
+                  <div class="sh-col">
+                    <h4>News</h4>
+                    <ul>
+                      <li><a href="#">In the News</a></li>
+                      <li><a href="#">Press Releases</a></li>
+                      <li><a href="#">Industry Recognition</a></li>
+                      <li><a href="#">View All</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+          </ul>
+        </nav>
+
+        <span class="sh-spacer"></span>
+
+        <div class="sh-actions">
+          <a href="#" class="btn btn-black" style="padding:10px 18px;font-size:14px;">Contact</a>
+          <button class="sh-mobile" aria-label="Open menu">☰ Menu</button>
+        </div>
+      </div>
+    </header>
+    <!-- ===================== /TOP NAVIGATION ===================== -->
+
+    <!-- PULL-DOWN TAB — invites the user to open the search/map layer -->
+    <div class="md-tabwrap">
+      <button class="md-tab" type="button" aria-expanded="false" aria-controls="md-layer">
+        Find Properties
+      </button>
+    </div>
+
+    <!-- DIMMED BACKDROP behind the layer -->
+    <div class="md-backdrop" hidden></div>
+
+    <!-- SLIDE-DOWN LAYER — the map + search criteria, over the rest of the site -->
+    <div class="md-layer" id="md-layer" role="region" aria-label="Integrated map" aria-hidden="true" hidden>
+      <div class="md-layer-bar">
+        <button class="md-close" type="button" aria-label="Close">✕</button>
+      </div>
+      <div class="md-layer-body">
+        <p class="md-placeholder">Integrated Map</p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    (function () {
+      var tab      = document.querySelector(".md-tab");
+      var layer    = document.getElementById("md-layer");
+      var backdrop = document.querySelector(".md-backdrop");
+      var closeBtn = document.querySelector(".md-close");
+      var header   = document.querySelector(".site-header");
+
+      /* keep the tab/layer pinned just under the actual header height */
+      function syncNavH() {
+        if (header) document.documentElement.style.setProperty("--navH", header.offsetHeight + "px");
+      }
+      syncNavH();
+      window.addEventListener("resize", syncNavH);
+      window.addEventListener("load", syncNavH);        /* logo image can change header height */
+      var logoImg = header && header.querySelector("img");
+      if (logoImg && !logoImg.complete) logoImg.addEventListener("load", syncNavH);
+
+      function open() {
+        syncNavH();
+        backdrop.hidden = false; layer.hidden = false;
+        /* next frame so the transition runs from the hidden state */
+        requestAnimationFrame(function () {
+          backdrop.classList.add("is-open");
+          layer.classList.add("is-open");
+        });
+        tab.setAttribute("aria-expanded", "true");
+        layer.setAttribute("aria-hidden", "false");
+        closeBtn.focus();
+        document.addEventListener("keydown", onKey);
+      }
+      function close() {
+        backdrop.classList.remove("is-open");
+        layer.classList.remove("is-open");
+        tab.setAttribute("aria-expanded", "false");
+        layer.setAttribute("aria-hidden", "true");
+        document.removeEventListener("keydown", onKey);
+        var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var after = function () { backdrop.hidden = true; layer.hidden = true; };
+        if (reduce) after();
+        else layer.addEventListener("transitionend", function te(e){ if (e.propertyName==="transform"){ layer.removeEventListener("transitionend", te); after(); } });
+        tab.focus();
+      }
+      function onKey(e){ if (e.key === "Escape") close(); }
+
+      tab.addEventListener("click", function () {
+        if (tab.getAttribute("aria-expanded") === "true") close(); else open();
+      });
+      closeBtn.addEventListener("click", close);
+      backdrop.addEventListener("click", close);
+    })();
+  </script>
+</body>
+</html>

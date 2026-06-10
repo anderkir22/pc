@@ -30,6 +30,14 @@
 
   var util = NAV.utilLinks.map(function(l){ return '<a href="' + l[1] + '">' + esc(l[0]) + '</a>'; }).join("");
 
+  // Per-concept opt-out: <div id="site-header" data-search="off"> hides the
+  // header search (concepts 21–30 — the logo slot replaces it). Defaults on.
+  var mount = document.getElementById("site-header");
+  var showSearch = !(mount && mount.getAttribute("data-search") === "off");
+  var searchHTML = showSearch
+    ? '<span class="sh-search" role="search">🔍 Search land &amp; auctions</span>'
+    : '';
+
   var html =
     '<header class="site-header">' +
       '<div class="sh-util"><div class="container sh-util-in">' +
@@ -43,14 +51,13 @@
         '<nav aria-label="Primary"><ul class="sh-nav">' + NAV.items.map(itemHTML).join("") + '</ul></nav>' +
         '<span class="sh-spacer"></span>' +
         '<div class="sh-actions">' +
-          '<span class="sh-search" role="search">🔍 Search land &amp; auctions</span>' +
+          searchHTML +
           '<a href="#" class="btn btn-black" style="padding:10px 18px;font-size:14px;">Contact</a>' +
           '<button class="sh-mobile" aria-label="Open menu">☰ Menu</button>' +
         '</div>' +
       '</div>' +
     '</header>';
 
-  var mount = document.getElementById("site-header");
   if (mount) mount.outerHTML = html;
   else document.body.insertAdjacentHTML("afterbegin", html);
 })();

@@ -17,13 +17,15 @@ them for reference. **If a value changes, change it in `main.css` first.**
 | `--white` | `#FFFFFF` | Surface |
 | `--blue` | `#00AEEF` | Brand blue (logo mark) |
 
-### Accent (greens / teal)
-| Token | Hex |
-|-------|-----|
-| `--rich-green` | `#008B5C` (the accent: links hover, `.btn-accent`) |
-| `--teal` | `#005F5B` |
-| `--deep-teal` | `#044D48` |
-| `--pine` | `#103B38` |
+### Accent — ONE brand green = `#005F5B` (standardized 2026-06-09, Kiron)
+Brand **blue** is primary; **dark green `#005F5B`** is the single restrained secondary accent.
+The earlier `#008B5C` and `#00744D` greens are **retired**. `deep-teal`/`pine` are darker shades
+of the same hue reserved for dark-section backgrounds — not separate accents.
+| Token | Hex | Role |
+|-------|-----|------|
+| `--rich-green` / `--teal` | `#005F5B` | the accent (links hover, `.btn-accent`); ~7:1 on white |
+| `--deep-teal` | `#044D48` | dark bg / accent-button hover |
+| `--pine` | `#103B38` | darkest bg shade |
 
 > **Accessibility note:** the palette contains **no red**. The only accent is green, used
 > on its own — there are no red/green pairings anywhere, so it is safe against the
