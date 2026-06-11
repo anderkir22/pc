@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Index · Concept 37 — Split Screen | Peoples Company</title>
+  <!-- Photos are Unsplash placeholders standing in for PC's own photography.
+       Each <img> degrades to a brand gradient if it fails to load. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="../../shared/main.css?v=20260601" rel="stylesheet" />
+  <link href="./wireframe.css?v=2" rel="stylesheet" />
+  <link href="./nav.css?v=2" rel="stylesheet" />
+  <style>
+    /* ── full-bleed canvas ── */
+    .wf-canvas { max-width: none; margin: 0; border: 0; box-shadow: none; background: #fff; }
+    body { color: var(--gray-900); }
+
+    /* Palette: blue #00AEEF primary; green #005F5B single accent.
+       Bright cyan only on dark; on light use #0077A8 (5:1) or #005F5B (~7:1). */
+    :root {
+      --c-blue:      #00AEEF;
+      --c-blue-ink:  #0077A8;
+      --c-green:     #005F5B;
+      --c-green-dk:  #044D48;
+      --c-ink:       #0E1B1A;
+      --c-sell-dark: #0B1F3A;   /* navy overlay for Sell half */
+      --c-inv-dark:  #0A1F1C;   /* deep teal overlay for Invest half */
+    }
+
+    /* graceful photo fallback */
+    .img-fallback { background: linear-gradient(135deg, #0D2B22 0%, #103B38 55%, #0A1F1C 100%) !important; }
+    .img-fallback-sell { background: linear-gradient(135deg, #0B1F3A 0%, #1a3360 100%) !important; }
+
+    /* ── scroll reveal ── */
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.is-in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+    }
+
+    /* ── shared buttons ── */
+    .btn-pill { display: inline-flex; align-items: center; gap: 8px; border-radius: var(--radius-pill);
+      font-family: var(--font-sans); font-weight: 600; font-size: 15px; text-decoration: none;
+      padding: 13px 28px; transition: background .15s, border-color .15s, color .15s; border: 2px solid transparent; }
+    .btn-green { background: var(--c-green); color: #fff; border-color: var(--c-green); }
+    .btn-green:hover, .btn-green:focus { background: var(--c-green-dk); border-color: var(--c-green-dk); }
+    .btn-green:focus-visible { outline: 2px solid var(--c-blue); outline-offset: 3px; }
+    .btn-blue { background: var(--c-blue-ink); color: #fff; border-color: var(--c-blue-ink); }
+    .btn-blue:hover, .btn-blue:focus { background: #005f8a; border-color: #005f8a; }
+    .btn-blue:focus-visible { outline: 2px solid var(--c-green); outline-offset: 3px; }
+    .btn-outline { background: transparent; color: var(--c-ink); border-color: var(--gray-500); }
+    .btn-outline:hover, .btn-outline:focus { border-color: var(--c-ink); }
+    .btn-ghost-light { background: transparent; color: #fff; border-color: rgba(255,255,255,.55); }
+    .btn-ghost-light:hover, .btn-ghost-light:focus { border-color: #fff; }
+    .btn-ghost-light:focus-visible { outline: 2px solid var(--c-blue); outline-offset: 2px; }
+
+    .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-sans);
+      font-size: 12px; font-weight: 600; letter-spacing: .13em; text-transform: uppercase; color: var(--c-green); }
+    .eyebrow::before { content: ""; width: 26px; height: 2px; background: var(--c-green); display: block; }
+    .eyebrow.on-dark { color: var(--c-blue); }
+    .eyebrow.on-dark::before { background: var(--c-blue); }
+
+    .sec { padding: var(--space-9) 0; }
+    .sec h2 { font-family: var(--font-serif); font-weight: 500; font-size: 44px; line-height: 1.12;
+      color: var(--c-ink); margin: var(--space-3) 0 0; max-width: 22ch; }
+
+    /* ════════════════════════════════════════
+       SPLIT HERO
+       ════════════════════════════════════════ */
+    .ss-hero {
+      position: relative;
+      display: flex;
+      min-height: 620px;
+      overflow: hidden;
+    }
+
+    /* Each half */
+    .ss-half {
+      position: relative;
+      flex: 1 1 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+      transition: flex .5s cubic-bezier(.4,0,.2,1);
+      /* expansion on hover/focus-within is handled below */
+    }
+
+    /* Suppress transition for reduced-motion users */
+    @media (prefers-reduced-motion: reduce) {
+      .ss-half { transition: none !important; }
+    }
+
+    /* Allow keyboard / hover expansion only on wide screens */
+    @media (min-width: 769px) {
+      .ss-hero:has(.ss-half:hover) .ss-half,
+      .ss-hero:has(.ss-half:focus-within) .ss-half {
+        flex: 1 1 38%;
+      }
+      .ss-half:hover,
+      .ss-half:focus-within {
+        flex: 1 1 62% !important;
+      }
+    }
+
+    /* Background image */
+    .ss-half-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .ss-half-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Sell half overlay — deep navy gradient from bottom */
+    .ss-half--sell .ss-half-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg,
+        rgba(11,31,58,.25) 0%,
+        rgba(11,31,58,.55) 40%,
+        rgba(11,31,58,.88) 100%);
+    }
+
+    /* Invest half overlay — deep teal gradient from bottom */
+    .ss-half--invest .ss-half-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg,
+        rgba(10,31,28,.25) 0%,
+        rgba(10,31,28,.55) 40%,
+        rgba(10,31,28,.88) 100%);
+    }
+
+    /* Vertical centre divider line */
+    .ss-hero::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 2px;
+      background: rgba(255,255,255,.25);
+      z-index: 10;
+      pointer-events: none;
+      transition: left .5s cubic-bezier(.4,0,.2,1);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ss-hero::after { transition: none !important; }
+    }
+    /* Hide divider on mobile */
+    @media (max-width: 768px) {
+      .ss-hero::after { display: none; }
+    }
+
+    /* Inner content */
+    .ss-half-inner {
+      position: relative;
+      z-index: 2;
+      padding: var(--space-8) var(--space-7) var(--space-8);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      max-width: 520px;
+    }
+
+    /* Sell half — align content to the 1400px container's left gutter.
+       Use margin (not padding) so the max-width:520px content column keeps its
+       full width — border-box would otherwise subtract a big left padding from
+       the 520px and crush the text into a narrow, crammed column on wide screens. */
+    .ss-half--sell .ss-half-inner {
+      margin-left: max(0px, calc((100vw - 1400px) / 2));
+    }
+
+    /* Invest half — anchor content to the 1400px container's RIGHT gutter, mirroring
+       the sell side. The invest panel's right edge is pinned to the viewport, so the
+       text holds its position when the half expands/contracts on hover instead of
+       sliding left with the moving left edge. */
+    .ss-half--invest .ss-half-inner {
+      align-self: flex-end;
+      margin-right: max(0px, calc((100vw - 1400px) / 2));
+    }
+
+    .ss-label {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.7);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .ss-label::before {
+      content: "";
+      width: 20px;
+      height: 2px;
+      background: rgba(255,255,255,.6);
+      display: block;
+    }
+
+    .ss-half--sell .ss-label::before { background: var(--c-blue); }
+    .ss-half--invest .ss-label::before { background: var(--c-green); }
+    .ss-half--sell .ss-label { color: var(--c-blue); }
+    .ss-half--invest .ss-label { color: #6ECFC8; }
+
+    .ss-half h1 {
+      font-family: var(--font-serif);
+      font-weight: 500;
+      font-size: 46px;
+      line-height: 1.1;
+      color: #fff;
+      margin: 0;
+      max-width: 16ch;
+    }
+    .ss-half h1 em { font-style: italic; color: #A8D8F5; }
+    .ss-half--invest h1 em { color: #8FD4CC; }
+
+    .ss-half p {
+      font-family: var(--font-sans);
+      font-size: 16px;
+      color: rgba(255,255,255,.82);
+      line-height: 1.6;
+      margin: 0;
+      max-width: 42ch;
+    }
+
+    .ss-half-cta {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+      margin-top: var(--space-2);
+    }
+
+    /* Small insight list that appears on the expanded half */
+    .ss-bullets {
+      list-style: none;
+      padding: 0;
+      margin: var(--space-2) 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .4s ease, opacity .4s ease;
+      opacity: 0;
+    }
+    .ss-half:hover .ss-bullets,
+    .ss-half:focus-within .ss-bullets {
+      max-height: 200px;
+      opacity: 1;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ss-bullets { transition: none !important; }
+      .ss-half:hover .ss-bullets,
+      .ss-half:focus-within .ss-bullets { max-height: 200px; opacity: 1; }
+    }
+    @media (max-width: 768px) {
+      .ss-bullets { max-height: none; opacity: 1; }
+    }
+    .ss-bullets li {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: rgba(255,255,255,.75);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .ss-bullets li::before { content: "◆"; font-size: 8px; color: var(--c-blue); margin-top: 4px; flex-shrink: 0; }
+    .ss-half--invest .ss-bullets li::before { color: #6ECFC8; }
+
+    /* Mobile: stack halves vertically */
+    @media (max-width: 768px) {
+      .ss-hero {
+        flex-direction: column;
+        min-height: auto;
+      }
+      .ss-half {
+        flex: none !important;
+        min-height: 400px;
+        transition: none;
+      }
+      .ss-half-inner {
+        padding: var(--space-7) var(--space-5) !important;
+        max-width: 100%;
+      }
+      .ss-half h1 { font-size: 34px; }
+    }
+
+    /* ── 4-PATH ROUTER ── */
+    .ss-paths { background: var(--c-ink); }
+    .ss-paths .container { padding-top: var(--space-7); padding-bottom: var(--space-7); }
+    .ss-paths-head { display: flex; justify-content: space-between; align-items: flex-end;
+      gap: var(--space-4); flex-wrap: wrap; margin-bottom: var(--space-5); }
+    .ss-paths-head h2 { font-family: var(--font-serif); font-weight: 500; font-size: 28px; color: #fff; margin: 0; }
+    .ss-paths-head p { font-family: var(--font-sans); font-size: 14px; color: #9FD9CF; margin: 6px 0 0; }
+    .ss-paths-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-3); }
+    .ss-path { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-5);
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius-md); text-decoration: none;
+      transition: background .15s, border-color .15s; }
+    .ss-path:hover, .ss-path:focus { background: rgba(255,255,255,.08); border-color: var(--c-blue); outline: none; }
+    .ss-path:focus-visible { outline: 2px solid var(--c-blue); outline-offset: 2px; }
+    .ss-path .tag { font-family: var(--font-sans); font-size: 11px; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--c-blue); }
+    .ss-path h3 { font-family: var(--font-serif); font-weight: 500; font-size: 21px; color: #fff; margin: 0; line-height: 1.2; }
+    .ss-path p { font-family: var(--font-sans); font-size: 13px; color: #C6D6D3; margin: 0; line-height: 1.5; }
+    .ss-path .arrow { margin-top: auto; padding-top: var(--space-2); color: var(--c-blue); font-size: 18px; }
+
+    /* ── WHAT WE DO 2×4 ── */
+    .ss-svc { background: var(--gray-100); }
+    .ss-svc-head { display: flex; justify-content: space-between; align-items: flex-end;
+      gap: var(--space-4); flex-wrap: wrap; margin-bottom: var(--space-6); }
+    .ss-svc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4); }
+    .ss-card { background: #fff; border: 1px solid var(--gray-200); border-top: 3px solid transparent;
+      border-radius: var(--radius-md); padding: var(--space-5); display: flex; flex-direction: column; gap: var(--space-3); }
+    .ss-card:hover { border-top-color: var(--c-green); box-shadow: 0 6px 18px rgba(0,0,0,.07); }
+    .ss-card .ic { width: 42px; height: 42px; border-radius: 9px; background: #E2F1EF; color: var(--c-green);
+      display: flex; align-items: center; justify-content: center; font-size: 19px; }
+    .ss-card h4 { font-family: var(--font-serif); font-weight: 500; font-size: 18px; color: var(--c-ink); margin: 0; }
+    .ss-card p { font-family: var(--font-sans); font-size: 13px; color: var(--gray-600); margin: 0; line-height: 1.5; }
+    .ss-card.cta { background: var(--c-green); border-color: var(--c-green); align-items: flex-start; justify-content: center; }
+    .ss-card.cta a { color: #fff; font-family: var(--font-sans); font-weight: 600; font-size: 15px; text-decoration: none; }
+    .ss-card.cta a:hover, .ss-card.cta a:focus { text-decoration: underline; }
+    .ss-card.cta p { color: rgba(255,255,255,.85); }
+
+    /* ── FARMWORTH ── */
+    .ss-fw { background: linear-gradient(135deg, #0A1F1C 0%, #103B38 100%); color: #fff; }
+    .ss-fw .container { display: grid; grid-template-columns: 1.05fr 1fr; gap: var(--space-8); align-items: center; }
+    .ss-fw h2 { font-family: var(--font-serif); font-weight: 500; font-size: 42px; color: #fff; margin: var(--space-3) 0; line-height: 1.12; }
+    .ss-fw p { font-family: var(--font-sans); font-size: 16px; color: #CFE3DF; line-height: 1.65; margin: 0 0 var(--space-5); max-width: 46ch; }
+    .ss-fw-feat { list-style: none; padding: 0; margin: 0 0 var(--space-6); display: grid; gap: 10px; }
+    .ss-fw-feat li { font-family: var(--font-sans); font-size: 14px; color: #E3EFEC; display: flex; gap: 10px; align-items: flex-start; }
+    .ss-fw-feat li::before { content: "◆"; color: var(--c-blue); font-size: 9px; margin-top: 5px; }
+    .ss-fw-shot { position: relative; border-radius: var(--radius-md); overflow: hidden; min-height: 340px;
+      border: 1px solid rgba(255,255,255,.14); }
+    .ss-fw-shot img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+    .ss-fw-badge { position: absolute; left: 14px; bottom: 14px; z-index: 2; background: rgba(8,22,20,.8);
+      border: 1px solid rgba(255,255,255,.2); border-radius: var(--radius-sm); padding: 8px 12px;
+      font-family: var(--font-sans); font-size: 12px; color: #fff; }
+    .ss-fw-badge b { color: var(--c-blue); }
+
+    /* ── STATS BAND ── */
+    .ss-stats { background: var(--pine); color: #fff; }
+    .ss-stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+    .ss-stats .n { font-family: var(--font-serif); font-size: 58px; line-height: 1; color: #fff; }
+    .ss-stats .l { font-family: var(--font-sans); font-size: 13px; color: #9FD9CF; margin-top: var(--space-2);
+      text-transform: uppercase; letter-spacing: .06em; }
+    .ss-stats .bar { width: 30px; height: 3px; background: var(--c-blue); margin-bottom: var(--space-4); }
+
+    /* ── INSIGHTS (mixed-size tiles) ── */
+    .ss-ins-head { display: flex; justify-content: space-between; align-items: flex-end;
+      gap: var(--space-4); flex-wrap: wrap; margin-bottom: var(--space-6); }
+    .ss-ins-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; grid-auto-rows: 1fr; gap: var(--space-4); }
+    .ss-ins { border: 1px solid var(--gray-200); border-radius: var(--radius-md); overflow: hidden;
+      text-decoration: none; color: inherit; display: flex; flex-direction: column; transition: box-shadow .15s; }
+    .ss-ins:hover { box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+    .ss-ins .ph { position: relative; height: 170px; overflow: hidden; }
+    .ss-ins .ph img { width: 100%; height: 100%; object-fit: cover; }
+    .ss-ins.lead { grid-row: span 2; }
+    .ss-ins.lead .ph { height: 300px; }
+    .ss-ins .body { padding: var(--space-4); display: flex; flex-direction: column; gap: 8px; flex: 1; }
+    .ss-ins .tag { font-family: var(--font-sans); font-size: 11px; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--c-green); }
+    .ss-ins h4 { font-family: var(--font-serif); font-weight: 500; font-size: 20px; color: var(--c-ink); margin: 0; line-height: 1.25; }
+    .ss-ins.lead h4 { font-size: 26px; }
+    .ss-ins .more { font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--c-green-dk); margin-top: auto; }
+
+    /* ── GET IN TOUCH + dual path ── */
+    .ss-touch { background: var(--c-ink); color: #fff; }
+    .ss-touch .container { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8); align-items: center; }
+    .ss-touch h2 { font-family: var(--font-serif); font-weight: 500; font-size: 42px; color: #fff; margin: var(--space-3) 0; }
+    .ss-touch p { font-family: var(--font-sans); font-size: 16px; color: #CFE3DF; line-height: 1.6; margin: 0 0 var(--space-6); max-width: 42ch; }
+    .ss-touch-cta { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+    .ss-dual { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+    .ss-dual a { display: flex; flex-direction: column; gap: 6px; padding: var(--space-5);
+      border: 1px solid rgba(255,255,255,.18); border-radius: var(--radius-md); text-decoration: none;
+      background: rgba(255,255,255,.04); transition: border-color .15s, background .15s; }
+    .ss-dual a:hover, .ss-dual a:focus { border-color: var(--c-blue); background: rgba(255,255,255,.08); outline: none; }
+    .ss-dual a:focus-visible { outline: 2px solid var(--c-blue); outline-offset: 2px; }
+    .ss-dual .lab { font-family: var(--font-sans); font-size: 12px; color: #9FD9CF; text-transform: uppercase; letter-spacing: .08em; }
+    .ss-dual .big { font-family: var(--font-serif); font-size: 22px; color: #fff; }
+    .ss-dual .arrow { color: var(--c-blue); }
+
+    /* ── FOOTER ── */
+    .ss-foot { background: #0B1413; color: #C7CBD1; font-family: var(--font-sans); font-size: 14px; }
+    .ss-foot-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: var(--space-7);
+      padding: var(--space-8) 0 var(--space-7); }
+    .ss-foot h4 { color: #fff; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; margin: 0 0 var(--space-4); }
+    .ss-foot ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+    .ss-foot a { color: #C7CBD1; text-decoration: none; }
+    .ss-foot a:hover, .ss-foot a:focus { color: #fff; text-decoration: underline; }
+    .ss-foot-logo { height: 60px; width: auto; display: block; margin-bottom: var(--space-4); }
+    .ss-foot-brand p { font-size: 13px; color: #AEB6B4; line-height: 1.6; margin: 0 0 var(--space-3); max-width: 40ch; }
+    .ss-foot-contact { font-size: 13px; color: #AEB6B4; line-height: 1.8; }
+    .ss-foot-contact a { color: #fff; }
+    .ss-foot-bottom { border-top: 1px solid rgba(255,255,255,.1); padding: var(--space-5) 0;
+      display: flex; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; font-size: 12px; color: #8A938F; }
+    .ss-foot-bottom a { color: #8A938F; text-decoration: none; }
+    .ss-foot-bottom a:hover { color: #C7CBD1; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1100px) {
+      .sec h2 { font-size: 36px; }
+      .ss-paths-grid { grid-template-columns: repeat(2, 1fr); }
+      .ss-svc-grid { grid-template-columns: repeat(2, 1fr); }
+      .ss-fw .container, .ss-touch .container { grid-template-columns: 1fr; }
+      .ss-stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .ss-ins-grid { grid-template-columns: repeat(2, 1fr); }
+      .ss-ins.lead { grid-row: auto; }
+      .ss-ins.lead .ph { height: 200px; }
+      .ss-foot-top { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .ss-paths-grid, .ss-svc-grid, .ss-stats-grid, .ss-ins-grid, .ss-dual, .ss-foot-top { grid-template-columns: 1fr; }
+    }
+
+    /* ===== Find Properties pull-down map layer ===== */
+    :root { --navH: 132px; }
+    .md-tabwrap { position:sticky; top:var(--navH); z-index:39; height:0; text-align:center; pointer-events:none; }
+    .md-tab {
+      pointer-events:auto; position:relative; cursor:pointer; border:0;
+      font-family:var(--font-sans); font-weight:600; font-size:15px; color:#fff;
+      display:inline-flex; align-items:center; justify-content:center; box-sizing:border-box; gap:8px;
+      /* single blended fill (blue → green gradient) — one continuous background, not a hard split */
+      background: linear-gradient(to right, #0077A8, #005F5B);
+      width:400px; height:46px; padding:0 30px;
+      border-radius: 0;
+      box-shadow: 0 6px 18px rgba(0,0,0,.22);
+      animation: md-flex 2.4s infinite;
+    }
+    .md-tab:hover {
+      background: linear-gradient(to right, #005f8a, #044D48);
+    }
+    .md-tab:focus-visible { outline:3px solid #0077A8; outline-offset:2px; }
+    .md-tab[aria-expanded="true"] { animation:none; height:46px; }
+
+    /* Spring height-overshoot animation (no chevron bounce) */
+    .md-chev { display:inline-block; }
+    .md-tab[aria-expanded="true"] .md-chev { transform:rotate(180deg); }
+    @keyframes md-flex {
+      0%   { height:46px; }
+      12%  { height:64px; }
+      24%  { height:50px; }
+      34%  { height:60px; }
+      44%  { height:53px; }
+      54%  { height:46px; }
+      100% { height:46px; }
+    }
+
+    .md-backdrop { position:fixed; inset:var(--navH) 0 0 0; z-index:30; background:rgba(8,22,20,.55);
+      opacity:0; visibility:hidden; transition:opacity .3s ease, visibility .3s ease; }
+    .md-backdrop.is-open { opacity:1; visibility:visible; }
+    .md-layer { position:fixed; top:var(--navH); left:0; right:0; margin-inline:auto;
+      max-width:var(--container,1400px); height:calc(100vh - var(--navH));
+      z-index:31; background:#fff; box-shadow:0 18px 40px rgba(0,0,0,.25);
+      transform:translateY(-100%); transition:transform .38s cubic-bezier(.16,.84,.44,1);
+      overflow-y:auto; overscroll-behavior:contain; }
+    .md-layer.is-open { transform:translateY(0); }
+    .md-layer-bar { position:sticky; top:0; z-index:2; display:flex; justify-content:flex-end; align-items:center;
+      padding:14px 40px; background:#fff; border-bottom: 1px solid var(--gray-200); }
+    .md-close { display:inline-flex; align-items:center; justify-content:center; cursor:pointer;
+      font-family:var(--font-sans); font-size:18px; line-height:1;
+      color:#0E1B1A; background:#fff; border:1px solid var(--gray-300);
+      border-radius:50%; width:40px; height:40px; }
+    .md-close:hover { border-color:#0E1B1A; }
+    .md-close:focus-visible { outline:2px solid #0077A8; outline-offset:2px; }
+    .md-layer-body { display:flex; align-items:center; justify-content:center;
+      min-height:calc(100vh - var(--navH) - 68px); }
+    .md-placeholder { font-family:var(--font-serif); font-size:40px; color:var(--gray-500); margin:0; }
+
+    @media (prefers-reduced-motion: reduce){
+      .md-tab, .md-tab::before, .md-tab::after, .md-tab * { animation:none !important; }
+      .md-tab { height:46px !important; }
+      .md-layer, .md-backdrop { transition:none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wf-badge"><b>Concept 37 · Split Screen</b><a href="./presentation.html">All directions ↗</a></div>
+
+  <div class="wf-canvas">
+    <div id="site-header" data-search="off"></div>
+
+    <!-- FIND PROPERTIES PULL-DOWN TAB -->
+    <div class="md-tabwrap"><button class="md-tab" type="button" aria-expanded="false" aria-controls="md-layer">Find Properties <span class="md-chev" aria-hidden="true">▾</span></button></div>
+    <div class="md-backdrop" hidden></div>
+    <div class="md-layer" id="md-layer" role="region" aria-label="Integrated map" aria-hidden="true" hidden>
+      <div class="md-layer-bar"><button class="md-close" type="button" aria-label="Close">✕</button></div>
+      <div class="md-layer-body"><p class="md-placeholder">Integrated Map</p></div>
+    </div>
+
+    <!-- ══════════════════════════════════
+         HERO — 50/50 SPLIT SCREEN
+         Sell (left) / Invest (right)
+         Each half has its own photo, headline, and CTA.
+         Halves expand on hover/focus-within (CSS only, no JS).
+         Stacks to single column on mobile/tablet (<769px).
+         ══════════════════════════════════ -->
+    <section class="ss-hero" aria-label="Two paths: sell your farmland or invest in farmland">
+
+      <!-- SELL HALF -->
+      <div class="ss-half ss-half--sell">
+        <div class="ss-half-bg">
+          <!-- Farmland field rows — sell side -->
+          <img
+            src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1400&q=70"
+            alt="Aerial view of rolling cultivated farmland"
+            onerror="this.style.display='none';this.parentElement.classList.add('img-fallback-sell')" />
+        </div>
+        <div class="ss-half-inner">
+          <span class="ss-label">Landowners</span>
+          <h1>Own farmland. <em>Sell at full value.</em></h1>
+          <p>The nation's largest network of farmland buyers, paired with a process built for maximum return.</p>
+          <ul class="ss-bullets">
+            <li>Traditional listing &amp; competitive auction options</li>
+            <li>National buyer network — 40,000+ contacts</li>
+            <li>Certified appraisal and FarmWorth™ valuation</li>
+          </ul>
+          <div class="ss-half-cta">
+            <a href="#contact" class="btn-pill btn-blue">Ready to sell? →</a>
+            <a href="#contact" class="btn-pill btn-ghost-light">Talk to an Advisor</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- INVEST HALF -->
+      <div class="ss-half ss-half--invest">
+        <div class="ss-half-bg">
+          <!-- Aerial crop rows — invest side -->
+          <img
+            src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=1400&q=70"
+            alt="Wide aerial view of geometric farmland parcels at sunset"
+            onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+        </div>
+        <div class="ss-half-inner">
+          <span class="ss-label">Investors &amp; Family Offices</span>
+          <h1>Invest in farmland. <em>Built on data.</em></h1>
+          <p>Direct land acquisition, capital markets structuring, and portfolio advisory — backed by proprietary FarmWorth™ intelligence.</p>
+          <ul class="ss-bullets">
+            <li>Equity placement, JV structuring &amp; portfolio advisory</li>
+            <li>Institutional &amp; family-office mandates</li>
+            <li>Transparent data layers — soil, comps, productivity</li>
+          </ul>
+          <div class="ss-half-cta">
+            <a href="#contact" class="btn-pill btn-green">Ready to invest? →</a>
+            <a href="#contact" class="btn-pill btn-ghost-light">Find an Office</a>
+          </div>
+        </div>
+      </div>
+
+    </section>
+    <!-- /HERO -->
+
+    <!-- 4-PATH AUDIENCE ROUTER
+         The split hero covers Sell/Invest. This section surfaces all four paths,
+         including Farmer-Operators and Family Offices. -->
+    <section class="ss-paths" aria-label="Choose your path">
+      <div class="container">
+        <div class="ss-paths-head reveal">
+          <div>
+            <h2>Start where you stand</h2>
+            <p>Tailored guidance for every relationship to the land.</p>
+          </div>
+        </div>
+        <div class="ss-paths-grid">
+          <a class="ss-path reveal" href="#">
+            <span class="tag">Landowners</span>
+            <h3>Sell or manage your land</h3>
+            <p>Maximize the value of your agricultural asset with a local advisor and the industry's best buyer network.</p>
+            <span class="arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="ss-path reveal" href="#">
+            <span class="tag">Investors</span>
+            <h3>Access farmland markets</h3>
+            <p>Direct land investment strategy backed by data, institutional-grade diligence, and national scale.</p>
+            <span class="arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="ss-path reveal" href="#">
+            <span class="tag">Farmer-Operators</span>
+            <h3>Management &amp; crop insurance</h3>
+            <p>Long-term leases, stewardship programs, and crop coverage for the people who work the land.</p>
+            <span class="arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="ss-path reveal" href="#">
+            <span class="tag">Family Offices</span>
+            <h3>Portfolio advisory</h3>
+            <p>Long-horizon capital strategies and bespoke farmland programs built around your family's goals.</p>
+            <span class="arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT WE DO — 2×4 grid of 7 services + CTA card -->
+    <section class="sec ss-svc" id="services" aria-label="What we do">
+      <div class="container">
+        <div class="ss-svc-head reveal">
+          <div>
+            <span class="eyebrow">What We Do</span>
+            <h2>Seven disciplines. One integrated platform.</h2>
+          </div>
+          <a href="#" class="btn-pill btn-green">View All Services</a>
+        </div>
+        <div class="ss-svc-grid">
+          <div class="ss-card reveal">
+            <div class="ic" aria-hidden="true">🌾</div>
+            <h4>Land Brokerage &amp; Auctions</h4>
+            <p>Traditional listings and competitive auctions with a national buyer network of 40,000+.</p>
+          </div>
+          <div class="ss-card reveal">
+            <div class="ic" aria-hidden="true">🏡</div>
+            <h4>Land Management</h4>
+            <p>Full-service stewardship, operator oversight, lease negotiations, and tenant relations.</p>
+          </div>
+          <div class="ss-card reveal">
+            <div class="ic" aria-hidden="true">📊</div>
+            <h4>Agricultural Appraisal</h4>
+            <p>Certified, data-driven land valuation powered by FarmWorth™ comparable-sales analysis.</p>
+          </div>
+          <div class="ss-card reveal">
+            <div class="ic" aria-hidden="true">💼</div>
+            <h4>Capital Markets</h4>
+            <p>Equity placement, structured debt, JV formation, and portfolio advisory for institutional investors.</p>
+          </div>
+          <div class="ss-card reveal">
+            <div class="ic" aria-hidden="true">⚡</div>
+            <h4>Energy Management</h4>
+            <p>Solar, wind, and energy lease strategy that captures maximum long-term value for landowners.</p>
+          </div>
+          <div class="ss-card reveal">
+            <div class="ic" aria-hidden="true">🛡️</div>
+            <h4>Crop Insurance</h4>
+            <p>Tailored coverage plans protecting farm operations, yield, and operating income.</p>
+          </div>
+          <div class="ss-card reveal">
+            <div class="ic" aria-hidden="true">🏢</div>
+            <h4>Corporate Services</h4>
+            <p>Institutional programs for ag lenders, REIT managers, and large-scale portfolio holders.</p>
+          </div>
+          <div class="ss-card cta reveal">
+            <span class="eyebrow" style="color:#fff;">Explore</span>
+            <a href="#">All seven services →</a>
+            <p>One integrated platform, end to end.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FARMWORTH -->
+    <section class="sec ss-fw" aria-label="FarmWorth platform">
+      <div class="container">
+        <div class="reveal">
+          <span class="eyebrow on-dark">Proprietary Technology</span>
+          <h2>The FarmWorth™ Advantage</h2>
+          <p>Soil capability analysis, automated appraisal modeling, and a comparable-sales database — the data layer behind every Peoples Company decision.</p>
+          <ul class="ss-fw-feat">
+            <li>Parcel-level soil &amp; productivity scoring</li>
+            <li>Automated valuation modeling on comparable sales</li>
+            <li>Public + proprietary data layers in one view</li>
+          </ul>
+          <a href="#" class="btn-pill btn-green">Request a Demo</a>
+        </div>
+        <div class="ss-fw-shot reveal">
+          <img
+            src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=1100&q=70"
+            alt="Aerial farmland parcels — representative FarmWorth data view"
+            onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+          <div class="ss-fw-badge">Example Farm · 240 ac · Wapello County, IA · <b>$9,800/ac</b></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS BAND -->
+    <section class="sec ss-stats" aria-label="By the numbers">
+      <div class="container">
+        <div class="reveal" style="margin-bottom:var(--space-6);">
+          <div class="bar"></div>
+          <span class="eyebrow on-dark">By the Numbers</span>
+          <h2 style="color:#fff;">A track record built on trust and six decades of expertise.</h2>
+        </div>
+        <div class="ss-stats-grid">
+          <div class="reveal"><div class="n">$6B+</div><div class="l">Farmland Transactions</div></div>
+          <div class="reveal"><div class="n">170+</div><div class="l">Ag Professionals</div></div>
+          <div class="reveal"><div class="n">20+</div><div class="l">Regional Offices</div></div>
+          <div class="reveal"><div class="n">1.6K+</div><div class="l">EXPO Attendees</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INSIGHTS & RESEARCH (mixed-size tiles) -->
+    <section class="sec" aria-label="Insights and research">
+      <div class="container">
+        <div class="ss-ins-head reveal">
+          <div>
+            <span class="eyebrow">Insights &amp; Research</span>
+            <h2>Land intelligence, made readable</h2>
+          </div>
+          <a href="#" style="font-family:var(--font-sans);font-size:14px;color:var(--c-green-dk);font-weight:600;text-decoration:none;">View all insights →</a>
+        </div>
+        <div class="ss-ins-grid">
+          <a class="ss-ins lead reveal" href="#">
+            <div class="ph">
+              <img
+                src="https://images.unsplash.com/photo-1560493676-04071c5f467b?auto=format&fit=crop&w=1000&q=70"
+                alt="Farmland at dusk — row crops stretching to the horizon"
+                onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+            </div>
+            <div class="body">
+              <span class="tag">Land Values · May 2026</span>
+              <h4>Understanding Midwest Farmland Trends in 2026</h4>
+              <span class="more">Read more →</span>
+            </div>
+          </a>
+          <a class="ss-ins reveal" href="#">
+            <div class="ph">
+              <img
+                src="https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=700&q=70"
+                alt="Solar panels adjacent to an active crop field"
+                onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+            </div>
+            <div class="body">
+              <span class="tag">Energy</span>
+              <h4>Solar &amp; Wind Leases: What to Ask Before Signing</h4>
+              <span class="more">Read more →</span>
+            </div>
+          </a>
+          <a class="ss-ins reveal" href="#">
+            <div class="ph">
+              <img
+                src="https://images.unsplash.com/photo-1530267981375-f0de937f5f13?auto=format&fit=crop&w=700&q=70"
+                alt="Lush green crop rows in early summer"
+                onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+            </div>
+            <div class="body">
+              <span class="tag">Research Report</span>
+              <h4>2025 National Land Values Report</h4>
+              <span class="more">Download →</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- GET IN TOUCH + dual-path CTAs -->
+    <section class="sec ss-touch" id="contact" aria-label="Get in touch">
+      <div class="container">
+        <div class="reveal">
+          <span class="eyebrow on-dark">Get in Touch</span>
+          <h2>Start a conversation with a local advisor</h2>
+          <p>Whether you're selling, managing, or investing in farmland, our regional experts are ready to help.</p>
+          <div class="ss-touch-cta">
+            <a href="#" class="btn-pill btn-green">Talk to an Advisor</a>
+            <a href="#" class="btn-pill btn-ghost-light">Find an Office</a>
+          </div>
+        </div>
+        <div class="ss-dual reveal">
+          <a href="#">
+            <span class="lab">Landowners</span>
+            <span class="big">Ready to sell?</span>
+            <span class="arrow" aria-hidden="true">→</span>
+          </a>
+          <a href="#">
+            <span class="lab">Investors</span>
+            <span class="big">Ready to invest?</span>
+            <span class="arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER — bigger logo, no light-green text, dual-path CTAs above -->
+    <footer class="ss-foot" role="contentinfo">
+      <div class="container">
+        <div class="ss-foot-top">
+          <div class="ss-foot-brand">
+            <img
+              src="../../shared/logos/pc_logo_white.webp"
+              alt="Peoples Company — Integrated Land Solutions"
+              class="ss-foot-logo"
+              onerror="this.style.display='none'" />
+            <p>Integrated Land Solutions. The largest farmland brokerage and management firm in the United States.</p>
+            <div class="ss-foot-contact">
+              1108 S. 44th St, Suite 102, Cumming, IA 50061<br>
+              <a href="tel:8558005263">855.800.LAND</a> · <a href="mailto:Info@PeoplesCompany.com">Info@PeoplesCompany.com</a>
+            </div>
+          </div>
+          <div>
+            <h4>Real Estate</h4>
+            <ul>
+              <li><a href="#">Farmland For Sale</a></li>
+              <li><a href="#">Upcoming Auctions</a></li>
+              <li><a href="#">Sold Properties</a></li>
+              <li><a href="#">Interactive Map</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>What We Do</h4>
+            <ul>
+              <li><a href="#">Land Brokerage &amp; Auctions</a></li>
+              <li><a href="#">Land Management</a></li>
+              <li><a href="#">Agricultural Appraisal</a></li>
+              <li><a href="#">Capital Markets</a></li>
+              <li><a href="#">Energy Management</a></li>
+              <li><a href="#">Crop Insurance</a></li>
+              <li><a href="#">Corporate Services</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>The Company</h4>
+            <ul>
+              <li><a href="#">Overview</a></li>
+              <li><a href="#">Our Team</a></li>
+              <li><a href="#">Regions &amp; Offices</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Land Investment EXPO</a></li>
+              <li><a href="#">FarmWorth</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Insights</h4>
+            <ul>
+              <li><a href="#">National Land Values</a></li>
+              <li><a href="#">Industry Research</a></li>
+              <li><a href="#">Newsletters</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">In the News</a></li>
+              <li><a href="#">Press Releases</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="ss-foot-bottom">
+          <span>© 2026 Peoples Company · Licensed in 50 states (EHO)</span>
+          <span><a href="#">Privacy Policy</a> · <a href="#">Terms of Use</a> · <a href="#">Accessibility</a></span>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /wf-canvas -->
+
+  <script src="./nav-data.js?v=1"></script>
+  <script src="./nav.js?v=2"></script>
+  <script>
+  (function () {
+    var tab=document.querySelector(".md-tab"), layer=document.getElementById("md-layer"), backdrop=document.querySelector(".md-backdrop"), closeBtn=document.querySelector(".md-close"), header=document.querySelector(".site-header");
+    function syncNavH(){ if(header) document.documentElement.style.setProperty("--navH", header.offsetHeight+"px"); }
+    syncNavH(); window.addEventListener("resize",syncNavH); window.addEventListener("load",syncNavH);
+    var logoImg=header&&header.querySelector("img"); if(logoImg&&!logoImg.complete) logoImg.addEventListener("load",syncNavH);
+    function onKey(e){ if(e.key==="Escape") close(); }
+    function open(){ syncNavH(); backdrop.hidden=false; layer.hidden=false; requestAnimationFrame(function(){ backdrop.classList.add("is-open"); layer.classList.add("is-open"); }); tab.setAttribute("aria-expanded","true"); layer.setAttribute("aria-hidden","false"); closeBtn.focus(); document.addEventListener("keydown",onKey); }
+    function close(){ backdrop.classList.remove("is-open"); layer.classList.remove("is-open"); tab.setAttribute("aria-expanded","false"); layer.setAttribute("aria-hidden","true"); document.removeEventListener("keydown",onKey); var reduce=matchMedia("(prefers-reduced-motion: reduce)").matches; var after=function(){ backdrop.hidden=true; layer.hidden=true; }; if(reduce) after(); else layer.addEventListener("transitionend",function te(e){ if(e.propertyName==="transform"){ layer.removeEventListener("transitionend",te); after(); } }); tab.focus(); }
+    tab.addEventListener("click",function(){ if(tab.getAttribute("aria-expanded")==="true") close(); else open(); });
+    closeBtn.addEventListener("click",close); backdrop.addEventListener("click",close);
+  })();
+  </script>
+  <script>
+    /* Scroll-reveal — reduced-motion safe (CSS already no-ops the transition). */
+    (function () {
+      var els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        els.forEach(function (el) { el.classList.add('is-in'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      els.forEach(function (el) { io.observe(el); });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Index · Concept 35 — Market Pulse Live | Peoples Company</title>
+  <!-- Photos are Unsplash placeholders standing in for PC's own photography.
+       Each <img> degrades to a brand gradient if it fails to load. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="../../shared/main.css?v=20260601" rel="stylesheet" />
+  <link href="./wireframe.css?v=2" rel="stylesheet" />
+  <link href="./nav.css?v=2" rel="stylesheet" />
+  <style>
+    /* ── full-bleed canvas ── */
+    .wf-canvas { max-width: none; margin: 0; border: 0; box-shadow: none; background: #fff; }
+    body { color: var(--gray-900); }
+
+    /* Palette: blue #00AEEF primary; green #005F5B single accent.
+       Bright blue (#00AEEF) ONLY on dark backgrounds.
+       On light: use #0077A8 (5:1 on white) or #005F5B (~7:1 on white). No red anywhere. */
+    :root {
+      --c-blue:      #00AEEF;
+      --c-blue-ink:  #0077A8;
+      --c-green:     #005F5B;
+      --c-green-dk:  #044D48;
+      --c-ink:       #0E1B1A;
+      --c-navy:      #06212A;
+    }
+
+    /* graceful photo fallback */
+    .img-fallback { background: linear-gradient(135deg, #0D2B22 0%, #103B38 55%, #0A1F1C 100%) !important; }
+
+    /* ── scroll reveal ── */
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.is-in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .mp-bar-fill { animation: none !important; width: var(--bar-w) !important; }
+      .mp-sparkline path { stroke-dashoffset: 0 !important; stroke-dasharray: none !important; }
+    }
+
+    /* ── shared buttons ── */
+    .btn-pill { display: inline-flex; align-items: center; gap: 8px; border-radius: var(--radius-pill);
+      font-family: var(--font-sans); font-weight: 600; font-size: 15px; text-decoration: none;
+      padding: 13px 28px; transition: background .15s, border-color .15s, color .15s; border: 2px solid transparent; }
+    .btn-green { background: var(--c-green); color: #fff; border-color: var(--c-green); }
+    .btn-green:hover, .btn-green:focus { background: var(--c-green-dk); border-color: var(--c-green-dk); }
+    .btn-green:focus-visible { outline: 2px solid var(--c-blue); outline-offset: 3px; }
+    .btn-blue-outline { background: transparent; color: #fff; border-color: rgba(255,255,255,.55); }
+    .btn-blue-outline:hover, .btn-blue-outline:focus { border-color: #fff; }
+    .btn-blue-outline:focus-visible { outline: 2px solid var(--c-blue); outline-offset: 3px; }
+    .btn-outline-dark { background: transparent; color: var(--c-ink); border-color: var(--gray-500); }
+    .btn-outline-dark:hover, .btn-outline-dark:focus { border-color: var(--c-ink); }
+
+    .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-sans);
+      font-size: 12px; font-weight: 600; letter-spacing: .13em; text-transform: uppercase; color: var(--c-green); }
+    .eyebrow::before { content: ""; width: 26px; height: 2px; background: var(--c-green); display: block; }
+    .eyebrow.on-dark { color: var(--c-blue); }
+    .eyebrow.on-dark::before { background: var(--c-blue); }
+
+    .sec { padding: var(--space-9) 0; }
+
+    /* ════════════════════════════════════════════
+       HERO — Land Values Index Dashboard
+       Dark navy, data-forward, not busy. NO map.
+    ════════════════════════════════════════════ */
+    .mp-hero { background: var(--c-navy); overflow: hidden; }
+    .mp-hero-inner { padding: 56px 0 48px; }
+
+    /* headline column */
+    .mp-hero-layout { display: grid; grid-template-columns: 1fr 1.15fr; gap: var(--space-7); align-items: start; }
+    .mp-hero-tag { font-family: var(--font-sans); font-size: 11px; font-weight: 600; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--c-blue); margin-bottom: var(--space-3); }
+    .mp-hero h1 { font-family: var(--font-serif); font-weight: 500; font-size: 56px; line-height: 1.08;
+      color: #fff; margin: 0 0 var(--space-4); max-width: 16ch; }
+    .mp-hero h1 em { font-style: italic; color: #7fd6f5; }
+    .mp-hero-sub { font-family: var(--font-sans); font-size: 17px; color: #C2D9E0; line-height: 1.65;
+      margin: 0 0 var(--space-6); max-width: 44ch; }
+    .mp-hero-cta { display: flex; gap: var(--space-3); flex-wrap: wrap; margin-bottom: var(--space-7); }
+    .mp-hero-tagline { font-family: var(--font-sans); font-size: 13px; color: #7BA9B2; border-top: 1px solid rgba(255,255,255,.1); padding-top: var(--space-4); }
+
+    /* ── Dashboard panel (right column) ── */
+    .mp-dash { background: rgba(255,255,255,.04); border: 1px solid rgba(0,174,239,.2);
+      border-radius: 12px; padding: var(--space-5); }
+    .mp-dash-header { display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: var(--space-4); }
+    .mp-dash-title { font-family: var(--font-sans); font-size: 12px; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase; color: var(--c-blue); }
+    .mp-dash-updated { font-family: var(--font-sans); font-size: 11px; color: #7BA9B2; }
+
+    /* index number + movement — colorblind-safe: arrows + text, NOT color alone */
+    .mp-index-row { display: flex; align-items: flex-end; gap: var(--space-4); margin-bottom: var(--space-5); flex-wrap: wrap; }
+    .mp-index-num { font-family: var(--font-serif); font-size: 64px; line-height: 1; color: #fff; }
+    .mp-index-meta { padding-bottom: 8px; }
+    .mp-index-label { font-family: var(--font-sans); font-size: 12px; color: #7BA9B2; text-transform: uppercase; letter-spacing: .08em; }
+    /* movement badge — colorblind rule: arrow glyph + "Up" text + value. No red/green coding. */
+    .mp-movement { display: inline-flex; align-items: center; gap: 6px;
+      font-family: var(--font-sans); font-size: 14px; font-weight: 600;
+      padding: 5px 11px; border-radius: 6px; }
+    .mp-movement.up { background: rgba(0,174,239,.18); color: #7fd6f5; }
+    .mp-movement.up::before { content: "▲"; font-size: 10px; }
+    /* down uses blue-tinted muted (NOT red) */
+    .mp-movement.dn { background: rgba(0,95,91,.25); color: #8ECECA; }
+    .mp-movement.dn::before { content: "▼"; font-size: 10px; }
+    .mp-movement-lbl { font-size: 11px; font-weight: 400; opacity: .75; }
+
+    /* sparkline SVG */
+    .mp-spark-wrap { margin-bottom: var(--space-5); }
+    .mp-spark-label { font-family: var(--font-sans); font-size: 11px; color: #7BA9B2; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .08em; }
+    .mp-sparkline { display: block; width: 100%; height: 72px; }
+    .mp-sparkline path { fill: none; stroke: var(--c-blue); stroke-width: 2.2;
+      stroke-linecap: round; stroke-linejoin: round;
+      stroke-dasharray: 320; stroke-dashoffset: 320;
+      animation: mp-draw-spark 1.4s ease forwards .3s; }
+    .mp-sparkline .mp-spark-area { fill: url(#mp-spark-grad); stroke: none; animation: mp-fade-area .8s ease forwards .9s; opacity: 0; }
+    @keyframes mp-draw-spark { to { stroke-dashoffset: 0; } }
+    @keyframes mp-fade-area  { to { opacity: 1; } }
+
+    /* regional index rows */
+    .mp-regions { display: grid; gap: 10px; }
+    .mp-region-row { display: flex; align-items: center; gap: var(--space-3); }
+    .mp-region-name { font-family: var(--font-sans); font-size: 13px; color: #C2D9E0; flex: 0 0 130px; }
+    .mp-region-bar-track { flex: 1; height: 6px; background: rgba(255,255,255,.08); border-radius: 3px; overflow: hidden; }
+    .mp-bar-fill { height: 100%; background: var(--c-blue); border-radius: 3px;
+      width: 0; animation: mp-bar-grow .9s ease forwards; }
+    @keyframes mp-bar-grow { to { width: var(--bar-w); } }
+    .mp-region-val { font-family: var(--font-sans); font-size: 12px; font-weight: 600; color: #fff; flex: 0 0 52px; text-align: right; }
+    .mp-region-move { font-family: var(--font-sans); font-size: 11px; flex: 0 0 80px; text-align: right; }
+    /* movement text: arrow glyph + labeled direction — NOT reliant on color alone */
+    .mp-region-move.up { color: #7fd6f5; }
+    .mp-region-move.dn { color: #8ECECA; }
+
+    /* ── mini-stat strip below hero layout ── */
+    .mp-hero-stats { display: grid; grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid rgba(255,255,255,.1); padding-top: var(--space-5); margin-top: var(--space-2);
+      gap: var(--space-4); }
+    .mp-stat-n { font-family: var(--font-serif); font-size: 32px; color: #fff; line-height: 1; }
+    .mp-stat-l { font-family: var(--font-sans); font-size: 11px; color: #7BA9B2; margin-top: 4px;
+      text-transform: uppercase; letter-spacing: .06em; }
+
+    /* ════════════════════════════════════════════
+       4-PATH AUDIENCE ROUTER
+    ════════════════════════════════════════════ */
+    .mp-paths { background: #fff; }
+    .mp-paths .container { padding-top: var(--space-9); padding-bottom: var(--space-9); }
+    .mp-paths-head { display: flex; justify-content: space-between; align-items: flex-end;
+      gap: var(--space-4); flex-wrap: wrap; margin-bottom: var(--space-6); }
+    .mp-paths-head-copy h2 { font-family: var(--font-serif); font-weight: 500; font-size: 42px;
+      color: var(--c-ink); margin: var(--space-3) 0 0; }
+    .mp-paths-head-copy p { font-family: var(--font-sans); font-size: 15px; color: var(--gray-600);
+      margin: var(--space-2) 0 0; max-width: 50ch; }
+    .mp-paths-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4); }
+    .mp-path { display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-6);
+      border: 1px solid var(--gray-200); border-top: 4px solid var(--c-green);
+      border-radius: var(--radius-md); text-decoration: none; background: #fff;
+      transition: box-shadow .15s, border-color .15s; }
+    .mp-path:hover, .mp-path:focus { box-shadow: 0 8px 24px rgba(0,0,0,.08); border-color: var(--c-green); outline: none; }
+    .mp-path:focus-visible { outline: 2px solid var(--c-blue); outline-offset: 2px; }
+    .mp-path .tag { font-family: var(--font-sans); font-size: 11px; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--c-green); }
+    .mp-path h3 { font-family: var(--font-serif); font-weight: 500; font-size: 22px; color: var(--c-ink);
+      margin: 0; line-height: 1.2; }
+    .mp-path p { font-family: var(--font-sans); font-size: 14px; color: var(--gray-600); margin: 0; line-height: 1.55; }
+    .mp-path .ic-wrap { width: 48px; height: 48px; border-radius: 10px; background: #E5F1F0;
+      display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: var(--space-1); }
+    .mp-path .arrow { margin-top: auto; padding-top: var(--space-3); color: var(--c-green-dk);
+      font-family: var(--font-sans); font-size: 13px; font-weight: 600; }
+
+    /* ════════════════════════════════════════════
+       WHO WE SERVE (signature section for #26)
+    ════════════════════════════════════════════ */
+    .mp-serve { background: var(--gray-100); }
+    .mp-serve-head { display: flex; justify-content: space-between; align-items: flex-end;
+      gap: var(--space-4); flex-wrap: wrap; margin-bottom: var(--space-6); }
+    .mp-serve-head h2 { font-family: var(--font-serif); font-weight: 500; font-size: 42px;
+      color: var(--c-ink); margin: var(--space-3) 0 0; }
+    .mp-serve-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-5); }
+    .mp-serve-card { background: #fff; border-radius: var(--radius-md); overflow: hidden;
+      border: 1px solid var(--gray-200); display: flex; flex-direction: column;
+      transition: box-shadow .15s; }
+    .mp-serve-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,.08); }
+    .mp-serve-photo { position: relative; height: 180px; overflow: hidden; flex-shrink: 0; }
+    .mp-serve-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .mp-serve-body { padding: var(--space-5); display: flex; flex-direction: column; gap: 10px; flex: 1; }
+    .mp-serve-body .tag { font-family: var(--font-sans); font-size: 11px; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--c-green); }
+    .mp-serve-body h3 { font-family: var(--font-serif); font-weight: 500; font-size: 22px;
+      color: var(--c-ink); margin: 0; }
+    .mp-serve-body p { font-family: var(--font-sans); font-size: 14px; color: var(--gray-600);
+      margin: 0; line-height: 1.55; }
+    .mp-serve-body a { font-family: var(--font-sans); font-size: 13px; font-weight: 600;
+      color: var(--c-green-dk); text-decoration: none; margin-top: auto; }
+    .mp-serve-body a:hover, .mp-serve-body a:focus { text-decoration: underline; }
+    /* 4th card — wide accent card */
+    .mp-serve-wide { grid-column: span 3; background: var(--c-green); border-color: var(--c-green);
+      flex-direction: row; align-items: center; gap: var(--space-7); padding: var(--space-6); }
+    .mp-serve-wide .mp-serve-body { padding: 0; }
+    .mp-serve-wide .mp-serve-body h3 { color: #fff; font-size: 26px; }
+    .mp-serve-wide .mp-serve-body p { color: rgba(255,255,255,.82); }
+
+    /* ════════════════════════════════════════════
+       DATA INTEL BAND — data metrics before FarmWorth
+    ════════════════════════════════════════════ */
+    .mp-intel { background: var(--c-navy); }
+    .mp-intel .container { padding-top: var(--space-8); padding-bottom: var(--space-8); }
+    .mp-intel-layout { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8); align-items: start; }
+    .mp-intel h2 { font-family: var(--font-serif); font-weight: 500; font-size: 40px; color: #fff;
+      margin: var(--space-3) 0 var(--space-4); line-height: 1.1; }
+    .mp-intel p { font-family: var(--font-sans); font-size: 16px; color: #C2D9E0; line-height: 1.65;
+      margin: 0 0 var(--space-5); max-width: 44ch; }
+    /* index table */
+    .mp-index-table { width: 100%; border-collapse: collapse; }
+    .mp-index-table thead th { font-family: var(--font-sans); font-size: 11px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .1em; color: #7BA9B2; padding: 0 0 10px;
+      border-bottom: 1px solid rgba(255,255,255,.1); text-align: left; }
+    .mp-index-table thead th:last-child, .mp-index-table tbody td:last-child { text-align: right; }
+    .mp-index-table tbody tr { border-bottom: 1px solid rgba(255,255,255,.06); }
+    .mp-index-table tbody td { font-family: var(--font-sans); font-size: 14px; color: #C2D9E0;
+      padding: 11px 0; vertical-align: middle; }
+    .mp-index-table tbody td:first-child { font-weight: 500; color: #fff; }
+    .mp-tbl-move { font-weight: 600; }
+    .mp-tbl-move.up { color: #7fd6f5; }   /* blue-tinted — NOT green (no red/green pairing) */
+    .mp-tbl-move.dn { color: #8ECECA; }   /* teal-muted — NOT red */
+
+    /* ════════════════════════════════════════════
+       WHAT WE DO — 2×4
+    ════════════════════════════════════════════ */
+    .mp-svc { background: #fff; }
+    .mp-svc-head { display: flex; justify-content: space-between; align-items: flex-end;
+      gap: var(--space-4); flex-wrap: wrap; margin-bottom: var(--space-6); }
+    .mp-svc-head h2 { font-family: var(--font-serif); font-weight: 500; font-size: 42px;
+      color: var(--c-ink); margin: var(--space-3) 0 0; }
+    .mp-svc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4); }
+    .mp-card { background: var(--gray-100); border: 1px solid var(--gray-200); border-top: 3px solid transparent;
+      border-radius: var(--radius-md); padding: var(--space-5); display: flex; flex-direction: column; gap: var(--space-3); }
+    .mp-card:hover { border-top-color: var(--c-green); box-shadow: 0 6px 18px rgba(0,0,0,.06); }
+    .mp-card .ic { width: 44px; height: 44px; border-radius: 9px; background: #E5F1F0; color: var(--c-green);
+      display: flex; align-items: center; justify-content: center; font-size: 20px; }
+    .mp-card h4 { font-family: var(--font-serif); font-weight: 500; font-size: 18px; color: var(--c-ink); margin: 0; }
+    .mp-card p { font-family: var(--font-sans); font-size: 13px; color: var(--gray-600); margin: 0; line-height: 1.5; }
+    .mp-card.cta { background: var(--c-green); border-color: var(--c-green); justify-content: center; }
+    .mp-card.cta a { color: #fff; font-family: var(--font-sans); font-weight: 600; font-size: 15px; text-decoration: none; }
+    .mp-card.cta a:hover, .mp-card.cta a:focus { text-decoration: underline; }
+    .mp-card.cta p { color: rgba(255,255,255,.85); }
+
+    /* ════════════════════════════════════════════
+       FARMWORTH SECTION
+    ════════════════════════════════════════════ */
+    .mp-fw { background: linear-gradient(135deg, #0A1F1C 0%, #103B38 100%); color: #fff; }
+    .mp-fw .container { display: grid; grid-template-columns: 1.05fr 1fr; gap: var(--space-8); align-items: center;
+      padding-top: var(--space-9); padding-bottom: var(--space-9); }
+    .mp-fw h2 { font-family: var(--font-serif); font-weight: 500; font-size: 42px; color: #fff;
+      margin: var(--space-3) 0; line-height: 1.12; }
+    .mp-fw p { font-family: var(--font-sans); font-size: 16px; color: #CFE3DF; line-height: 1.65;
+      margin: 0 0 var(--space-5); max-width: 46ch; }
+    .mp-fw-feat { list-style: none; padding: 0; margin: 0 0 var(--space-6); display: grid; gap: 10px; }
+    .mp-fw-feat li { font-family: var(--font-sans); font-size: 14px; color: #E3EFEC; display: flex; gap: 10px; align-items: flex-start; }
+    .mp-fw-feat li::before { content: "◆"; color: var(--c-blue); font-size: 9px; margin-top: 5px; }
+    .mp-fw-cta { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+    .mp-fw-shot { position: relative; border-radius: var(--radius-md); overflow: hidden; min-height: 340px;
+      border: 1px solid rgba(255,255,255,.14); }
+    .mp-fw-shot img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+    .mp-fw-badge { position: absolute; left: 14px; bottom: 14px; z-index: 2;
+      background: rgba(8,22,20,.8); border: 1px solid rgba(255,255,255,.2); border-radius: var(--radius-sm);
+      padding: 8px 12px; font-family: var(--font-sans); font-size: 12px; color: #fff; }
+    .mp-fw-badge b { color: var(--c-blue); }
+    .btn-demo { background: var(--c-blue); color: var(--c-navy); border-color: var(--c-blue); font-weight: 700; }
+    .btn-demo:hover, .btn-demo:focus { background: #0097D4; border-color: #0097D4; color: #fff; }
+    .btn-demo:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+    /* ════════════════════════════════════════════
+       STATS BAND
+    ════════════════════════════════════════════ */
+    .mp-stats { background: var(--c-green); color: #fff; }
+    .mp-stats .container { padding-top: var(--space-8); padding-bottom: var(--space-8); }
+    .mp-stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+    .mp-stats .n { font-family: var(--font-serif); font-size: 58px; line-height: 1; color: #fff; }
+    .mp-stats .l { font-family: var(--font-sans); font-size: 13px; color: rgba(255,255,255,.75);
+      margin-top: var(--space-2); text-transform: uppercase; letter-spacing: .06em; }
+    .mp-stats .bar { width: 30px; height: 3px; background: var(--c-blue); margin-bottom: var(--space-4); }
+
+    /* ════════════════════════════════════════════
+       INSIGHTS
+    ════════════════════════════════════════════ */
+    .mp-ins-head { display: flex; justify-content: space-between; align-items: flex-end;
+      gap: var(--space-4); flex-wrap: wrap; margin-bottom: var(--space-6); }
+    .mp-ins-head h2 { font-family: var(--font-serif); font-weight: 500; font-size: 42px;
+      color: var(--c-ink); margin: var(--space-3) 0 0; }
+    .mp-ins-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: var(--space-4); }
+    .mp-ins { border: 1px solid var(--gray-200); border-radius: var(--radius-md); overflow: hidden;
+      text-decoration: none; color: inherit; display: flex; flex-direction: column; transition: box-shadow .15s; }
+    .mp-ins:hover { box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+    .mp-ins .ph { position: relative; height: 170px; overflow: hidden; }
+    .mp-ins .ph img { width: 100%; height: 100%; object-fit: cover; }
+    .mp-ins.lead { grid-row: span 2; }
+    .mp-ins.lead .ph { height: 300px; }
+    .mp-ins .body { padding: var(--space-4); display: flex; flex-direction: column; gap: 8px; flex: 1; }
+    .mp-ins .tag { font-family: var(--font-sans); font-size: 11px; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--c-green); }
+    .mp-ins h4 { font-family: var(--font-serif); font-weight: 500; font-size: 20px; color: var(--c-ink); margin: 0; line-height: 1.25; }
+    .mp-ins.lead h4 { font-size: 26px; }
+    .mp-ins .more { font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: var(--c-green-dk); margin-top: auto; }
+
+    /* ════════════════════════════════════════════
+       GET IN TOUCH + dual path CTAs
+    ════════════════════════════════════════════ */
+    .mp-touch { background: var(--c-ink); color: #fff; }
+    .mp-touch .container { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8);
+      align-items: center; padding-top: var(--space-9); padding-bottom: var(--space-9); }
+    .mp-touch h2 { font-family: var(--font-serif); font-weight: 500; font-size: 42px; color: #fff;
+      margin: var(--space-3) 0; }
+    .mp-touch p { font-family: var(--font-sans); font-size: 16px; color: #CFE3DF; line-height: 1.6;
+      margin: 0 0 var(--space-6); max-width: 42ch; }
+    .mp-touch-cta { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+    .mp-dual { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+    .mp-dual a { display: flex; flex-direction: column; gap: 6px; padding: var(--space-5);
+      border: 1px solid rgba(255,255,255,.18); border-radius: var(--radius-md); text-decoration: none;
+      background: rgba(255,255,255,.04); transition: border-color .15s, background .15s; }
+    .mp-dual a:hover, .mp-dual a:focus { border-color: var(--c-blue); background: rgba(255,255,255,.08); outline: none; }
+    .mp-dual a:focus-visible { outline: 2px solid var(--c-blue); outline-offset: 2px; }
+    .mp-dual .lab { font-family: var(--font-sans); font-size: 12px; color: #9FD9CF; text-transform: uppercase; letter-spacing: .08em; }
+    .mp-dual .big { font-family: var(--font-serif); font-size: 22px; color: #fff; }
+    .mp-dual .arrow { color: var(--c-blue); }
+
+    /* ════════════════════════════════════════════
+       FOOTER
+    ════════════════════════════════════════════ */
+    .mp-foot { background: #0B1413; color: #C7CBD1; font-family: var(--font-sans); font-size: 14px; }
+    .mp-foot-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: var(--space-7);
+      padding: var(--space-8) 0 var(--space-7); }
+    .mp-foot h4 { color: #fff; font-size: 12px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: .1em; margin: 0 0 var(--space-4); }
+    .mp-foot ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+    .mp-foot a { color: #C7CBD1; text-decoration: none; }
+    .mp-foot a:hover, .mp-foot a:focus { color: #fff; text-decoration: underline; }
+    .mp-foot-logo { height: 60px; width: auto; display: block; margin-bottom: var(--space-4); }
+    .mp-foot-brand p { font-size: 13px; color: #AEB6B4; line-height: 1.6; margin: 0 0 var(--space-3); max-width: 40ch; }
+    .mp-foot-contact { font-size: 13px; color: #AEB6B4; line-height: 1.8; }
+    .mp-foot-contact a { color: #fff; }
+    .mp-foot-bottom { border-top: 1px solid rgba(255,255,255,.1); padding: var(--space-5) 0;
+      display: flex; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap;
+      font-size: 12px; color: #8A938F; }
+    .mp-foot-bottom a { color: #8A938F; text-decoration: none; }
+    .mp-foot-bottom a:hover { color: #C7CBD1; }
+
+    /* ===== Find Properties pull-down map layer ===== */
+    :root { --navH: 132px; }
+    .md-tabwrap { position:sticky; top:var(--navH); z-index:39; height:0; text-align:center; pointer-events:none; }
+    .md-tab { pointer-events:auto; position:relative; cursor:pointer; border:0; font-family:var(--font-sans); font-weight:600; }
+    .md-tab:focus-visible { outline:3px solid #0077A8; outline-offset:2px; }
+    .md-backdrop { position:fixed; inset:var(--navH) 0 0 0; z-index:30; background:rgba(8,22,20,.55); opacity:0; visibility:hidden; transition:opacity .3s ease, visibility .3s ease; }
+    .md-backdrop.is-open { opacity:1; visibility:visible; }
+    .md-layer { position:fixed; top:var(--navH); left:0; right:0; margin-inline:auto; max-width:var(--container,1400px); height:calc(100vh - var(--navH)); z-index:31; background:#fff; box-shadow:0 18px 40px rgba(0,0,0,.25); transform:translateY(-100%); transition:transform .38s cubic-bezier(.16,.84,.44,1); overflow-y:auto; overscroll-behavior:contain; }
+    .md-layer.is-open { transform:translateY(0); }
+    .md-layer-bar { position:sticky; top:0; z-index:2; display:flex; justify-content:flex-end; align-items:center; padding:14px 40px; background:#fff; }
+    .md-close { display:inline-flex; align-items:center; justify-content:center; cursor:pointer; font-family:var(--font-sans); font-size:18px; line-height:1; color:#0E1B1A; background:#fff; border:1px solid var(--gray-300); border-radius:50%; width:40px; height:40px; }
+    .md-close:hover { border-color:#0E1B1A; }
+    .md-close:focus-visible { outline:2px solid #0077A8; outline-offset:2px; }
+    .md-layer-body { display:flex; align-items:center; justify-content:center; min-height:calc(100vh - var(--navH) - 68px); }
+    .md-placeholder { font-family:var(--font-serif); font-size:40px; color:var(--c-navy); margin:0; }
+    @media (prefers-reduced-motion: reduce){ .md-tab, .md-tab::before, .md-tab::after, .md-tab *{ animation:none !important; height:46px !important; } .md-layer, .md-backdrop{ transition:none; } }
+
+    /* Concept-26 theme: light-blue chip, dark-blue text, static live dot, height-flex animation.
+       Pale blue (#CDEBF9) + dark blue text (#005B80) = ~6.9:1 (AAA). For dark GREEN text instead,
+       swap color to var(--c-green-dk) (#044D48) — also AAA on this background. */
+    .md-tab {
+      display:inline-flex; align-items:center; justify-content:center; box-sizing:border-box;
+      gap:8px; height:46px; padding:0 28px;
+      width:380px; border-radius:0;
+      background: #CDEBF9; color: #005B80; font-weight:700;
+      font-size: 13.5px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.28);
+      animation: md-flex 3s ease-in-out infinite;
+    }
+    .md-tab:hover { background: #B6E0F6; }
+    .md-tab[aria-expanded="true"] { animation:none; height:46px; }
+    .md-live {
+      display: inline-block;
+      width: 9px; height: 9px;
+      background: #005B80;
+      border-radius: 50%;
+    }
+    @keyframes md-flex {
+      0%,100% { height:46px; }
+      50%      { height:64px; }
+    }
+    .md-close { color: var(--c-navy); }
+
+    /* ── Responsive ── */
+    @media (max-width: 1100px) {
+      .mp-hero h1 { font-size: 42px; }
+      .mp-hero-layout { grid-template-columns: 1fr; }
+      .mp-dash { margin-top: var(--space-6); }
+      .mp-hero-stats { grid-template-columns: repeat(2, 1fr); }
+      .mp-paths-grid { grid-template-columns: repeat(2, 1fr); }
+      .mp-serve-grid { grid-template-columns: repeat(2, 1fr); }
+      .mp-serve-wide { grid-column: span 2; }
+      .mp-svc-grid { grid-template-columns: repeat(2, 1fr); }
+      .mp-fw .container, .mp-touch .container { grid-template-columns: 1fr; }
+      .mp-intel-layout { grid-template-columns: 1fr; }
+      .mp-stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .mp-ins-grid { grid-template-columns: repeat(2, 1fr); }
+      .mp-ins.lead { grid-row: auto; }
+      .mp-ins.lead .ph { height: 200px; }
+      .mp-foot-top { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .mp-hero h1 { font-size: 32px; }
+      .mp-hero-stats, .mp-paths-grid, .mp-serve-grid, .mp-svc-grid,
+      .mp-stats-grid, .mp-ins-grid, .mp-dual, .mp-foot-top { grid-template-columns: 1fr; }
+      .mp-serve-wide { grid-column: span 1; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wf-badge"><b>Concept 35 · Market Pulse Live</b><a href="./presentation.html">All directions ↗</a></div>
+
+  <div class="wf-canvas">
+    <div id="site-header" data-search="off"></div>
+
+    <div class="md-tabwrap"><button class="md-tab" type="button" aria-expanded="false" aria-controls="md-layer"><span class="md-live" aria-hidden="true"></span>Find Properties</button></div>
+    <div class="md-backdrop" hidden></div>
+    <div class="md-layer" id="md-layer" role="region" aria-label="Integrated map" aria-hidden="true" hidden>
+      <div class="md-layer-bar"><button class="md-close" type="button" aria-label="Close">✕</button></div>
+      <div class="md-layer-body"><p class="md-placeholder">Integrated Map</p></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+         HERO — Land Values Index Dashboard
+         Dark navy panel; data authority positioning.
+         NO hero map. Up/down shown via arrow + text only
+         (colorblind rule: never red/green for movement).
+    ═══════════════════════════════════════════════ -->
+    <section class="mp-hero" aria-label="Land Values Index hero">
+      <div class="mp-hero-inner">
+        <div class="container">
+          <div class="mp-hero-layout">
+
+            <!-- Left: headline + CTAs -->
+            <div>
+              <p class="mp-hero-tag">Peoples Company · Land Values Index</p>
+              <h1>Clarity for every <em>land decision.</em></h1>
+              <p class="mp-hero-sub">Peoples Company tracks farmland values across every major agricultural region — giving landowners, investors, and operators the data confidence to act.</p>
+              <div class="mp-hero-cta">
+                <a href="#contact" class="btn-pill btn-green">Talk to an Advisor</a>
+                <a href="#contact" class="btn-pill btn-blue-outline">Find an Office</a>
+              </div>
+              <p class="mp-hero-tagline">Seven disciplines. One integrated platform. The largest farmland brokerage in the United States.</p>
+            </div>
+
+            <!-- Right: dashboard panel (static mockup — not a live data feed) -->
+            <div class="mp-dash" aria-label="Land Values Index dashboard — static mockup">
+              <div class="mp-dash-header">
+                <span class="mp-dash-title">PC Land Values Index™</span>
+                <span class="mp-dash-updated">Updated Q2 2026 · Static mockup</span>
+              </div>
+
+              <!-- Headline index number + movement — arrow + text, NOT color-only -->
+              <div class="mp-index-row">
+                <div class="mp-index-num" aria-label="National index: 312">312</div>
+                <div class="mp-index-meta">
+                  <div class="mp-index-label">National Composite</div>
+                  <span class="mp-movement up" aria-label="Up 4.2 percent year over year">+4.2% YoY <span class="mp-movement-lbl">▲ Up</span></span>
+                </div>
+              </div>
+
+              <!-- Sparkline: 12-month trend SVG (static path, no live data) -->
+              <div class="mp-spark-wrap">
+                <div class="mp-spark-label">12-Month Trend</div>
+                <svg class="mp-sparkline" viewBox="0 0 300 72" xmlns="http://www.w3.org/2000/svg"
+                     role="img" aria-label="12-month land value trend line showing overall upward movement">
+                  <defs>
+                    <linearGradient id="mp-spark-grad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#00AEEF" stop-opacity=".25"/>
+                      <stop offset="100%" stop-color="#00AEEF" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+                  <!-- Area fill beneath the line -->
+                  <path class="mp-spark-area"
+                    d="M0,58 L25,54 L50,50 L75,52 L100,46 L125,42 L150,44 L175,38 L200,35 L225,30 L250,26 L275,22 L300,18 L300,72 L0,72 Z" />
+                  <!-- Line path -->
+                  <path d="M0,58 L25,54 L50,50 L75,52 L100,46 L125,42 L150,44 L175,38 L200,35 L225,30 L250,26 L275,22 L300,18" />
+                </svg>
+              </div>
+
+              <!-- Regional bar chart — color + bar WIDTH convey magnitude; arrow+text convey direction -->
+              <div class="mp-regions" aria-label="Regional land value index">
+                <div class="mp-region-row">
+                  <span class="mp-region-name">Corn Belt</span>
+                  <div class="mp-region-bar-track" role="presentation"><div class="mp-bar-fill" style="--bar-w:88%" aria-hidden="true"></div></div>
+                  <span class="mp-region-val">$14,200</span>
+                  <span class="mp-region-move up" aria-label="Up 5.1 percent">▲ +5.1%</span>
+                </div>
+                <div class="mp-region-row">
+                  <span class="mp-region-name">Great Plains</span>
+                  <div class="mp-region-bar-track" role="presentation"><div class="mp-bar-fill" style="--bar-w:68%; animation-delay:.15s" aria-hidden="true"></div></div>
+                  <span class="mp-region-val">$6,800</span>
+                  <span class="mp-region-move up" aria-label="Up 3.4 percent">▲ +3.4%</span>
+                </div>
+                <div class="mp-region-row">
+                  <span class="mp-region-name">Delta &amp; Southeast</span>
+                  <div class="mp-region-bar-track" role="presentation"><div class="mp-bar-fill" style="--bar-w:55%; animation-delay:.3s" aria-hidden="true"></div></div>
+                  <span class="mp-region-val">$5,100</span>
+                  <span class="mp-region-move up" aria-label="Up 2.8 percent">▲ +2.8%</span>
+                </div>
+                <div class="mp-region-row">
+                  <span class="mp-region-name">Northern Plains</span>
+                  <div class="mp-region-bar-track" role="presentation"><div class="mp-bar-fill" style="--bar-w:48%; animation-delay:.45s" aria-hidden="true"></div></div>
+                  <span class="mp-region-val">$4,400</span>
+                  <span class="mp-region-move dn" aria-label="Down 0.6 percent">▼ −0.6%</span>
+                </div>
+              </div>
+            </div><!-- /mp-dash -->
+          </div><!-- /mp-hero-layout -->
+
+          <!-- Stats strip — full width below the two columns -->
+          <div class="mp-hero-stats reveal">
+            <div><div class="mp-stat-n">$6B+</div><div class="mp-stat-l">Farmland Transactions</div></div>
+            <div><div class="mp-stat-n">170+</div><div class="mp-stat-l">Ag Professionals</div></div>
+            <div><div class="mp-stat-n">20+</div><div class="mp-stat-l">Regional Offices</div></div>
+            <div><div class="mp-stat-n">1.6K+</div><div class="mp-stat-l">EXPO Attendees</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         4-PATH AUDIENCE ROUTER
+    ═══════════════════════════════════════════════ -->
+    <section class="mp-paths" aria-label="Choose your path">
+      <div class="container">
+        <div class="mp-paths-head reveal">
+          <div class="mp-paths-head-copy">
+            <span class="eyebrow">Your Starting Point</span>
+            <h2>Start where you stand</h2>
+            <p>Tailored guidance and data for every relationship to the land.</p>
+          </div>
+        </div>
+        <div class="mp-paths-grid">
+          <a class="mp-path reveal" href="#">
+            <div class="ic-wrap" aria-hidden="true">🌾</div>
+            <span class="tag">Landowners</span>
+            <h3>Sell or manage your land</h3>
+            <p>Maximize the value of your agricultural asset with a local advisor backed by real comparable-sales data.</p>
+            <span class="arrow">See landowner services →</span>
+          </a>
+          <a class="mp-path reveal" href="#">
+            <div class="ic-wrap" aria-hidden="true">📈</div>
+            <span class="tag">Investors</span>
+            <h3>Access farmland markets</h3>
+            <p>Institutional-grade data, deal flow, and capital-markets expertise for direct land investment.</p>
+            <span class="arrow">See investor services →</span>
+          </a>
+          <a class="mp-path reveal" href="#">
+            <div class="ic-wrap" aria-hidden="true">🚜</div>
+            <span class="tag">Farmer-Operators</span>
+            <h3>Management &amp; crop insurance</h3>
+            <p>Lease structures, stewardship oversight, and tailored coverage for the people who farm the land.</p>
+            <span class="arrow">See operator services →</span>
+          </a>
+          <a class="mp-path reveal" href="#">
+            <div class="ic-wrap" aria-hidden="true">🏛️</div>
+            <span class="tag">Family Offices</span>
+            <h3>Portfolio advisory</h3>
+            <p>Long-horizon capital strategies and integrated reporting built around farmland as a core asset class.</p>
+            <span class="arrow">See family office services →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         WHO WE SERVE (signature section for Concept 35)
+    ═══════════════════════════════════════════════ -->
+    <section class="sec mp-serve" aria-label="Who we serve">
+      <div class="container">
+        <div class="mp-serve-head reveal">
+          <div>
+            <span class="eyebrow">Who We Serve</span>
+            <h2>Land decisions are personal. <br>Our guidance is too.</h2>
+          </div>
+        </div>
+        <div class="mp-serve-grid">
+          <div class="mp-serve-card reveal">
+            <div class="mp-serve-photo">
+              <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=70"
+                   alt="Aerial view of cultivated Midwest farmland"
+                   onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+            </div>
+            <div class="mp-serve-body">
+              <span class="tag">Landowners &amp; Families</span>
+              <h3>Generational wealth, protected</h3>
+              <p>Whether you're selling a farm, managing leases, or planning a transition — we combine local knowledge with national data to get the best outcome for your land and your family.</p>
+              <a href="#">Landowner services →</a>
+            </div>
+          </div>
+          <div class="mp-serve-card reveal">
+            <div class="mp-serve-photo">
+              <img src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=800&q=70"
+                   alt="Golden wheat fields at harvest"
+                   onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+            </div>
+            <div class="mp-serve-body">
+              <span class="tag">Institutional Investors</span>
+              <h3>The data edge every portfolio needs</h3>
+              <p>Family offices, institutional funds, and private equity rely on our FarmWorth™ platform and capital-markets team to source, evaluate, and manage agricultural real estate at scale.</p>
+              <a href="#">Investor services →</a>
+            </div>
+          </div>
+          <div class="mp-serve-card reveal">
+            <div class="mp-serve-photo">
+              <img src="https://images.unsplash.com/photo-1530267981375-f0de937f5f13?auto=format&fit=crop&w=800&q=70"
+                   alt="Green crop rows stretching to the horizon"
+                   onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+            </div>
+            <div class="mp-serve-body">
+              <span class="tag">Farmer-Operators</span>
+              <h3>The management layer between land and yield</h3>
+              <p>Our land managers and crop insurance specialists work alongside operators to protect the farm, negotiate fair leases, and keep operations running profitably season to season.</p>
+              <a href="#">Operator services →</a>
+            </div>
+          </div>
+          <!-- Wide accent card — spans all columns -->
+          <div class="mp-serve-card mp-serve-wide reveal">
+            <div class="mp-serve-body">
+              <span class="eyebrow" style="color:rgba(255,255,255,.8);">Seven disciplines. One team.</span>
+              <h3>From a single farm to a national portfolio — we have the expertise.</h3>
+              <p>Brokerage, management, appraisal, capital markets, energy, crop insurance, and corporate services, all integrated under one platform.</p>
+            </div>
+            <div style="flex-shrink:0;">
+              <a href="#contact" class="btn-pill" style="background:#fff;color:var(--c-green);border-color:#fff;font-weight:700;">Talk to an Advisor</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         DATA INTELLIGENCE BAND
+         Shows PC's data authority before FarmWorth pitch.
+         Movement indicated by arrows + text labels only.
+    ═══════════════════════════════════════════════ -->
+    <section class="mp-intel" aria-label="Land market intelligence">
+      <div class="container">
+        <div class="mp-intel-layout">
+          <div class="reveal">
+            <span class="eyebrow on-dark">Market Intelligence</span>
+            <h2>The numbers that shape the land market</h2>
+            <p>Our analysts track cash rental rates, land values, and transaction volumes across every agricultural region. Here's where the market stands today.</p>
+            <p style="font-family:var(--font-sans);font-size:13px;color:#7BA9B2;font-style:italic;">
+              Note: Data shown is illustrative static mockup for design review — not live market data.
+            </p>
+          </div>
+          <div class="reveal">
+            <table class="mp-index-table" aria-label="Land value index by commodity type — static mockup data">
+              <thead>
+                <tr>
+                  <th scope="col">Land Type</th>
+                  <th scope="col">Avg $/ac</th>
+                  <th scope="col">QoQ</th>
+                  <th scope="col">YoY</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Irrigated Row Crop</td>
+                  <td>$18,400</td>
+                  <td><span class="mp-tbl-move up" aria-label="Up 1.2 percent quarter over quarter">▲ +1.2%</span></td>
+                  <td><span class="mp-tbl-move up" aria-label="Up 6.8 percent year over year">▲ +6.8%</span></td>
+                </tr>
+                <tr>
+                  <td>Non-Irrigated Row Crop</td>
+                  <td>$11,200</td>
+                  <td><span class="mp-tbl-move up" aria-label="Up 0.9 percent quarter over quarter">▲ +0.9%</span></td>
+                  <td><span class="mp-tbl-move up" aria-label="Up 4.1 percent year over year">▲ +4.1%</span></td>
+                </tr>
+                <tr>
+                  <td>Pasture / Rangeland</td>
+                  <td>$3,900</td>
+                  <td><span class="mp-tbl-move dn" aria-label="Down 0.3 percent quarter over quarter">▼ −0.3%</span></td>
+                  <td><span class="mp-tbl-move up" aria-label="Up 1.8 percent year over year">▲ +1.8%</span></td>
+                </tr>
+                <tr>
+                  <td>Timber &amp; Transition</td>
+                  <td>$5,600</td>
+                  <td><span class="mp-tbl-move up" aria-label="Up 0.5 percent quarter over quarter">▲ +0.5%</span></td>
+                  <td><span class="mp-tbl-move up" aria-label="Up 3.2 percent year over year">▲ +3.2%</span></td>
+                </tr>
+                <tr>
+                  <td>Recreational &amp; Rural</td>
+                  <td>$4,200</td>
+                  <td><span class="mp-tbl-move dn" aria-label="Down 0.8 percent quarter over quarter">▼ −0.8%</span></td>
+                  <td><span class="mp-tbl-move dn" aria-label="Down 0.4 percent year over year">▼ −0.4%</span></td>
+                </tr>
+              </tbody>
+            </table>
+            <p style="font-family:var(--font-sans);font-size:12px;color:#7BA9B2;margin-top:var(--space-3);">
+              Source: Peoples Company / FarmWorth™ Index, Q2 2026. Illustrative figures only.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         WHAT WE DO — 2×4
+    ═══════════════════════════════════════════════ -->
+    <section class="sec mp-svc" id="services" aria-label="What we do">
+      <div class="container">
+        <div class="mp-svc-head reveal">
+          <div>
+            <span class="eyebrow">What We Do</span>
+            <h2>Seven disciplines. <br>One integrated platform.</h2>
+          </div>
+          <a href="#" class="btn-pill btn-green">View All Services</a>
+        </div>
+        <div class="mp-svc-grid">
+          <div class="mp-card reveal">
+            <div class="ic" aria-hidden="true">🌾</div>
+            <h4>Land Brokerage &amp; Auctions</h4>
+            <p>Listings and competitive auctions backed by a national buyer network and FarmWorth™ data.</p>
+          </div>
+          <div class="mp-card reveal">
+            <div class="ic" aria-hidden="true">🏡</div>
+            <h4>Land Management</h4>
+            <p>Full-service stewardship, operator oversight, and lease administration.</p>
+          </div>
+          <div class="mp-card reveal">
+            <div class="ic" aria-hidden="true">📊</div>
+            <h4>Agricultural Appraisal</h4>
+            <p>Certified, data-driven land valuation powered by comparable-sales intelligence.</p>
+          </div>
+          <div class="mp-card reveal">
+            <div class="ic" aria-hidden="true">💼</div>
+            <h4>Capital Markets</h4>
+            <p>Connecting institutional capital with agricultural real estate across the country.</p>
+          </div>
+          <div class="mp-card reveal">
+            <div class="ic" aria-hidden="true">⚡</div>
+            <h4>Energy Management</h4>
+            <p>Solar, wind, and energy lease strategy to maximize every acre's potential.</p>
+          </div>
+          <div class="mp-card reveal">
+            <div class="ic" aria-hidden="true">🛡️</div>
+            <h4>Crop Insurance</h4>
+            <p>Tailored coverage protecting farm operations and yield, season after season.</p>
+          </div>
+          <div class="mp-card reveal">
+            <div class="ic" aria-hidden="true">🏢</div>
+            <h4>Corporate Services</h4>
+            <p>Institutional programs designed for ag lenders, trustees, and large portfolios.</p>
+          </div>
+          <div class="mp-card cta reveal">
+            <span class="eyebrow" style="color:rgba(255,255,255,.8);">Explore</span>
+            <a href="#">All seven services →</a>
+            <p>One team, end to end.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         FARMWORTH™ — Request a Demo prominent
+    ═══════════════════════════════════════════════ -->
+    <section class="mp-fw" aria-label="FarmWorth platform">
+      <div class="container">
+        <div class="reveal">
+          <span class="eyebrow on-dark">Proprietary Technology</span>
+          <h2>The FarmWorth™ Advantage</h2>
+          <p>Soil capability analysis, automated appraisal modeling, and a comparable-sales database — the data layer behind every Peoples Company decision and every client recommendation.</p>
+          <ul class="mp-fw-feat">
+            <li>Parcel-level soil &amp; productivity scoring across all 50 states</li>
+            <li>Automated valuation modeling on real comparable sales</li>
+            <li>Public + proprietary data layers merged in one view</li>
+            <li>Powers appraisals, acquisitions, and portfolio reporting</li>
+          </ul>
+          <div class="mp-fw-cta">
+            <a href="#" class="btn-pill btn-demo">Request a Demo</a>
+            <a href="#contact" class="btn-pill btn-blue-outline">Talk to an Advisor</a>
+          </div>
+        </div>
+        <div class="mp-fw-shot reveal">
+          <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=1100&q=70"
+               alt="Aerial farmland parcels illustrating the FarmWorth data platform"
+               onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+          <div class="mp-fw-badge">Example Farm · 240 ac · Wapello County, IA · <b>$9,800/ac</b></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         STATS BAND
+    ═══════════════════════════════════════════════ -->
+    <section class="sec mp-stats" aria-label="By the numbers">
+      <div class="container">
+        <div class="reveal" style="margin-bottom:var(--space-6);">
+          <div class="bar"></div>
+          <span class="eyebrow" style="color:rgba(255,255,255,.8);">By the Numbers</span>
+        </div>
+        <div class="mp-stats-grid">
+          <div class="reveal"><div class="n">$6B+</div><div class="l">Farmland Transactions</div></div>
+          <div class="reveal"><div class="n">170+</div><div class="l">Ag Professionals</div></div>
+          <div class="reveal"><div class="n">20+</div><div class="l">Regional Offices</div></div>
+          <div class="reveal"><div class="n">1.6K+</div><div class="l">EXPO Attendees</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         INSIGHTS & RESEARCH
+    ═══════════════════════════════════════════════ -->
+    <section class="sec" aria-label="Insights and research">
+      <div class="container">
+        <div class="mp-ins-head reveal">
+          <div>
+            <span class="eyebrow">Insights &amp; Research</span>
+            <h2>Land intelligence, made readable</h2>
+          </div>
+          <a href="#" style="font-family:var(--font-sans);font-size:14px;color:var(--c-green-dk);font-weight:600;text-decoration:none;">View all insights →</a>
+        </div>
+        <div class="mp-ins-grid">
+          <a class="mp-ins lead reveal" href="#">
+            <div class="ph">
+              <img src="https://images.unsplash.com/photo-1759174469221-71382a2b5bce?auto=format&fit=crop&w=1000&q=70"
+                   alt="Golden wheat field landscape at golden hour"
+                   onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+            </div>
+            <div class="body">
+              <span class="tag">Land Values · Q2 2026</span>
+              <h4>Midwest Farmland Prices Hold Strong Despite Rate Pressure</h4>
+              <span class="more">Read more →</span>
+            </div>
+          </a>
+          <a class="mp-ins reveal" href="#">
+            <div class="ph">
+              <img src="https://images.unsplash.com/photo-1560493676-04071c5f467b?auto=format&fit=crop&w=700&q=70"
+                   alt="Irrigated farmland aerial view"
+                   onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+            </div>
+            <div class="body">
+              <span class="tag">Capital Markets</span>
+              <h4>The Institutional Case for Direct Farmland Ownership</h4>
+              <span class="more">Read more →</span>
+            </div>
+          </a>
+          <a class="mp-ins reveal" href="#">
+            <div class="ph">
+              <img src="https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=700&q=70"
+                   alt="Solar panels alongside crop rows"
+                   onerror="this.style.display='none';this.parentElement.classList.add('img-fallback')" />
+            </div>
+            <div class="body">
+              <span class="tag">Research Report</span>
+              <h4>2025 National Land Values Report</h4>
+              <span class="more">Download →</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         GET IN TOUCH + DUAL PATH CTAs
+    ═══════════════════════════════════════════════ -->
+    <section class="mp-touch" id="contact" aria-label="Get in touch">
+      <div class="container">
+        <div class="reveal">
+          <span class="eyebrow on-dark">Get in Touch</span>
+          <h2>Start a conversation with a local advisor</h2>
+          <p>Whether you're selling, managing, or investing in farmland, our regional experts are ready to help — backed by the best land-data platform in the country.</p>
+          <div class="mp-touch-cta">
+            <a href="#" class="btn-pill btn-green">Talk to an Advisor</a>
+            <a href="#" class="btn-pill btn-blue-outline">Find an Office</a>
+          </div>
+        </div>
+        <div class="mp-dual reveal">
+          <a href="#"><span class="lab">Landowners</span><span class="big">Ready to sell?</span><span class="arrow" aria-hidden="true">→</span></a>
+          <a href="#"><span class="lab">Investors</span><span class="big">Ready to invest?</span><span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         FOOTER — bigger logo, no light-green text,
+         dual-path CTAs, correct contact details
+    ═══════════════════════════════════════════════ -->
+    <footer class="mp-foot" role="contentinfo">
+      <div class="container">
+        <div class="mp-foot-top">
+          <div class="mp-foot-brand">
+            <img src="../../shared/logos/pc_logo_white.webp"
+                 alt="Peoples Company — Integrated Land Solutions"
+                 class="mp-foot-logo" />
+            <p>Integrated Land Solutions. The largest farmland brokerage and management firm in the United States.</p>
+            <div class="mp-foot-contact">
+              1108 S. 44th St, Suite 102, Cumming, IA 50061<br>
+              <a href="tel:8558005263">855.800.LAND</a> · <a href="mailto:Info@PeoplesCompany.com">Info@PeoplesCompany.com</a>
+            </div>
+          </div>
+          <div>
+            <h4>Real Estate</h4>
+            <ul>
+              <li><a href="#">Farmland For Sale</a></li>
+              <li><a href="#">Upcoming Auctions</a></li>
+              <li><a href="#">Sold Properties</a></li>
+              <li><a href="#">Interactive Map</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>What We Do</h4>
+            <ul>
+              <li><a href="#">Land Brokerage &amp; Auctions</a></li>
+              <li><a href="#">Land Management</a></li>
+              <li><a href="#">Agricultural Appraisal</a></li>
+              <li><a href="#">Capital Markets</a></li>
+              <li><a href="#">Energy Management</a></li>
+              <li><a href="#">Crop Insurance</a></li>
+              <li><a href="#">Corporate Services</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>The Company</h4>
+            <ul>
+              <li><a href="#">Overview</a></li>
+              <li><a href="#">Our Team</a></li>
+              <li><a href="#">Regions &amp; Offices</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Land Investment EXPO</a></li>
+              <li><a href="#">FarmWorth</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Insights</h4>
+            <ul>
+              <li><a href="#">National Land Values</a></li>
+              <li><a href="#">Industry Research</a></li>
+              <li><a href="#">Newsletters</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">In the News</a></li>
+              <li><a href="#">Press Releases</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="mp-foot-bottom">
+          <span>© 2026 Peoples Company · Licensed in 50 states (EHO)</span>
+          <span><a href="#">Privacy Policy</a> · <a href="#">Terms of Use</a> · <a href="#">Accessibility</a></span>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- /wf-canvas -->
+
+  <script src="./nav-data.js?v=1"></script>
+  <script src="./nav.js?v=2"></script>
+  <script>
+(function () {
+  var tab=document.querySelector(".md-tab"), layer=document.getElementById("md-layer"), backdrop=document.querySelector(".md-backdrop"), closeBtn=document.querySelector(".md-close"), header=document.querySelector(".site-header");
+  function syncNavH(){ if(header) document.documentElement.style.setProperty("--navH", header.offsetHeight+"px"); }
+  syncNavH(); window.addEventListener("resize",syncNavH); window.addEventListener("load",syncNavH);
+  var logoImg=header&&header.querySelector("img"); if(logoImg&&!logoImg.complete) logoImg.addEventListener("load",syncNavH);
+  function onKey(e){ if(e.key==="Escape") close(); }
+  function open(){ syncNavH(); backdrop.hidden=false; layer.hidden=false; requestAnimationFrame(function(){ backdrop.classList.add("is-open"); layer.classList.add("is-open"); }); tab.setAttribute("aria-expanded","true"); layer.setAttribute("aria-hidden","false"); closeBtn.focus(); document.addEventListener("keydown",onKey); }
+  function close(){ backdrop.classList.remove("is-open"); layer.classList.remove("is-open"); tab.setAttribute("aria-expanded","false"); layer.setAttribute("aria-hidden","true"); document.removeEventListener("keydown",onKey); var reduce=matchMedia("(prefers-reduced-motion: reduce)").matches; var after=function(){ backdrop.hidden=true; layer.hidden=true; }; if(reduce) after(); else layer.addEventListener("transitionend",function te(e){ if(e.propertyName==="transform"){ layer.removeEventListener("transitionend",te); after(); } }); tab.focus(); }
+  tab.addEventListener("click",function(){ if(tab.getAttribute("aria-expanded")==="true") close(); else open(); });
+  closeBtn.addEventListener("click",close); backdrop.addEventListener("click",close);
+})();
+  </script>
+  <script>
+    /* Scroll-reveal — reduced-motion safe (CSS already no-ops the transition). */
+    (function () {
+      var els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        els.forEach(function (el) { el.classList.add('is-in'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      els.forEach(function (el) { io.observe(el); });
+    })();
+  </script>
+</body>
+</html>
