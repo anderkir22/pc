@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Top navigation — structure options</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --blue:#00AEEF; --blue-ink:#0077A8; --blue-dark:#005B80; --blue-light:#CDEBF9;
+      --navy:#0E2A3A;
+      --green:#005F5B; --green-deep:#044D48;
+      --ink:#0E1B1A; --muted:#55606A; --line:#E2E6EA; --bg:#F4F6F8;
+      --font-sans:'Inter',system-ui,Arial,sans-serif;
+      --font-serif:'EB Garamond',Georgia,serif;
+    }
+    *{box-sizing:border-box;}
+    body{margin:0;font-family:var(--font-sans);color:var(--ink);background:var(--bg);}
+    .wrap{max-width:1320px;margin:0 auto;padding:40px 24px 140px;}
+    h1{font-family:var(--font-serif);font-size:36px;margin:0 0 6px;}
+    .lede{font-size:15px;color:var(--muted);max-width:960px;margin:0 0 8px;line-height:1.55;}
+    .spec{font-size:13px;color:var(--muted);margin:0 0 14px;max-width:960px;line-height:1.55;}
+    .spec b{color:var(--ink);}
+    .musthaves{font-size:13px;color:var(--muted);max-width:960px;line-height:1.6;margin:0 0 32px;
+      background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px;}
+    .musthaves b{color:var(--ink);}
+    .musthaves ul{margin:6px 0 0;padding-left:18px;} .musthaves li{margin:2px 0;}
+
+    .grid{display:grid;grid-template-columns:1fr;gap:30px;}
+    .card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.04);}
+    .card-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:16px 22px 12px;border-bottom:1px solid var(--line);}
+    .card-head h2{font-family:var(--font-serif);font-size:21px;margin:0;}
+    .card-head .opt{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--blue-ink);white-space:nowrap;}
+    .card-desc{font-size:13px;color:var(--muted);padding:12px 22px 0;margin:0;line-height:1.5;}
+    .card-desc b{color:var(--ink);}
+    .stage{padding:18px 22px 22px;}
+    .page{height:118px;background:linear-gradient(#EEF2F4,#F7F9FA);border:1px dashed #DFE4E8;border-top:0;
+      display:flex;align-items:center;justify-content:center;color:#AEB6BD;font-size:12px;letter-spacing:.14em;text-transform:uppercase;}
+    .note{font-size:12px;color:var(--muted);padding:10px 22px 16px;margin:0;} .note b{color:var(--ink);}
+
+    /* ============ shared nav primitives (STATIC — layout only) ============ */
+    .nav-shell{border:1px solid var(--line);border-bottom:0;overflow:hidden;position:relative;background:#fff;}
+    /* flex:none so crowded bars never shrink/stretch the logo — width follows the fixed height, ratio preserved */
+    .logo{height:46px;width:auto;display:block;flex:none;object-fit:contain;}
+    .logo.tall{height:56px;}
+
+    /* member badge (RECREATED placeholder — swap real vector at build) */
+    .member{display:inline-flex;align-items:center;gap:8px;color:#3A444C;flex:none;}
+    .member .mem-emb{flex:none;}
+    .mem-txt{display:flex;flex-direction:column;line-height:1.06;text-align:left;}
+    .mem-txt small{font-size:8px;letter-spacing:.13em;font-weight:600;opacity:.85;}
+    .mem-txt b{font-size:11.5px;letter-spacing:.03em;font-weight:800;white-space:nowrap;}
+
+    /* social icons (fb · X · ig · li · yt) */
+    .social{display:inline-flex;align-items:center;gap:13px;flex:none;}
+    .social a{color:inherit;display:inline-flex;text-decoration:none;}
+    .social svg{width:15px;height:15px;display:block;flex:none;}
+
+    /* menus — static top-level labels; ▾ marks a sub-nav pop-down (not shown here) */
+    .menus{display:flex;align-items:center;gap:24px;font-size:14px;font-weight:600;color:#3A444C;}
+    .menu{display:inline-flex;align-items:center;gap:5px;white-space:nowrap;padding:10px 0;position:relative;}
+    .menu .cx{font-size:10px;opacity:.5;}
+    .menu.active{color:var(--green-deep);}
+    .menu.active::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--green);border-radius:2px;}
+
+    /* phone · Expo · FarmWorth — all plain text links, never buttons */
+    .phone{font-size:13px;font-weight:600;color:inherit;white-space:nowrap;}
+    .expo,.login{font-size:13px;font-weight:600;color:inherit;text-decoration:none;white-space:nowrap;}
+    /* when Expo / Login ride inside the menu row, match the menu type */
+    .menus .expo,.menus .login{color:#3A444C;}
+    .menus .sep{width:1px;height:16px;background:var(--line);}
+    /* FarmWorth shows as a link in some options, a pill button in others */
+    .login.btn{background:var(--blue-ink);color:#fff;border-radius:999px;padding:8px 16px;}
+    .spacer{flex:1;}
+
+    /* utility strip */
+    .util{display:flex;align-items:center;gap:20px;padding:0 28px;height:38px;font-size:12.5px;
+      background:#F1F4F6;color:var(--muted);border-bottom:1px solid var(--line);}
+    .util .uspacer{flex:1;}
+
+    /* main bar */
+    .bar{display:flex;align-items:center;gap:28px;padding:0 28px;height:84px;}
+
+    /* ============ per-layout structure ============ */
+
+    /* L2 Centered Brand Stack */
+    .l2 .util{justify-content:space-between;}
+    .l2 .brandblock{display:flex;flex-direction:column;align-items:center;gap:6px;padding:18px 0 6px;}
+    .l2 .menus{justify-content:center;padding:6px 0 16px;}
+
+    /* L3 Centered Split Menus */
+    .l3 .bar{justify-content:center;gap:34px;}
+    .l3 .menus{flex:1;} .l3 .menus.l{justify-content:flex-end;} .l3 .menus.r{justify-content:flex-start;}
+    .l3 .logo{margin:0 6px;}
+
+    /* L4 Right Brand Panel */
+    .l4 .bar{padding-right:0;align-items:stretch;height:auto;}
+    .l4 .leftcol{display:flex;align-items:center;gap:28px;flex:1;padding:22px 0;}
+    .l4 .panel{width:290px;background:#F1F4F6;border-left:1px solid var(--line);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:16px;}
+
+    /* L5 Left Brand Stack */
+    .l5 .bar{align-items:stretch;height:auto;padding:0;}
+    .l5 .brandcol{display:flex;flex-direction:column;gap:8px;justify-content:center;padding:18px 28px;border-right:1px solid var(--line);}
+    .l5 .rightcol{flex:1;display:flex;flex-direction:column;}
+    .l5 .rtop{display:flex;align-items:center;gap:18px;padding:10px 28px;border-bottom:1px solid var(--line);justify-content:flex-end;}
+    .l5 .rbot{display:flex;align-items:center;padding:14px 28px;}
+
+    /* L6 Inset Island */
+    .l6 .nav-shell{border:0;background:linear-gradient(120deg,#EAF4F2,#E9F3FA);padding:16px 18px;}
+    .l6 .island{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.09);
+      display:flex;align-items:center;gap:24px;padding:0 22px;height:74px;}
+    .l6 .undertint{display:flex;align-items:center;justify-content:space-between;padding:10px 6px 0;}
+
+    /* L7 Inline Links — Expo + FarmWorth sit IN the menu row, not separated */
+    .l7 .util{justify-content:space-between;}
+
+    /* L8 Three-Tier Editorial */
+    .l8 .util{justify-content:space-between;}
+    .l8 .brandrow{display:flex;align-items:center;justify-content:center;gap:22px;padding:16px 0 10px;}
+    .l8 .menus{justify-content:center;gap:30px;font-family:var(--font-serif);font-size:17px;
+      border-top:1px solid var(--line);padding-top:2px;}
+    .l8 .menu{padding:12px 0;}
+
+    /* L9 Right-Aligned Compact */
+    .l9 .util{justify-content:flex-end;}
+    .l9 .bar{gap:26px;}
+
+    /* L10 Full Utility Bar — prominent dark top strip (current-site flavor) */
+    .l10 .util{background:#1B2327;color:#D5DBDE;border-bottom:0;justify-content:space-between;}
+    .l10 .util a{color:#D5DBDE;}
+    .l10 .rgt{display:flex;align-items:center;gap:20px;}
+
+    /* L11 Brand Row + Menu Bar — logo + actions row over a dedicated menu bar */
+    .l11 .brow{display:flex;align-items:center;gap:20px;padding:14px 28px;}
+    .l11 .mrow{display:flex;align-items:center;gap:24px;padding:0 28px;height:60px;background:#F7F9FA;border-top:1px solid var(--line);}
+
+    /* L12 Logo Right — menus lead from the left, PC logo anchors the right */
+    .l12 .bar{gap:26px;}
+
+    @media (max-width:860px){
+      .menus{display:none;}
+      .l4 .panel{width:200px;}
+      .card-desc{padding-bottom:4px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Top navigation — structure options</h1>
+    <p class="lede">A catalog to compare and shortlist header directions — this pass is purely about <b>layout structure</b>. Each option arranges the same required pieces in a genuinely different way (logo placement, row count, menu alignment, and where the phone · Expo · FarmWorth sit).</p>
+    <p class="spec"><b>Static only — no interactivity here.</b> No hover pop-downs and no sign-in behavior; those get designed separately and will look nothing like a placeholder would. The <b>▾</b> on each menu just marks that a sub-nav pop-down exists. Shown in <b>one neutral palette on purpose</b> so you compare layout, not color — any structure can later take the green / navy / gradient treatments. Colorblind-safe, no red.</p>
+    <div class="musthaves">
+      <b>Must-haves baked into every option:</b>
+      <ul>
+        <li><b>Two logos</b> — Peoples Company lockup + “Proud Member of the International Ag Alliance” (recreated SVG placeholder; swap real vector at build).</li>
+        <li><b>Phone number</b>, <b>Land Investment Expo</b> link, and <b>FarmWorth</b> — these can sit with the nav or apart; <b>FarmWorth shows as a plain link in some options and a pill button in others</b> so you can compare both treatments.</li>
+        <li><b>Social icons</b> — Facebook · X · Instagram · LinkedIn · YouTube (as on the current site’s top bar).</li>
+        <li><b>Four mega-menus:</b> Real Estate · The Company · What We Do · Insights &amp; News (each has a sub-nav pop-down, not shown in this layout pass).</li>
+      </ul>
+    </div>
+
+    <div class="grid">
+
+      <!-- L1 -->
+      <div class="card">
+        <div class="card-head"><h2>Two-Row Classic</h2><span class="opt">Option 01</span></div>
+        <p class="card-desc">The familiar structure, cleaned up. Utility row up top (<b>phone · Expo left · social · FarmWorth right</b>); main bar is <b>logo left → four menus → member badge right</b>.</p>
+        <div class="stage"><div class="nav-shell l1">
+          <div class="util"><span class="phone">📞 (855) 800-LAND</span><a class="expo" href="#">Land Investment Expo</a><span class="uspacer"></span><span class="social" data-social></span><a class="login btn" href="#">FarmWorth</a></div>
+          <div class="bar">
+            <img class="logo" src="../../shared/logos/peoples-company-logo.png" alt="Peoples Company" />
+            <span class="menus" data-menus></span>
+            <span class="spacer"></span>
+            <span class="member" data-member></span>
+          </div>
+        </div><div class="page">page content</div></div>
+      </div>
+
+      <!-- L2 -->
+      <div class="card">
+        <div class="card-head"><h2>Centered Brand Stack</h2><span class="opt">Option 02</span></div>
+        <p class="card-desc">Symmetrical &amp; editorial. Utility row (<b>phone · social</b>), then the <b>PC logo centered with the “Proud Member” logo stacked directly beneath it</b>, then a centered row where the four menus sit <b>inline with Expo + FarmWorth</b>.</p>
+        <div class="stage"><div class="nav-shell l2">
+          <div class="util"><span class="phone">📞 (855) 800-LAND</span><span class="uspacer"></span><span class="social" data-social></span></div>
+          <div class="brandblock">
+            <img class="logo tall" src="../../shared/logos/peoples-company-logo.png" alt="Peoples Company" />
+            <span class="member" data-member></span>
+          </div>
+          <div class="menus" data-menus data-actions="expo,login"></div>
+        </div><div class="page">page content</div></div>
+      </div>
+
+      <!-- L3 -->
+      <div class="card">
+        <div class="card-head"><h2>Centered Split Menus</h2><span class="opt">Option 03</span></div>
+        <p class="card-desc">Logo as the centerpiece. Utility row holds <b>phone · Expo</b> left and <b>social · member · FarmWorth</b> right; the main bar splits the menus <b>two left / PC logo / two right</b>.</p>
+        <div class="stage"><div class="nav-shell l3">
+          <div class="util"><span class="phone">📞 (855) 800-LAND</span><a class="expo" href="#">Land Investment Expo</a><span class="uspacer"></span><span class="social" data-social></span><span class="member" data-member></span><a class="login btn" href="#">FarmWorth</a></div>
+          <div class="bar">
+            <span class="menus l" data-menus="0,1"></span>
+            <img class="logo" src="../../shared/logos/peoples-company-logo.png" alt="Peoples Company" />
+            <span class="menus r" data-menus="2,3"></span>
+          </div>
+        </div><div class="page">page content</div></div>
+      </div>
+
+      <!-- L4 -->
+      <div class="card">
+        <div class="card-head"><h2>Right Brand Panel (28%)</h2><span class="opt">Option 04</span></div>
+        <p class="card-desc">Menus lead from the left; a reserved tinted panel on the right stacks <b>PC logo → member → social → phone → Expo → FarmWorth</b>. Mirrors the current site’s right-side branding zone.</p>
+        <div class="stage"><div class="nav-shell l4">
+          <div class="bar">
+            <div class="leftcol">
+              <span class="menus" data-menus></span>
+            </div>
+            <div class="panel">
+              <img class="logo" src="../../shared/logos/peoples-company-logo.png" alt="Peoples Company" />
+              <span class="member" data-member></span>
+              <span class="social" data-social></span>
+              <span class="phone">📞 (855) 800-LAND</span>
+              <a class="expo" href="#">Land Investment Expo</a>
+              <a class="login btn" href="#">FarmWorth</a>
+            </div>
+          </div>
+        </div><div class="page">page content</div></div>
+      </div>
+
+      <!-- L5 -->
+      <div class="card">
+        <div class="card-head"><h2>Left Brand Stack</h2><span class="opt">Option 05</span></div>
+        <p class="card-desc">A two-line brand block on the left (<b>PC logo with member beneath</b>) against a right column that stacks the <b>menus over a social · phone · Expo · FarmWorth</b> strip.</p>
+        <div class="stage"><div class="nav-shell l5">
+          <div class="bar">
+            <div class="brandcol">
+              <img class="logo" src="../../shared/logos/peoples-company-logo.png" alt="Peoples Company" />
+              <span class="member" data-member></span>
+            </div>
+            <div class="rightcol">
+              <div class="rtop"><span class="social" data-social></span><span class="phone">📞 (855) 800-LAND</span><a class="expo" href="#">Land Investment Expo</a><a class="login" href="#">FarmWorth</a></div>
+              <div class="rbot"><span class="menus" data-menus></span></div>
+            </div>
+          </div>
+        </div><div class="page">page content</div></div>
+      </div>
+
+      <!-- L6 -->
+      <div class="card">
+        <div class="card-head"><h2>Inset Island</h2><span class="opt">Option 06</span></div>
+        <p class="card-desc">A rounded nav “island” floating on a tinted band — <b>logo · menus inline with Expo + FarmWorth · phone</b> inside the island; the <b>social + member</b> ride the tint just beneath. Contemporary, gives the header its own presence.</p>
+        <div class="stage"><div class="nav-shell l6">
+          <div class="island">
+            <img class="logo" src="../../shared/logos/peoples-company-logo.png" alt="Peoples Company" />
+            <span class="menus" data-menus data-actions="expo,login"></span>
+            <span class="spacer"></span>
+            <span class="phone">📞 (855) 800-LAND</span>
+          </div>
+          <div class="undertint"><span class="social" data-social></span><span class="member" data-member></span></div>
+        </div><div class="page">page content</div></div>
+      </div>
+
+      <!-- L7 -->
+      <div class="card">
+        <div class="card-head"><h2>Inline Links</h2><span class="opt">Option 07</span></div>
+        <p class="card-desc">One flat link row — the four menus and <b>Expo + FarmWorth live together as siblings</b>, nothing separated out. Thin utility strip (<b>phone · social</b>) on top; logo left, member right. Shows the “everything with the nav” idea.</p>
+        <div class="stage"><div class="nav-shell l7">
+          <div class="util"><span class="phone">📞 (855) 800-LAND</span><span class="uspacer"></span><span class="social" data-social></span></div>
+          <div class="bar">
+            <img class="logo" src="../../shared/logos/peoples-company-logo.png" alt="Peoples Company" />
+            <span class="menus" data-menus data-actions="expo,login"></span>
+            <span class="spacer"></span>
+            <span class="member" data-member></span>
+          </div>
+        </div><div class="page">page content</div></div>
+      </div>
+
+      <!-- L8 -->
+      <div class="card">
+        <div class="card-head"><h2>Three-Tier Editorial</h2><span class="opt">Option 08</span></div>
+        <p class="card-desc">Premium, serif-led, three stacked tiers: utility (<b>phone · Expo left · social · FarmWorth right</b>) → centered <b>PC logo beside the member badge</b> → centered menus with an underline-active state.</p>
+        <div class="stage"><div class="nav-shell l8">
+          <div class="util"><span class="phone">📞 (855) 800-LAND</span><a class="expo" href="#">Land Investment Expo</a><span class="uspacer"></span><span class="social" data-social></span><a class="login" href="#">FarmWorth</a></div>
+          <div class="brandrow">
+            <img class="logo tall" src="../../shared/logos/peoples-company-logo.png" alt="Peoples Company" />
+            <span class="member" data-member></span>
+          </div>
+          <div class="menus" data-menus data-active="0"></div>
+        </div><div class="page">page content</div></div>
+      </div>
+
+      <!-- L9 -->
+      <div class="card">
+        <div class="card-head"><h2>Right-Aligned Compact</h2><span class="opt">Option 09</span></div>
+        <p class="card-desc">A right-weighted rhythm: a slim <b>right-aligned utility strip</b> (social · phone · Expo · FarmWorth), then a main bar where the <b>PC logo sits left</b> and the <b>menus pack to the right beside the member badge</b>.</p>
+        <div class="stage"><div class="nav-shell l9">
+          <div class="util"><span class="uspacer"></span><span class="social" data-social></span><span class="phone">📞 (855) 800-LAND</span><a class="expo" href="#">Land Investment Expo</a><a class="login btn" href="#">FarmWorth</a></div>
+          <div class="bar">
+            <img class="logo" src="../../shared/logos/peoples-company-logo.png" alt="Peoples Company" />
+            <span class="spacer"></span>
+            <span class="menus" data-menus></span>
+            <span class="member" data-member></span>
+          </div>
+        </div><div class="page">page content</div></div>
+      </div>
+
+      <!-- L10 -->
+      <div class="card">
+        <div class="card-head"><h2>Full Utility Bar</h2><span class="opt">Option 10</span></div>
+        <p class="card-desc">The current-site flavor: a prominent <b>dark top strip</b> carrying <b>social left · phone · Expo · FarmWorth right</b>, then a clean white main bar — <b>logo left → four menus → member badge right</b>.</p>
+        <div class="stage"><div class="nav-shell l10">
+          <div class="util"><span class="social" data-social></span><span class="rgt"><span class="phone">📞 (855) 800-LAND</span><a class="expo" href="#">Land Investment Expo</a><a class="login" href="#">FarmWorth</a></span></div>
+          <div class="bar">
+            <img class="logo" src="../../shared/logos/peoples-company-logo.png" alt="Peoples Company" />
+            <span class="menus" data-menus></span>
+            <span class="spacer"></span>
+            <span class="member" data-member></span>
+          </div>
+        </div><div class="page">page content</div></div>
+      </div>
+
+      <!-- L11 -->
+      <div class="card">
+        <div class="card-head"><h2>Brand Row + Menu Bar</h2><span class="opt">Option 11</span></div>
+        <p class="card-desc">Two purposeful rows: a <b>brand row</b> (logo left · social · phone · Expo · <b>FarmWorth button</b> right) sitting over a dedicated <b>menu bar</b> (four menus left · member right). Brand and navigation each get their own space.</p>
+        <div class="stage"><div class="nav-shell l11">
+          <div class="brow">
+            <img class="logo" src="../../shared/logos/peoples-company-logo.png" alt="Peoples Company" />
+            <span class="spacer"></span>
+            <span class="social" data-social></span>
+            <span class="phone">📞 (855) 800-LAND</span>
+            <a class="expo" href="#">Land Investment Expo</a>
+            <a class="login btn" href="#">FarmWorth</a>
+          </div>
+          <div class="mrow"><span class="menus" data-menus></span><span class="spacer"></span><span class="member" data-member></span></div>
+        </div><div class="page">page content</div></div>
+      </div>
+
+      <!-- L12 -->
+      <div class="card">
+        <div class="card-head"><h2>Logo Right</h2><span class="opt">Option 12</span></div>
+        <p class="card-desc">Flips the anchor: menus lead from the <b>left</b> and the <b>PC logo sits on the right</b> with the member beside it. Utility row holds <b>phone · Expo left · social · FarmWorth button right</b>.</p>
+        <div class="stage"><div class="nav-shell l12">
+          <div class="util"><span class="phone">📞 (855) 800-LAND</span><a class="expo" href="#">Land Investment Expo</a><span class="uspacer"></span><span class="social" data-social></span><a class="login btn" href="#">FarmWorth</a></div>
+          <div class="bar">
+            <span class="menus" data-menus></span>
+            <span class="spacer"></span>
+            <span class="member" data-member></span>
+            <img class="logo" src="../../shared/logos/peoples-company-logo.png" alt="Peoples Company" />
+          </div>
+        </div><div class="page">page content</div></div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // ---- shared data (used only to render STATIC markup; no interactivity) ----
+    var MENUS = ["Real Estate","The Company","What We Do","Insights & News"];
+    var MEMBER_SVG = '<svg class="mem-emb" viewBox="0 0 64 64" width="32" height="32" aria-hidden="true"><circle cx="32" cy="26" r="14" fill="none" stroke="currentColor" stroke-width="1.6"/><ellipse cx="32" cy="26" rx="6" ry="14" fill="none" stroke="currentColor" stroke-width="1.1"/><line x1="18" y1="26" x2="46" y2="26" stroke="currentColor" stroke-width="1.1"/><path d="M20 19 Q32 23 44 19" fill="none" stroke="currentColor" stroke-width="1"/><path d="M20 33 Q32 29 44 33" fill="none" stroke="currentColor" stroke-width="1"/><path d="M32 45 C24 43 18 47 15 55 C24 55 30 52 32 45Z" fill="currentColor"/><path d="M32 45 C40 43 46 47 49 55 C40 55 34 52 32 45Z" fill="currentColor"/><line x1="32" y1="43" x2="32" y2="55" stroke="currentColor" stroke-width="1.3"/></svg><span class="mem-txt"><small>PROUD MEMBER OF THE</small><b>INTERNATIONAL AG ALLIANCE</b></span>';
+    var SOCIAL_SVG =
+      '<a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5H17V3.6c-.3 0-1.3-.13-2.46-.13-2.44 0-4.1 1.49-4.1 4.22v2.35H7.7V13h2.74v8h3.06z"/></svg></a>' +
+      '<a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 3h3l-6.55 7.48L21.6 21h-5.9l-4.62-6.04L5.8 21H2.8l7-8L2.6 3h6.05l4.18 5.52L17.5 3zm-1.05 16.2h1.66L7.6 4.7H5.82l10.63 14.5z"/></svg></a>' +
+      '<a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>' +
+      '<a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.94 5A1.94 1.94 0 113 5a1.94 1.94 0 013.94 0zM3.4 8.5h3.1V21H3.4V8.5zM9.1 8.5h2.97v1.7h.04c.41-.78 1.42-1.6 2.93-1.6 3.13 0 3.71 2.06 3.71 4.74V21h-3.1v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.85V21H9.1V8.5z"/></svg></a>' +
+      '<a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.2-.4-4.7c-.23-.83-.9-1.5-1.73-1.72C19.36 5.2 12 5.2 12 5.2s-7.36 0-8.87.38c-.83.22-1.5.9-1.73 1.72C1 8.8 1 12 1 12s0 3.2.4 4.7c.23.83.9 1.5 1.73 1.72C4.64 18.8 12 18.8 12 18.8s7.36 0 8.87-.38c.83-.22 1.5-.9 1.73-1.72C23 15.2 23 12 23 12zM9.75 15.02V8.98L15 12l-5.25 3.02z"/></svg></a>';
+
+    document.querySelectorAll("[data-member]").forEach(function(el){ el.innerHTML = MEMBER_SVG; });
+    document.querySelectorAll("[data-social]").forEach(function(el){ el.innerHTML = SOCIAL_SVG; });
+
+    document.querySelectorAll("[data-menus]").forEach(function(box){
+      var which = box.getAttribute("data-menus");
+      var idx = (which && which.length) ? which.split(",").map(Number) : [0,1,2,3];
+      var active = box.getAttribute("data-active");
+      idx.forEach(function(i){
+        var m = document.createElement("span");
+        m.className = "menu" + (active !== null && +active === i ? " active" : "");
+        m.innerHTML = MENUS[i] + ' <span class="cx">▾</span>';
+        box.appendChild(m);
+      });
+      var actions = box.getAttribute("data-actions");
+      if(actions){
+        var sep = document.createElement("span"); sep.className="sep"; box.appendChild(sep);
+        actions.split(",").forEach(function(a){
+          var link = document.createElement("a"); link.href="#";
+          link.className = (a==="login" ? "login" : "expo");
+          link.textContent = (a==="login" ? "FarmWorth" : "Land Investment Expo");
+          box.appendChild(link);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
