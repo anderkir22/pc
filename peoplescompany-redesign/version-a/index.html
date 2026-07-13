@@ -3,50 +3,559 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Peoples Company 2026</title>
-  <meta name="description" content="Peoples Company 2026 design references." />
+  <title>Peoples Company — Header &amp; Footer Mockup (Option F)</title>
+  <meta name="description" content="Full header + footer build-out using header style Option F (Editorial Spread)." />
 
   <!-- Fonts: EB Garamond (display serif) + Inter (UI / body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <link href="../shared/main.css?v=20260601" rel="stylesheet" />
 
   <style>
-    .index-page {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: var(--space-6);
-      padding: var(--space-7);
-      text-align: center;
+    /* This page overrides the shared 1200px container to the concept 1400px width */
+    :root{ --site: 1400px; }
+    body{ color: var(--color-text); }
+    .site-inner{ max-width: var(--site); margin: 0 auto; }
+
+    /* ============================================================
+       HEADER — Option F "Editorial Spread" (serif nav, lighter
+       Expo/Login + | separator, big logo across two rows, gradient
+       utility bar, squared bottom corners, 60px logo→Real / 92px News→⌕)
+       ============================================================ */
+    .pcf{ background: var(--white); border-bottom: 1px solid var(--color-border);
+      position: sticky; top: 0; z-index: 40; }
+    .pcf-inner{ max-width: var(--site); margin: 0 auto; }
+    .pcf-brandrow{ display: flex; align-items: stretch; }
+    .pcf-brandcell{ display: flex; align-items: center; padding: 0 24px; flex: none; }
+    .pcf-logo{ height: 80px; width: auto; }
+    .pcf-stack{ flex: 1; display: flex; flex-direction: column; min-width: 0; }
+
+    /* utility strip — white→shade gradient, Expo + Login (lighter) top-right */
+    .pcf-util{
+      display: flex; align-items: center; gap: 18px; height: 40px; padding: 0 24px;
+      font-size: 13px; color: var(--gray-600);
+      background: linear-gradient(90deg, #fff 0%, #fff 22%, #E8F1F6 100%);
     }
-    .index-page img {
-      width: 200px;
-      height: auto;
-      margin-bottom: var(--space-3);
+    .pcf-util .sp{ flex: 1; }
+    .pcf-util a{ color: var(--gray-900); text-decoration: none; font-weight: 400; white-space: nowrap; }
+    .pcf-util a:hover{ color: var(--rich-green); }
+    .pcf-util .sep{ opacity: .35; font-weight: 300; }
+
+    /* main nav row */
+    .pcf-row{ display: flex; align-items: center; gap: 92px; padding: 0 24px 0 36px; height: 76px; }
+    .pcf-menus{
+      list-style: none; margin: 0; padding: 0;
+      flex: 1; display: flex; align-items: center; justify-content: space-between;
+      font-family: var(--font-serif); font-size: 18px; font-weight: 600;
     }
-    .index-links {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-4);
-      width: 100%;
-      max-width: 320px;
+    .pcf-menus > li{ position: static; } /* static so the mega-menu can span the full header width */
+    .pcf-menus > li > a{
+      color: var(--gray-900); text-decoration: none; white-space: nowrap;
+      position: relative; padding: 8px 0; display: inline-block;
+    }
+    .pcf-menus > li > a::after{
+      content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 3px;
+      background: var(--rich-green); border-radius: 2px; transform: scaleX(0); transform-origin: left;
+      transition: transform .18s ease;
+    }
+    .pcf-menus > li:hover > a::after,
+    .pcf-menus > li:focus-within > a::after{ transform: scaleX(1); }
+
+    /* mega-menu pop-down — built exactly like concept-34's .sh-mega */
+    .pcf-mega{
+      position: absolute; left: 0; right: 0; top: 100%;
+      background: #fff; border-top: 3px solid var(--rich-green);
+      border-bottom: 1px solid var(--color-border);
+      box-shadow: 0 14px 28px rgba(17,24,39,.10);
+      opacity: 0; visibility: hidden; transform: translateY(-6px);
+      transition: opacity .14s ease, transform .14s ease, visibility .14s;
+      z-index: 39;
+    }
+    .pcf-menus > li:hover .pcf-mega,
+    .pcf-menus > li:focus-within .pcf-mega{ opacity: 1; visibility: visible; transform: translateY(0); }
+    /* invisible bridge so the pointer can travel from the label down into the panel */
+    .pcf-mega::before{ content: ""; position: absolute; left: 0; right: 0; top: -26px; height: 26px; }
+    .pcf-mega-in{
+      max-width: var(--site); margin: 0 auto; padding: var(--space-6) 24px;
+      display: grid; gap: var(--space-7); grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+    .pcf-col h4{
+      font-family: var(--font-sans); font-weight: 600; font-size: 12px; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--gray-900);
+      margin: 0 0 var(--space-3); padding-bottom: var(--space-2); border-bottom: 1px solid var(--gray-200);
+    }
+    .pcf-col ul{ list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+    .pcf-col a{
+      font-family: var(--font-sans); font-size: 14px; color: var(--gray-600); text-decoration: none;
+      display: inline-block; transition: color .12s ease;
+    }
+    .pcf-col a:hover, .pcf-col a:focus{ color: var(--rich-green); text-decoration: underline; text-underline-offset: 3px; }
+    .pcf-col .soft{ color: var(--gray-500); font-size: 12px; margin: 0; }
+    @media (prefers-reduced-motion: reduce){
+      .pcf-mega{ transition: none; transform: none; }
+      .pcf-menus > li > a::after{ transition: none; }
+    }
+
+    .pcf-searchwrap{ position: relative; flex: none; }
+    .pcf-search{
+      width: 40px; height: 40px; border-radius: var(--radius-pill); border: 1px solid #DCE1E6;
+      display: inline-flex; align-items: center; justify-content: center; color: var(--gray-900);
+      flex: none; cursor: pointer; background: transparent;
+    }
+    .pcf-search:hover{ border-color: var(--gray-900); }
+    .pcf-search[aria-expanded="true"]{ background: var(--gray-100); border-color: var(--gray-900); }
+
+    /* search popover — opens below the magnifier, right-aligned */
+    .pcf-searchpanel{
+      /* top flush with the header's bottom rule: 18px gap below the centered 40px icon in the 76px row */
+      position: absolute; top: calc(100% + 18px); right: 0; z-index: 50;
+      background: var(--white); border: 1px solid var(--color-border);
+      border-radius: 0; box-shadow: 0 12px 32px rgba(16,59,56,.16);
+      padding: 6px;
+      opacity: 0; transform: translateY(-8px); visibility: hidden; pointer-events: none;
+      transition: opacity .18s ease, transform .18s ease, visibility 0s .18s;
+    }
+    .pcf-searchpanel.open{
+      opacity: 1; transform: none; visibility: visible; pointer-events: auto;
+      transition: opacity .18s ease, transform .18s ease;
+    }
+    .pcf-searchform{ display: flex; align-items: center; gap: 6px; }
+    .pcf-searchform input{
+      border: 0; outline: 0; background: transparent; color: var(--gray-900);
+      font-family: var(--font-sans); font-size: 15px; padding: 9px 14px; width: 300px;
+    }
+    .pcf-searchform input::placeholder{ color: var(--gray-500); }
+    .pcf-searchgo{
+      width: 40px; height: 40px; flex: none; border: 0; border-radius: var(--radius-pill);
+      background: var(--black); color: var(--white); cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center;
+      transition: background-color .15s ease;
+    }
+    .pcf-searchgo:hover{ background: #00000A; }
+    @media (prefers-reduced-motion: reduce){
+      .pcf-searchpanel{ transition: visibility 0s .001s; transform: none; }
+      .pcf-searchpanel.open{ transition: none; }
+    }
+
+    /* ============================================================
+       FIND PROPERTIES pull-down tab (Option 01 "Rounded Green",
+       breathing) → slides down the Integrated Map layer
+       ============================================================ */
+    :root{ --navH: 132px; } /* measured from the header by JS */
+    .md-tabwrap{ position: sticky; top: var(--navH); z-index: 39; height: 0; text-align: center; pointer-events: none; }
+    .md-tab{
+      pointer-events: auto; position: relative; cursor: pointer; border: 0; box-sizing: border-box;
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      font-family: var(--font-sans); font-weight: 600; font-size: 15px; color: #fff;
+      background: var(--rich-green); height: 46px; width: 340px; padding: 0 26px;
+      border-radius: 0 0 14px 14px; box-shadow: 0 6px 16px rgba(0,0,0,.18);
+      animation: md-flex 2s ease-in-out infinite;
+    }
+    .md-tab:hover{ background: var(--deep-teal); }
+    .md-tab:focus-visible{ outline: 3px solid #0077A8; outline-offset: 2px; }
+    .md-tab .md-chev{ display: inline-block; transition: transform .2s ease; }
+    .md-tab[aria-expanded="true"] .md-chev{ transform: rotate(180deg); }
+    .md-tab[aria-expanded="true"]{ animation: none; height: 46px; }
+    @keyframes md-flex{ 0%,100%{ height: 46px; } 50%{ height: 56px; } }
+
+    .md-backdrop{ position: fixed; inset: var(--navH) 0 0 0; z-index: 30; background: rgba(8,22,20,.55);
+      opacity: 0; visibility: hidden; transition: opacity .3s ease, visibility .3s ease; }
+    .md-backdrop.is-open{ opacity: 1; visibility: visible; }
+    .md-layer{ position: fixed; top: var(--navH); left: 0; right: 0; margin-inline: auto;
+      max-width: var(--site, 1400px); height: calc(100vh - var(--navH)); z-index: 31; background: #fff;
+      box-shadow: 0 18px 40px rgba(0,0,0,.25); transform: translateY(-100%);
+      transition: transform .38s cubic-bezier(.16,.84,.44,1); overflow-y: auto; overscroll-behavior: contain; }
+    .md-layer.is-open{ transform: translateY(0); }
+    .md-layer-bar{ position: sticky; top: 0; z-index: 2; display: flex; justify-content: flex-end;
+      align-items: center; padding: 14px 40px; background: #fff; }
+    .md-close{ display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
+      font-size: 18px; line-height: 1; color: var(--gray-900); background: #fff;
+      border: 1px solid var(--gray-200); border-radius: 50%; width: 40px; height: 40px; }
+    .md-close:hover{ border-color: var(--gray-900); }
+    .md-close:focus-visible{ outline: 2px solid #0077A8; outline-offset: 2px; }
+    .md-layer-body{ display: flex; align-items: center; justify-content: center;
+      min-height: calc(100vh - var(--navH) - 68px); }
+    .md-placeholder{ font-family: var(--font-serif); font-size: 40px; color: var(--gray-500); margin: 0; }
+    @media (prefers-reduced-motion: reduce){
+      .md-tab{ animation: none !important; height: 46px !important; }
+      .md-tab .md-chev{ transition: none; }
+      .md-layer, .md-backdrop{ transition: none; }
+    }
+
+    /* ============================================================
+       BODY — intentionally empty white space (content build-out TBD).
+       Height preserved to match the previous placeholder layout.
+       ============================================================ */
+    .empty-body{ min-height: 1500px; background: var(--white); }
+
+    /* ============================================================
+       FOOTER — houses everything pulled from the header
+       (phone, socials, IAA badge) + nav columns in nav order
+       ============================================================ */
+    .pff{ background: var(--pine); color: rgba(255,255,255,.78); }
+    .pff a{ color: rgba(255,255,255,.78); text-decoration: none; transition: color .15s ease; }
+    .pff a:hover{ color: var(--blue); }
+    .pff-inner{ max-width: var(--site); margin: 0 auto; padding: 0 var(--space-6); }
+
+    /* top: brand + contact + CTAs | four nav columns */
+    .pff-main{ padding: var(--space-8) 0 var(--space-7); }
+    .pff-grid{
+      display: grid; grid-template-columns: 1.5fr repeat(4, 1fr); gap: var(--space-7);
+    }
+    .pff-logo{ width: 260px; max-width: 100%; height: auto; margin-bottom: var(--space-4); }
+    .pff-tagline{ font-family: var(--font-serif); font-size: 18px; line-height: 1.45;
+      color: #fff; max-width: 34ch; margin: 0 0 var(--space-5); }
+    .pff-contact{ font-size: 14px; line-height: 1.9; margin-bottom: var(--space-5); }
+    .pff-contact b{ color: #fff; font-weight: 500; }
+    .pff-cta{ display: flex; gap: var(--space-3); flex-wrap: wrap; }
+    .pff-cta .btn{ padding: 12px 22px; font-size: 15px; }
+    .btn-onblue{ background: var(--blue); color: #06222F; border-color: var(--blue); }
+    .btn-onblue:hover{ background: #33c3f4; }
+    .btn-ghost{ background: transparent; color: #fff; border-color: rgba(255,255,255,.45); }
+    .btn-ghost:hover{ border-color: #fff; }
+
+    .pff-col h3{
+      font-family: var(--font-sans); font-size: 12px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: #fff; margin: 0 0 var(--space-4);
+    }
+    .pff-col ul{ list-style: none; margin: 0; padding: 0; }
+    .pff-col li{ margin-bottom: var(--space-3); }
+    .pff-col a{ font-size: 14px; }
+
+    /* bottom bar: social · IAA member · legal */
+    .pff-bottom{ border-top: 1px solid rgba(255,255,255,.14); }
+    .pff-bottom-inner{
+      max-width: var(--site); margin: 0 auto; padding: var(--space-5) var(--space-6);
+      display: flex; align-items: center; gap: var(--space-6); flex-wrap: wrap;
+    }
+    .pff-social{ display: inline-flex; align-items: center; gap: 16px; }
+    .pff-social a{ display: inline-flex; color: rgba(255,255,255,.85); }
+    .pff-social a:hover{ color: var(--blue); }
+    .pff-social svg{ width: 18px; height: 18px; display: block; }
+
+    .pff-member{ display: inline-flex; align-items: center; gap: 10px; color: #fff; }
+    .pff-member .emb{ flex: none; }
+    .pff-member .mtxt{ display: flex; flex-direction: column; line-height: 1.1; }
+    .pff-member .mtxt small{ font-size: 8.5px; letter-spacing: .14em; font-weight: 600; opacity: .8; }
+    .pff-member .mtxt b{ font-size: 12px; letter-spacing: .04em; font-weight: 800; white-space: nowrap; }
+
+    .pff-legal{ margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; font-size: 12.5px; }
+    .pff-legal .copy{ color: rgba(255,255,255,.55); }
+    .pff-legal .legal-links{ display: flex; gap: 20px; }
+    .pff-legal a{ color: rgba(255,255,255,.7); }
+    .pff-legal a:hover{ color: var(--blue); }
+
+    /* ============================================================
+       Scroll-reveal (a must-have) — reduced-motion safe
+       ============================================================ */
+    .reveal{ opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.in{ opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce){
+      .reveal{ opacity: 1; transform: none; transition: none; }
+      .pcf-menus a::after{ transition: none; }
+    }
+
+    /* ============================================================
+       Responsive
+       ============================================================ */
+    @media (max-width: 1040px){
+      .pff-grid{ grid-template-columns: 1fr 1fr 1fr; }
+      .pff-brand{ grid-column: 1 / -1; }
+    }
+    @media (max-width: 880px){
+      .pcf-logo{ height: 60px; }
+      .pcf-menus{ font-size: 16px; }
+      .pcf-row{ gap: 32px; }
+    }
+    @media (max-width: 720px){
+      .pcf-menus{ display: none; }
+      .pff-grid{ grid-template-columns: 1fr 1fr; }
+      .pff-legal{ margin-left: 0; text-align: left; }
     }
   </style>
 </head>
 
 <body>
-  <main class="index-page">
-    <img src="../shared/logos/pc_blue_mark.png" alt="Peoples Company" />
-
-    <div class="index-links">
-      <a class="btn btn-accent" href="./style-guide.html">Style Guide</a>
-      <a class="btn btn-black" href="./mockup.html">Mock-Up</a>
+  <!-- ================= HEADER (Option F) ================= -->
+  <header class="pcf">
+    <div class="pcf-inner">
+      <div class="pcf-brandrow">
+        <div class="pcf-brandcell">
+          <a href="./index.html" aria-label="Peoples Company home">
+            <img class="pcf-logo" src="../shared/logos/peoples-company-logo.png" alt="Peoples Company — Integrated Land Solutions" />
+          </a>
+        </div>
+        <div class="pcf-stack">
+          <div class="pcf-util">
+            <span class="sp"></span>
+            <a href="#">Land Investment Expo</a>
+            <span class="sep">|</span>
+            <a href="#">Login</a>
+          </div>
+          <nav class="pcf-row" aria-label="Primary">
+            <ul class="pcf-menus" id="pcfMenus"></ul>
+            <div class="pcf-searchwrap">
+              <button class="pcf-search" id="searchToggle" aria-label="Search" aria-expanded="false" aria-controls="searchPanel">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+              </button>
+              <div class="pcf-searchpanel" id="searchPanel">
+                <form class="pcf-searchform" role="search" action="#" onsubmit="return false;">
+                  <input type="search" id="searchInput" placeholder="Search Peoples Company…" aria-label="Search the site" />
+                  <button type="submit" class="pcf-searchgo" aria-label="Submit search">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
+                  </button>
+                </form>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div>
     </div>
-  </main>
+  </header>
+
+  <!-- ============ FIND PROPERTIES pull-down tab → Integrated Map layer ============ -->
+  <div class="md-tabwrap">
+    <button class="md-tab" type="button" aria-expanded="false" aria-controls="md-layer">Find Properties <span class="md-chev" aria-hidden="true">▾</span></button>
+  </div>
+  <div class="md-backdrop" hidden></div>
+  <div class="md-layer" id="md-layer" role="region" aria-label="Integrated map" aria-hidden="true" hidden>
+    <div class="md-layer-bar"><button class="md-close" type="button" aria-label="Close">✕</button></div>
+    <div class="md-layer-body"><p class="md-placeholder">Interactive FarmWorth Map</p></div>
+  </div>
+
+  <!-- ================= PAGE CONTENT — intentionally empty white space ================= -->
+  <main class="empty-body" aria-hidden="true"></main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="pff">
+    <div class="pff-main">
+      <div class="pff-inner pff-grid">
+        <div class="pff-brand pff-col">
+          <img class="pff-logo" src="../shared/logos/pc_logo_white.webp" alt="Peoples Company" />
+          <p class="pff-tagline">Integrated Land Solutions. The largest farmland brokerage and management firm in the United States.</p>
+          <p class="pff-contact">
+            1108 S. 44th St, Suite 102<br />
+            Cumming, IA 50061<br />
+            <b><a href="tel:+18558005263">(855) 800-LAND</a></b><br />
+            <a href="mailto:Info@PeoplesCompany.com">Info@PeoplesCompany.com</a>
+          </p>
+          <div class="pff-cta">
+            <a class="btn btn-onblue" href="#">Talk to an Advisor</a>
+            <a class="btn btn-ghost" href="#">Find an Office</a>
+          </div>
+        </div>
+
+        <nav class="pff-col" aria-label="Real Estate">
+          <h3>Real Estate</h3>
+          <ul>
+            <li><a href="#">Farmland</a></li>
+            <li><a href="#">Development Land</a></li>
+            <li><a href="#">Commercial</a></li>
+            <li><a href="#">Residential</a></li>
+            <li><a href="#">Auctions</a></li>
+            <li><a href="#">Interactive Map</a></li>
+          </ul>
+        </nav>
+
+        <nav class="pff-col" aria-label="The Company">
+          <h3>The Company</h3>
+          <ul>
+            <li><a href="#">Overview</a></li>
+            <li><a href="#">Our Team</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Regions</a></li>
+            <li><a href="#">Offices</a></li>
+            <li><a href="#">The Land Expo</a></li>
+          </ul>
+        </nav>
+
+        <nav class="pff-col" aria-label="What We Do">
+          <h3>What We Do</h3>
+          <ul>
+            <li><a href="#">Land Brokerage &amp; Auctions</a></li>
+            <li><a href="#">Land Management</a></li>
+            <li><a href="#">Agricultural Appraisal</a></li>
+            <li><a href="#">Capital Markets</a></li>
+            <li><a href="#">Corporate Services</a></li>
+            <li><a href="#">Energy Management</a></li>
+            <li><a href="#">Crop Insurance</a></li>
+          </ul>
+        </nav>
+
+        <nav class="pff-col" aria-label="Insights &amp; News">
+          <h3>Insights &amp; News</h3>
+          <ul>
+            <li><a href="#">FarmWorth</a></li>
+            <li><a href="#">National Land Values</a></li>
+            <li><a href="#">Industry Research</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">In the News</a></li>
+            <li><a href="#">Press Releases</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <div class="pff-bottom">
+      <div class="pff-bottom-inner">
+        <span class="pff-social">
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5H17V3.6c-.3 0-1.3-.13-2.46-.13-2.44 0-4.1 1.49-4.1 4.22v2.35H7.7V13h2.74v8h3.06z"/></svg></a>
+          <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 3h3l-6.55 7.48L21.6 21h-5.9l-4.62-6.04L5.8 21H2.8l7-8L2.6 3h6.05l4.18 5.52L17.5 3zm-1.05 16.2h1.66L7.6 4.7H5.82l10.63 14.5z"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.94 5A1.94 1.94 0 113 5a1.94 1.94 0 013.94 0zM3.4 8.5h3.1V21H3.4V8.5zM9.1 8.5h2.97v1.7h.04c.41-.78 1.42-1.6 2.93-1.6 3.13 0 3.71 2.06 3.71 4.74V21h-3.1v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.85V21H9.1V8.5z"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.2-.4-4.7c-.23-.83-.9-1.5-1.73-1.72C19.36 5.2 12 5.2 12 5.2s-7.36 0-8.87.38c-.83.22-1.5.9-1.73 1.72C1 8.8 1 12 1 12s0 3.2.4 4.7c.23.83.9 1.5 1.73 1.72C4.64 18.8 12 18.8 12 18.8s7.36 0 8.87-.38c.83-.22 1.5-.9 1.73-1.72C23 15.2 23 12 23 12zM9.75 15.02V8.98L15 12l-5.25 3.02z"/></svg></a>
+        </span>
+
+        <span class="pff-member">
+          <svg class="emb" viewBox="0 0 64 64" width="34" height="34" aria-hidden="true"><circle cx="32" cy="26" r="14" fill="none" stroke="currentColor" stroke-width="1.6"/><ellipse cx="32" cy="26" rx="6" ry="14" fill="none" stroke="currentColor" stroke-width="1.1"/><line x1="18" y1="26" x2="46" y2="26" stroke="currentColor" stroke-width="1.1"/><path d="M20 19 Q32 23 44 19" fill="none" stroke="currentColor" stroke-width="1"/><path d="M20 33 Q32 29 44 33" fill="none" stroke="currentColor" stroke-width="1"/><path d="M32 45 C24 43 18 47 15 55 C24 55 30 52 32 45Z" fill="currentColor"/><path d="M32 45 C40 43 46 47 49 55 C40 55 34 52 32 45Z" fill="currentColor"/><line x1="32" y1="43" x2="32" y2="55" stroke="currentColor" stroke-width="1.3"/></svg>
+          <span class="mtxt"><small>PROUD MEMBER OF THE</small><b>INTERNATIONAL AG ALLIANCE</b></span>
+        </span>
+
+        <span class="pff-legal">
+          <span class="copy">© 2026 Peoples Company</span>
+          <span class="legal-links">
+            <a href="#">Privacy Notice</a>
+            <a href="#">Disclaimer</a>
+            <a href="#">Equal Opportunity</a>
+          </span>
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mega-menu nav built from the real IA (same structure/behavior as concept-34's shared nav)
+    (function(){
+      var NAV = [
+        { label: "Real Estate", cols: [
+          { h: "For Sale", items: ["Farmland","Development Land","Commercial","Residential","Interactive Map"] },
+          { h: "Auctions", items: ["Upcoming Auctions","Prior Auctions","Auction Results"] },
+          { h: "Sold Properties", items: [] },
+          { note: "Listings are out of scope — links are placeholders." }
+        ]},
+        { label: "The Company", cols: [
+          { h: "The Company", items: ["Overview","Sustainability","Our Team","Culture","Careers"] },
+          { h: "The Land Expo", items: [] },
+          { h: "Regions", items: [] },
+          { h: "Offices", items: [] },
+          { h: "Our Clients", items: ["Institutional Investors","Financial Advisors","Family Offices / HNW","Landowners","Operators"] },
+          { h: "Industry Collaboration", items: ["FarmWorth"] }
+        ]},
+        { label: "What We Do", cols: [
+          { h: "Land Brokerage & Auctions", items: ["Marketing Approach","Sale Methods","Auction Platform","Find an Agent"] },
+          { h: "Land Management", items: ["Management Approach","Consulting","Operators","Request an Assessment"] },
+          { h: "Agricultural Appraisal", items: ["Order an Appraisal"] },
+          { h: "Capital Markets", items: [] },
+          { h: "Corporate Services", items: [] },
+          { h: "Energy Management", items: [] },
+          { h: "Crop Insurance", items: [] }
+        ]},
+        { label: "Insights & News", cols: [
+          { h: "Insights", items: ["FarmWorth","Data & Tools","National Land Values","Industry Research","Newsletters","Blog"] },
+          { h: "News", items: ["In the News","Press Releases","Industry Recognition","View All"] }
+        ]}
+      ];
+      function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+      function colHTML(c){
+        // a heading with no children is itself a link (e.g. Capital Markets, Regions)
+        if(c.h && (!c.items || !c.items.length) && !c.note){
+          return '<div class="pcf-col"><h4 style="border:0;margin-bottom:0;"><a href="#" style="color:inherit;text-decoration:none;">'+esc(c.h)+'</a></h4></div>';
+        }
+        var links = (c.items || []).map(function(i){ return '<li><a href="#">'+esc(i)+'</a></li>'; }).join("");
+        var head = c.h ? '<h4>'+esc(c.h)+'</h4>' : '';
+        var note = c.note ? '<p class="soft">'+esc(c.note)+'</p>' : '';
+        return '<div class="pcf-col">'+head+(links ? '<ul>'+links+'</ul>' : '')+note+'</div>';
+      }
+      function itemHTML(n){
+        return '<li><a href="#" aria-haspopup="true">'+esc(n.label)+'</a>'+
+          '<div class="pcf-mega" role="menu" aria-label="'+esc(n.label)+'">'+
+            '<div class="pcf-mega-in">'+n.cols.map(colHTML).join("")+'</div>'+
+          '</div></li>';
+      }
+      var mount = document.getElementById("pcfMenus");
+      if(mount) mount.innerHTML = NAV.map(itemHTML).join("");
+    })();
+
+    // Find Properties pull-down → slide-down Integrated Map layer (map module drops in later)
+    (function(){
+      var tab = document.querySelector(".md-tab"),
+          layer = document.getElementById("md-layer"),
+          backdrop = document.querySelector(".md-backdrop"),
+          closeBtn = document.querySelector(".md-close"),
+          header = document.querySelector("header.pcf");
+      if(!tab || !layer || !backdrop) return;
+      function syncNavH(){ if(header) document.documentElement.style.setProperty("--navH", header.offsetHeight + "px"); }
+      syncNavH(); window.addEventListener("resize", syncNavH); window.addEventListener("load", syncNavH);
+      var logoImg = header && header.querySelector("img");
+      if(logoImg && !logoImg.complete) logoImg.addEventListener("load", syncNavH);
+      function onKey(e){ if(e.key === "Escape" || e.key === "Esc") close(); }
+      function open(){
+        syncNavH(); backdrop.hidden = false; layer.hidden = false;
+        requestAnimationFrame(function(){ backdrop.classList.add("is-open"); layer.classList.add("is-open"); });
+        tab.setAttribute("aria-expanded", "true"); layer.setAttribute("aria-hidden", "false");
+        closeBtn.focus(); document.addEventListener("keydown", onKey);
+      }
+      function close(){
+        backdrop.classList.remove("is-open"); layer.classList.remove("is-open");
+        tab.setAttribute("aria-expanded", "false"); layer.setAttribute("aria-hidden", "true");
+        document.removeEventListener("keydown", onKey);
+        var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var after = function(){ backdrop.hidden = true; layer.hidden = true; };
+        if(reduce) after();
+        else layer.addEventListener("transitionend", function te(e){ if(e.propertyName === "transform"){ layer.removeEventListener("transitionend", te); after(); } });
+        tab.focus();
+      }
+      tab.addEventListener("click", function(){ if(tab.getAttribute("aria-expanded") === "true") close(); else open(); });
+      closeBtn.addEventListener("click", close); backdrop.addEventListener("click", close);
+    })();
+
+    // Search: magnifier toggles a text field + submit icon below it (non-functional — listings out of scope)
+    (function(){
+      var toggle = document.getElementById("searchToggle");
+      var panel  = document.getElementById("searchPanel");
+      var input  = document.getElementById("searchInput");
+      if(!toggle || !panel) return;
+
+      function open(){
+        panel.classList.add("open");
+        toggle.setAttribute("aria-expanded", "true");
+        if(input){ input.focus(); }
+        document.addEventListener("mousedown", onOutside);
+        document.addEventListener("keydown", onKey);
+      }
+      function close(returnFocus){
+        panel.classList.remove("open");
+        toggle.setAttribute("aria-expanded", "false");
+        document.removeEventListener("mousedown", onOutside);
+        document.removeEventListener("keydown", onKey);
+        if(returnFocus){ toggle.focus(); }
+      }
+      function onOutside(e){
+        if(!panel.contains(e.target) && !toggle.contains(e.target)){ close(false); }
+      }
+      function onKey(e){
+        if(e.key === "Escape" || e.key === "Esc"){ close(true); }
+      }
+      toggle.addEventListener("click", function(){
+        if(panel.classList.contains("open")){ close(true); } else { open(); }
+      });
+    })();
+
+    // Scroll-reveal (must-have) — reduced-motion safe
+    (function(){
+      var els = document.querySelectorAll(".reveal");
+      var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if(reduce || !("IntersectionObserver" in window)){
+        els.forEach(function(el){ el.classList.add("in"); });
+        return;
+      }
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
+      }, { threshold: 0.12 });
+      els.forEach(function(el){ io.observe(el); });
+    })();
+  </script>
 </body>
 </html>
