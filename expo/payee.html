@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <title>Expo Payee | Peoples Company</title>
+  <meta name='description' content='Design prototype for payee details in the Land Investment Expo purchase flow.'>
+  <link rel='preconnect' href='https://fonts.googleapis.com'>
+  <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+  <link href='https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap' rel='stylesheet'>
+  <link rel='stylesheet' href='css/expo.css'>
+</head>
+<body>
+  <div class='page-shell'>
+    <header class='site-header'>
+      <div class='site-brand'>
+        <div class='site-brand__logo'>PC</div>
+        <div class='site-brand__title'>Land Investment Expo</div>
+      </div>
+      <nav class='site-nav'>
+        <a href='registration.html'>Registration</a>
+        <a href='checkout-attendees.html'>Attendees</a>
+        <a href='payee.html'>Payee</a>
+        <a href='payment.html'>Payment</a>
+      </nav>
+    </header>
+    <section class='hero'>
+      <div class='hero-content'>
+        <h1 class='hero-title'>Payee Information</h1>
+        <p class='hero-copy'>Capture the billing and contact details of the responsible payee in a clear two-column layout.</p>
+      </div>
+    </section>
+    <div class='stepper'>
+      <div class='step completed'><div class='step__circle'>1</div><span class='step__label'>Tickets</span></div>
+      <div class='step completed'><div class='step__circle'>2</div><span class='step__label'>Attendees</span></div>
+      <div class='step active'><div class='step__circle'>3</div><span class='step__label'>Payee</span></div>
+      <div class='step'><div class='step__circle'>4</div><span class='step__label'>Review</span></div>
+      <div class='step'><div class='step__circle'>5</div><span class='step__label'>Confirm</span></div>
+    </div>
+    <section class='section'>
+      <div class='card'>
+        <h2 class='section__title'>Payee Information</h2>
+        <div class='field-grid'>
+          <div class='field-card'><label>First Name *</label><input type='text' placeholder='First name'></div>
+          <div class='field-card'><label>Last Name *</label><input type='text' placeholder='Last name'></div>
+          <div class='field-card'><label>Email *</label><input type='email' placeholder='name@example.com'></div>
+          <div class='field-card'><label>Phone *</label><input type='tel' placeholder='(555) 123-4567'></div>
+          <div class='field-card'><label>Company Name *</label><input type='text' placeholder='Company name'></div>
+          <div class='field-card'><label>Country *</label><select><option>United States</option><option>Canada</option><option>United Kingdom</option></select></div>
+          <div class='field-card'><label>Billing Address *</label><input type='text' placeholder='123 Main Street'></div>
+          <div class='field-card'><label>City *</label><input type='text' placeholder='City'></div>
+          <div class='field-card'><label>State *</label><select><option>IA</option><option>IL</option><option>IN</option></select></div>
+          <div class='field-card'><label>Postal Code *</label><input type='text' placeholder='Postal code'></div>
+        </div>
+      </div>
+      <section class='section'>
+        <div class='card'>
+          <h2 class='section__title'>Cancellations & Substitutions</h2>
+          <p class='section__copy'>This event will not be canceled due to weather. You may substitute another attendee as needed. Please notify the Expo team at least 48 hours prior to the event.</p>
+        </div>
+      </section>
+      <section class='section'>
+        <div class='card'>
+          <h2 class='section__title'>Agreement</h2>
+          <p class='section__copy'>By continuing, the payee confirms that the billing information is accurate and that they agree to Expo registration terms and event communications.</p>
+          <div class='checkbox-row'>
+            <label><input type='checkbox' checked required> I agree to the Expo registration terms and conditions.</label>
+          </div>
+          <div class='checkbox-row'>
+            <label><input type='checkbox' checked required> I confirm the billing information provided is complete and accurate.</label>
+          </div>
+        </div>
+      </section>
+      <div class='btn-group'>
+        <a href='checkout-attendees.html' class='btn btn-secondary'>Back to Attendee Info</a>
+        <a href='payment.html' class='btn btn-primary'>Next: Review &amp; Payment</a>
+      </div>
+    </section>
+    <footer class='footer'><small>Design-only expo flow in /expo folder.</small></footer>
+  </div>
+</body>
+</html>

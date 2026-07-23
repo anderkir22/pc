@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <title>Expo Registration | Peoples Company</title>
+  <meta name='description' content='Design prototype for the Land Investment Expo registration flow.'>
+  <link rel='preconnect' href='https://fonts.googleapis.com'>
+  <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+  <link href='https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap' rel='stylesheet'>
+  <link rel='stylesheet' href='css/expo.css'>
+</head>
+<body>
+  <div class='page-shell'>
+    <header class='site-header'>
+      <div class='site-brand'>
+        <div class='site-brand__logo'>PC</div>
+        <div class='site-brand__title'>Land Investment Expo</div>
+      </div>
+      <nav class='site-nav'>
+        <a href='registration.html'>Registration</a>
+        <a href='checkout-attendees.html'>Attendees</a>
+        <a href='payee.html'>Payee</a>
+        <a href='payment.html'>Payment</a>
+      </nav>
+    </header>
+    <section class='hero'>
+      <div class='hero-content'>
+        <h1 class='hero-title'>Registration</h1>
+        <p class='hero-copy'>A refreshed purchase flow designed to guide your Expo ticket selection and attendee details with clarity.</p>
+      </div>
+    </section>
+    <div class='stepper'>
+      <div class='step active'>
+        <div class='step__circle'>1</div>
+        <span class='step__label'>Tickets</span>
+      </div>
+      <div class='step'>
+        <div class='step__circle'>2</div>
+        <span class='step__label'>Attendees</span>
+      </div>
+      <div class='step'>
+        <div class='step__circle'>3</div>
+        <span class='step__label'>Payee</span>
+      </div>
+      <div class='step'>
+        <div class='step__circle'>4</div>
+        <span class='step__label'>Review</span>
+      </div>
+      <div class='step'>
+        <div class='step__circle'>5</div>
+        <span class='step__label'>Confirm</span>
+      </div>
+    </div>
+    <section class='section'>
+      <h2 class='section__title'>TICKETS</h2>
+      <p class='section__copy'>Choose Your Land Investment Expo Experience. This year, registration includes three event components. Please select the ticket option(s) that best fit your interests:</p>
+      <ul class='section__copy' style='list-style: disc; padding-left: 22px; margin-top: 18px;'>
+        <li>Farmland Masterclass (Monday)</li>
+        <li>Land Investment Expo (Tuesday)</li>
+        <li>Attorney Continuing Education Program (for licensed attorneys only)</li>
+      </ul>
+      <p class='section__copy'>You may register for one event or combine multiple events based on your interests and eligibility.</p>
+    </section>
+    <section class='section'>
+      <div class='card'>
+        <label><strong>HOW MANY PEOPLE ARE ATTENDING?</strong></label>
+        <div class='toggle-row'>
+          <select class='small-select' aria-label='Number of attendees'>
+            <option value='1'>1</option>
+            <option value='2'>2</option>
+            <option value='3'>3</option>
+            <option value='4'>4</option>
+            <option value='5'>5</option>
+            <option value='6'>6</option>
+            <option value='7'>7</option>
+            <option value='8'>8</option>
+            <option value='9'>9</option>
+            <option value='10'>10</option>
+            <option value='11'>11</option>
+            <option value='12'>12</option>
+            <option value='13'>13</option>
+            <option value='14'>14</option>
+            <option value='15'>15</option>
+            <option value='16'>16</option>
+            <option value='17'>17</option>
+            <option value='18'>18</option>
+            <option value='19'>19</option>
+          </select>
+        </div>
+        <div class='field-note'>
+          <strong>Note:</strong> This registration batch applies to one purchase transaction and all attendees being registered together for the same package selections.
+        </div>
+      </div>
+    </section>
+    <section class='section'>
+      <h2 class='section__title'>SELECT YOUR PACKAGE</h2>
+      <p class='section__copy'>This package will be applied to all attendees in this registration.</p>
+      <div class='package-list'>
+        <div class='package-group'>
+          <div class='package-header'>
+            <span>LAND INVESTMENT EXPO TICKETS</span>
+            <span class='tooltip' data-tip='Attend the main Expo in-person or virtually on Tuesday, January 12, 2027.'>?</span>
+          </div>
+          <div class='package-dates'>Tuesday, January 12, 2027, 7:00 AM - 6:00 PM</div>
+          <div class='package-options'>
+            <label class='package-option'>
+              <div class='option-body'>
+                <input type='radio' name='expo' checked>
+                <strong>None / No Thanks</strong>
+              </div>
+              <span class='option-price'>$0</span>
+            </label>
+            <label class='package-option'>
+              <div class='option-body'>
+                <input type='radio' name='expo'>
+                <strong>In-Person</strong>
+              </div>
+              <span class='option-price'>$475.00</span>
+            </label>
+            <label class='package-option'>
+              <div class='option-body'>
+                <input type='radio' name='expo'>
+                <strong>Virtual</strong>
+              </div>
+              <span class='option-price'>$150.00</span>
+            </label>
+          </div>
+        </div>
+        <div class='package-group'>
+          <div class='package-header'>
+            <span>FARMLAND MASTERCLASS TICKETS</span>
+            <span class='tooltip' data-tip='Masterclass access for Monday, either in-person or virtually.'>?</span>
+          </div>
+          <div class='package-dates'>Monday, January 11, 2027, 12:00 PM - 3:00 PM</div>
+          <div class='package-options'>
+            <label class='package-option'>
+              <div class='option-body'>
+                <input type='radio' name='masterclass' checked>
+                <strong>None / No Thanks</strong>
+              </div>
+              <span class='option-price'>$0</span>
+            </label>
+            <label class='package-option'>
+              <div class='option-body'>
+                <input type='radio' name='masterclass'>
+                <strong>In-Person</strong>
+              </div>
+              <span class='option-price'>$XXX</span>
+            </label>
+            <label class='package-option'>
+              <div class='option-body'>
+                <input type='radio' name='masterclass'>
+                <strong>Virtual</strong>
+              </div>
+              <span class='option-price'>$XXX</span>
+            </label>
+          </div>
+        </div>
+        <div class='package-group'>
+          <div class='package-header'>
+            <span>ATTORNEY CONTINUING EDUCATION TICKETS</span>
+            <span class='tooltip' data-tip='Attorney continuing education tickets for Monday, licensed attorneys only.'>?</span>
+          </div>
+          <div class='package-dates'>Monday, January 11, 2027, 10:00 AM - 2:00 PM</div>
+          <div class='package-description'><strong>For licensed attorneys only.</strong></div>
+          <div class='package-options'>
+            <label class='package-option'>
+              <div class='option-body'>
+                <input type='radio' name='attorney' checked>
+                <strong>None / No Thanks</strong>
+              </div>
+              <span class='option-price'>$0</span>
+            </label>
+            <label class='package-option'>
+              <div class='option-body'>
+                <input type='radio' name='attorney'>
+                <strong>In-Person</strong>
+              </div>
+              <span class='option-price'>$XXX</span>
+            </label>
+            <label class='package-option'>
+              <div class='option-body'>
+                <input type='radio' name='attorney'>
+                <strong>Virtual</strong>
+              </div>
+              <span class='option-price'>$XXX</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class='btn-group'>
+      <a href='checkout-attendees.html' class='btn btn-primary'>Next: Attendee Information</a>
+    </div>
+    <footer class='footer'><small>Design-only expo flow in /expo folder.</small></footer>
+  </div>
+</body>
+</html>

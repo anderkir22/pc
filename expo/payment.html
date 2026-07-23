@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <title>Expo Payment Review | Peoples Company</title>
+  <meta name='description' content='Design prototype for the payment review page in the Land Investment Expo purchase flow.'>
+  <link rel='preconnect' href='https://fonts.googleapis.com'>
+  <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+  <link href='https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap' rel='stylesheet'>
+  <link rel='stylesheet' href='css/expo.css'>
+</head>
+<body>
+  <div class='page-shell'>
+    <header class='site-header'>
+      <div class='site-brand'>
+        <div class='site-brand__logo'>PC</div>
+        <div class='site-brand__title'>Land Investment Expo</div>
+      </div>
+      <nav class='site-nav'>
+        <a href='registration.html'>Registration</a>
+        <a href='checkout-attendees.html'>Attendees</a>
+        <a href='payee.html'>Payee</a>
+        <a href='payment.html'>Payment</a>
+      </nav>
+    </header>
+    <section class='hero'>
+      <div class='hero-content'>
+        <h1 class='hero-title'>Review &amp; Payment</h1>
+        <p class='hero-copy'>Finalize your registration with a review of attendee and payee information plus a cart summary.</p>
+      </div>
+    </section>
+    <div class='stepper'>
+      <div class='step completed'><div class='step__circle'>1</div><span class='step__label'>Tickets</span></div>
+      <div class='step completed'><div class='step__circle'>2</div><span class='step__label'>Attendees</span></div>
+      <div class='step completed'><div class='step__circle'>3</div><span class='step__label'>Payee</span></div>
+      <div class='step active'><div class='step__circle'>4</div><span class='step__label'>Review</span></div>
+      <div class='step'><div class='step__circle'>5</div><span class='step__label'>Confirm</span></div>
+    </div>
+    <section class='section'>
+      <div class='summary-grid'>
+        <div class='summary-item'>
+          <h3>Attendee Information</h3>
+          <p><strong>Jane Doe</strong> — jane.doe@example.com</p>
+          <p><strong>John Smith</strong> — john.smith@example.com</p>
+        </div>
+        <div class='summary-item'>
+          <h3>Payee Information</h3>
+          <p><strong>Chris Buyer</strong></p>
+          <p>chris.buyer@example.com</p>
+          <p>Peoples Company</p>
+          <p>123 Main Street, Des Moines, IA 50309</p>
+        </div>
+      </div>
+    </section>
+    <section class='section'>
+      <div class='card'>
+        <h2 class='section__title'>Cart</h2>
+        <div class='field-grid'>
+          <div class='field-card'><label>Promo / Discount Code</label><input type='text' placeholder='Enter code'></div>
+          <div class='field-card'><label>&nbsp;</label><a class='btn btn-secondary' href='#'>Apply</a></div>
+        </div>
+        <div class='table-wrap'>
+          <table class='summary-table'>
+            <thead>
+              <tr><th>Item</th><th>Type</th><th>Qty</th><th>Cost</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2027 Land Investment Expo</td>
+                <td>In-person</td>
+                <td>2</td>
+                <td>$950.00</td>
+              </tr>
+              <tr>
+                <td>Masterclass Add-On</td>
+                <td>Virtual</td>
+                <td>2</td>
+                <td>$120.00</td>
+              </tr>
+              <tr>
+                <td>Pre-Expo Reception</td>
+                <td></td>
+                <td>1</td>
+                <td>$0.00</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class='summary-total'><span>Subtotal</span><strong>$1,070.00</strong></div>
+          <div class='summary-total'><span>Discount</span><strong>$0.00</strong></div>
+          <div class='summary-total'><span>Total</span><strong>$1,070.00</strong></div>
+        </div>
+      </div>
+    </section>
+    <section class='section'>
+      <div class='btn-group'>
+        <a href='payee.html' class='btn btn-secondary'>Back to Payee</a>
+        <a href='payment.html' class='btn btn-primary'>Confirm &amp; Pay</a>
+      </div>
+    </section>
+    <footer class='footer'><small>Design-only expo flow in /expo folder.</small></footer>
+  </div>
+</body>
+</html>

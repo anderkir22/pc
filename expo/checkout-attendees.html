@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+  <title>Expo Attendee Information | Peoples Company</title>
+  <meta name='description' content='Design prototype for attendee details in the Land Investment Expo checkout flow.'>
+  <link rel='preconnect' href='https://fonts.googleapis.com'>
+  <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+  <link href='https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap' rel='stylesheet'>
+  <link rel='stylesheet' href='css/expo.css'>
+</head>
+<body>
+  <div class='page-shell'>
+    <header class='site-header'>
+      <div class='site-brand'>
+        <div class='site-brand__logo'>PC</div>
+        <div class='site-brand__title'>Land Investment Expo</div>
+      </div>
+      <nav class='site-nav'>
+        <a href='registration.html'>Registration</a>
+        <a href='checkout-attendees.html'>Attendees</a>
+        <a href='payee.html'>Payee</a>
+        <a href='payment.html'>Payment</a>
+      </nav>
+    </header>
+    <section class='section'>
+      <h2 class='section__title'>ATTENDEE INFORMATION</h2>
+      <p class='section__copy'>Registering <strong>XX</strong> attendees. If buying multiple tickets, please provide the information listed below for each ticket holder. The information provided below will be used for nametags and registration at the event.</p>
+    </section>
+    <div class='stepper'>
+      <div class='step completed'><div class='step__circle'>1</div><span class='step__label'>Tickets</span></div>
+      <div class='step active'><div class='step__circle'>2</div><span class='step__label'>Attendees</span></div>
+      <div class='step'><div class='step__circle'>3</div><span class='step__label'>Payee</span></div>
+      <div class='step'><div class='step__circle'>4</div><span class='step__label'>Review</span></div>
+      <div class='step'><div class='step__circle'>5</div><span class='step__label'>Confirm</span></div>
+    </div>
+    <section class='section'>
+      <details class='attendee-card' open>
+        <summary class='attendee-summary'>
+          <h2 class='section__title'>Attendee #1</h2>
+          <span class='summary-meta'>Complete attendee information</span>
+        </summary>
+        <div class='field-grid condensed'>
+          <div class='field-card col-3'><label>First Name *</label><input type='text' placeholder='First name'></div>
+          <div class='field-card col-3'><label>Last Name *</label><input type='text' placeholder='Last name'></div>
+          <div class='field-card col-2'><label>Email *</label><input type='email' placeholder='name@example.com'></div>
+          <div class='field-card col-2'><label>Mobile Phone</label><input type='tel' placeholder='(555) 123-4567'></div>
+          <div class='field-card col-2'><label>Zip Code</label><input type='text' placeholder='50309'></div>
+          <div class='field-card col-2'><label>LinkedIn Profile</label><input type='url' placeholder='https://linkedin.com/in/example'></div>
+          <div class='field-card col-2'><label>Company</label><input type='text' placeholder='Company name'></div>
+          <div class='field-card col-2'><label>Title</label><input type='text' placeholder='Title'></div>
+        </div>
+        <div class='field-grid condensed attendee-event-row'>
+          <div class='field-card col-3'><label>Pre-Expo Reception Attendance</label>
+            <select>
+              <option>Yes, attending</option>
+              <option>No, not attending</option>
+            </select>
+          </div>
+          <div class='field-card col-3 event-copy'>
+            <p>Location: [Venue TBD] | 6:00 PM - 8:30 PM</p>
+            <p>Select whether this attendee plans to attend the Monday evening Pre-Expo Reception.</p>
+          </div>
+        </div>
+        <div class='toggle-row'>
+          <div><input type='checkbox' checked required><span>I acknowledge and agree to receive communications regarding this event and future events. *</span></div>
+        </div>
+      </details>
+      <details class='attendee-card'>
+        <summary class='attendee-summary'>
+          <h2 class='section__title'>Attendee #2</h2>
+          <span class='summary-meta'>Expand to edit attendee details</span>
+        </summary>
+        <div class='field-grid condensed'>
+          <div class='field-card col-3'><label>First Name *</label><input type='text' placeholder='First name'></div>
+          <div class='field-card col-3'><label>Last Name *</label><input type='text' placeholder='Last name'></div>
+          <div class='field-card col-2'><label>Email *</label><input type='email' placeholder='name@example.com'></div>
+          <div class='field-card col-2'><label>Mobile Phone</label><input type='tel' placeholder='(555) 123-4567'></div>
+          <div class='field-card col-2'><label>Zip Code</label><input type='text' placeholder='50309'></div>
+          <div class='field-card col-2'><label>LinkedIn Profile</label><input type='url' placeholder='https://linkedin.com/in/example'></div>
+          <div class='field-card col-2'><label>Company</label><input type='text' placeholder='Company name'></div>
+          <div class='field-card col-2'><label>Title</label><input type='text' placeholder='Title'></div>
+        </div>
+        <div class='field-grid condensed attendee-event-row'>
+          <div class='field-card col-3'><label>Pre-Expo Reception Attendance</label>
+            <select>
+              <option>Yes, attending</option>
+              <option>No, not attending</option>
+            </select>
+          </div>
+          <div class='field-card col-3 event-copy'>
+            <p>Location: [Venue TBD] | 6:00 PM - 8:30 PM</p>
+            <p>Select whether this attendee plans to attend the Monday evening Pre-Expo Reception.</p>
+          </div>
+        </div>
+        <div class='toggle-row'>
+          <div><input type='checkbox' checked required><span>I acknowledge and agree to receive communications regarding this event and future events. *</span></div>
+        </div>
+      </details>
+      <details class='attendee-card'>
+        <summary class='attendee-summary'>
+          <h2 class='section__title'>Attendee #3</h2>
+          <span class='summary-meta'>Expand to edit attendee details</span>
+        </summary>
+        <div class='field-grid condensed'>
+          <div class='field-card col-3'><label>First Name *</label><input type='text' placeholder='First name'></div>
+          <div class='field-card col-3'><label>Last Name *</label><input type='text' placeholder='Last name'></div>
+          <div class='field-card col-2'><label>Email *</label><input type='email' placeholder='name@example.com'></div>
+          <div class='field-card col-2'><label>Mobile Phone</label><input type='tel' placeholder='(555) 123-4567'></div>
+          <div class='field-card col-2'><label>Zip Code</label><input type='text' placeholder='50309'></div>
+          <div class='field-card col-2'><label>LinkedIn Profile</label><input type='url' placeholder='https://linkedin.com/in/example'></div>
+          <div class='field-card col-2'><label>Company</label><input type='text' placeholder='Company name'></div>
+          <div class='field-card col-2'><label>Title</label><input type='text' placeholder='Title'></div>
+        </div>
+        <div class='field-grid condensed attendee-event-row'>
+          <div class='field-card col-3'><label>Pre-Expo Reception Attendance</label>
+            <select>
+              <option>Yes, attending</option>
+              <option>No, not attending</option>
+            </select>
+          </div>
+          <div class='field-card col-3 event-copy'>
+            <p>Location: [Venue TBD] | 6:00 PM - 8:30 PM</p>
+            <p>Select whether this attendee plans to attend the Monday evening Pre-Expo Reception.</p>
+          </div>
+        </div>
+        <div class='toggle-row'>
+          <div><input type='checkbox' checked required><span>I acknowledge and agree to receive communications regarding this event and future events. *</span></div>
+        </div>
+      </details>
+      <details class='attendee-card'>
+        <summary class='attendee-summary'>
+          <h2 class='section__title'>Attendee #4</h2>
+          <span class='summary-meta'>Expand to edit attendee details</span>
+        </summary>
+        <div class='field-grid condensed'>
+          <div class='field-card col-3'><label>First Name *</label><input type='text' placeholder='First name'></div>
+          <div class='field-card col-3'><label>Last Name *</label><input type='text' placeholder='Last name'></div>
+          <div class='field-card col-2'><label>Email *</label><input type='email' placeholder='name@example.com'></div>
+          <div class='field-card col-2'><label>Mobile Phone</label><input type='tel' placeholder='(555) 123-4567'></div>
+          <div class='field-card col-2'><label>Zip Code</label><input type='text' placeholder='50309'></div>
+          <div class='field-card col-2'><label>LinkedIn Profile</label><input type='url' placeholder='https://linkedin.com/in/example'></div>
+          <div class='field-card col-2'><label>Company</label><input type='text' placeholder='Company name'></div>
+          <div class='field-card col-2'><label>Title</label><input type='text' placeholder='Title'></div>
+        </div>
+        <div class='field-grid condensed attendee-event-row'>
+          <div class='field-card col-3'><label>Pre-Expo Reception Attendance</label>
+            <select>
+              <option>Yes, attending</option>
+              <option>No, not attending</option>
+            </select>
+          </div>
+          <div class='field-card col-3 event-copy'>
+            <p>Location: [Venue TBD] | 6:00 PM - 8:30 PM</p>
+            <p>Select whether this attendee plans to attend the Monday evening Pre-Expo Reception.</p>
+          </div>
+        </div>
+        <div class='toggle-row'>
+          <div><input type='checkbox' checked required><span>I acknowledge and agree to receive communications regarding this event and future events. *</span></div>
+        </div>
+      </details>
+      <div class='btn-group'>
+        <a href='registration.html' class='btn btn-secondary'>Back to Tickets</a>
+        <a href='payee.html' class='btn btn-primary'>Next: Payee Info</a>
+      </div>
+    </section>
+    <footer class='footer'><small>Design-only expo flow in /expo folder.</small></footer>
+  </div>
+</body>
+</html>
